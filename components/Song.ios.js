@@ -16,47 +16,68 @@ import Icon from 'react-native-vector-icons/Ionicons'
 
 class Song extends Component {
 
+  constructor (props) {
+    super(props)
+    this.likeSong = this.likeSong.bind(this)
+    this.state = {
+      liked: false
+    }
+  }
+
+  likeSong () {
+    this.setState({liked: !this.state.liked})
+  }
+
   render () {
     const data = this.props
-
     const LikeIconProps = {
-      name: data.likes ? 'ios-heart' : 'ios-heart',
-      color: data.likes ? '#e17d74' : '#bbb',
-      size: 9
+      name: this.state.liked ? 'ios-heart' : 'ios-heart',
+      color: this.state.liked ? '#e17d74' : '#bbb',
+      size: 18
+    }
+    const LikeTouchProps = {
+      underlayColor: 'transparent',
+      style: styles.likeIcon,
+      onPress: this.likeSong
     }
 
     return (
-      <TouchableHighlight key={data.id} onPress={() => console.dir(data)}>
-        <View style={styles.item}>
+      <View style={styles.item} key={data.id}>
 
+        {/* Touchable album art cover */}
+        <TouchableHighlight onPress={() => console.dir(data)}>
           <Image
             style={styles.albumArt}
             source={{uri: data.album_art}}
           />
+        </TouchableHighlight>
 
-          <View style={styles.textContainer}>
-            <Text style={styles.songName}>
-              {data.track_name}
-            </Text>
-            <Text style={styles.artistName}>
-              {data.artist}
-            </Text>
-          </View>
-
-          <View style={styles.textContainer}>
-            <View stlye={styles.textContainer}>
-              <Icon {...PlayIconProps}>
-                <Text style={styles.numbers}> {data.plays} </Text>
-              </Icon>
-            </View>
-            <Icon {...NoteIconProps}>
-              <Text style={styles.numbers}> {data.note_count} </Text>
-            </Icon>
-            <Icon {...LikeIconProps}/>
-          </View>
-
+        {/* Container holding song information */}
+        <View style={styles.textContainer}>
+          <Text style={styles.songName}>
+            {data.track_name}
+          </Text>
+          <Text style={styles.artistName}>
+            {data.artist}
+          </Text>
         </View>
-      </TouchableHighlight>
+
+        {/* Container holding tumblr/reblog information */}
+        <View style={styles.textContainer}>
+          <View stlye={styles.textContainer}>
+            <Icon {...PlayIconProps}>
+              <Text style={styles.numbers}> {data.plays.toLocaleString()} </Text>
+            </Icon>
+          </View>
+          <Icon {...NoteIconProps}>
+            <Text style={styles.numbers}> {data.note_count.toLocaleString()} </Text>
+          </Icon>
+          <TouchableHighlight {...LikeTouchProps}>
+            <Icon {...LikeIconProps}/>
+          </TouchableHighlight>
+        </View>
+
+      </View>
     )
   }
 }
@@ -82,13 +103,17 @@ const styles = StyleSheet.create({
     backgroundColor: 'white'
   },
   albumArt: {
-    backgroundColor: '#ddd',
-    width: 100,
-    height: 100,
-    marginRight: 10
+    width: 70,
+    height: 70,
+    marginTop: 5,
+    marginLeft: 5,
+    marginBottom: 5,
+    borderRadius: 5,
+    backgroundColor: '#ddd'
   },
   textContainer: {
-    flex: 1
+    flex: 1,
+    marginLeft: 10
   },
   songName: {
     flex: 1,
@@ -104,6 +129,9 @@ const styles = StyleSheet.create({
     fontSize: 10,
     color: '#666',
     fontWeight: '300'
+  },
+  likeIcon: {
+    alignSelf: 'stretch'
   }
 })
 
