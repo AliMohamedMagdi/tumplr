@@ -35,6 +35,10 @@ class Song extends Component {
       color: this.state.liked ? '#e17d74' : '#bbb',
       size: 18
     }
+    const AlbumTouchProps = {
+      underlayColor: 'transparent',
+      onPress: () => console.dir(data)
+    }
     const LikeTouchProps = {
       underlayColor: 'transparent',
       style: styles.likeIcon,
@@ -45,7 +49,7 @@ class Song extends Component {
       <View style={styles.item} key={data.id}>
 
         {/* Touchable album art cover */}
-        <TouchableHighlight onPress={() => console.dir(data)}>
+        <TouchableHighlight {...AlbumTouchProps}>
           <Image
             style={styles.albumArt}
             source={{uri: data.album_art}}
