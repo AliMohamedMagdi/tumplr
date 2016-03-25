@@ -9,7 +9,8 @@ import React, {
   Component,
   RecyclerViewBackedScrollView
 } from 'react-native'
-import Song from './Song'
+// import Song from './Song'
+import DashboardItem from './DashboardItem'
 
 class SongList extends Component {
 
@@ -25,7 +26,7 @@ class SongList extends Component {
   }
 
   _renderSongs (data) {
-    return <Song {...data}/>
+    return <DashboardItem {...data}/>
   }
 
   _generateRows () {

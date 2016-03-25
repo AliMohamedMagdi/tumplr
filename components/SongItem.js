@@ -14,7 +14,19 @@ import React, {
 } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 
-class Song extends Component {
+const PlayIconProps = {
+  name: 'play',
+  color: '#bbb',
+  size: 10
+}
+
+const NoteIconProps = {
+  name: 'ios-chatbubble',
+  color: '#bbb',
+  size: 10
+}
+
+class SongItem extends Component {
 
   constructor (props) {
     super(props)
@@ -86,18 +98,6 @@ class Song extends Component {
   }
 }
 
-const PlayIconProps = {
-  name: 'play',
-  color: '#bbb',
-  size: 10
-}
-
-const NoteIconProps = {
-  name: 'ios-chatbubble',
-  color: '#bbb',
-  size: 10
-}
-
 const styles = StyleSheet.create({
   item: {
     paddingRight: 5,
@@ -139,4 +139,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default Song
+export default SongItem
