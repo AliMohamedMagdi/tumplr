@@ -12,6 +12,7 @@ import React, {
   StyleSheet,
   TouchableHighlight
 } from 'react-native'
+import * as format from '../scripts/format.js'
 import Icon from 'react-native-vector-icons/Ionicons'
 
 const PlayIconProps = {
@@ -48,8 +49,8 @@ class SongItem extends Component {
       size: 18
     }
     const AlbumTouchProps = {
-      underlayColor: 'transparent',
-      onPress: () => console.dir(data)
+      underlayColor: 'transparent'
+      // onPress: () => console.dir(data)
     }
     const LikeTouchProps = {
       underlayColor: 'transparent',
@@ -82,11 +83,11 @@ class SongItem extends Component {
         <View style={styles.textContainer}>
           <View stlye={styles.textContainer}>
             <Icon {...PlayIconProps}>
-              <Text style={styles.numbers}> {data.plays.toLocaleString()} </Text>
+              <Text style={styles.numbers}> {format.insertCommas(data.plays)} </Text>
             </Icon>
           </View>
           <Icon {...NoteIconProps}>
-            <Text style={styles.numbers}> {data.note_count.toLocaleString()} </Text>
+            <Text style={styles.numbers}> {format.insertCommas(data.note_count)} </Text>
           </Icon>
           <TouchableHighlight {...LikeTouchProps}>
             <Icon {...LikeIconProps}/>

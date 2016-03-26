@@ -18,7 +18,7 @@ class SongList extends Component {
   constructor (props) {
     super(props)
     console.log('response: ')
-    console.dir(props.response)
+    // console.dir(props.response)
 
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
     this.state = {
@@ -38,7 +38,7 @@ class SongList extends Component {
         dataBlob.push(posts[i])
       }
     }
-    console.dir(dataBlob)
+    // console.dir(dataBlob)
     return dataBlob
   }
 

@@ -14,6 +14,7 @@ import React, {
   TouchableHighlight
 } from 'react-native'
 import moment from 'moment'
+import * as format from '../scripts/format.js'
 import IonIcon from 'react-native-vector-icons/Ionicons'
 import EntypoIcon from 'react-native-vector-icons/Entypo'
 
@@ -41,8 +42,8 @@ class DashboardItem extends Component {
     const reblogDate = data.date.substr(0, data.date.lastIndexOf(' '))
 
     const AlbumTouchProps = {
-      underlayColor: 'transparent',
-      onPress: () => console.dir(data)
+      underlayColor: 'transparent'
+      // onPress: () => console.dir(data)
     }
     const MenuIconProps = {
       name: 'navicon-round',
@@ -125,7 +126,7 @@ class DashboardItem extends Component {
           <View style={styles.songStatsContent}>
             <View style={styles.playCountContent}>
               <IonIcon {...PlayCountIconProps}>
-                <Text style={styles.plays}> {data.plays.toLocaleString()} plays </Text>
+                <Text style={styles.plays}> {format.insertCommas(data.plays)} plays </Text>
               </IonIcon>
             </View>
             <View style={styles.likeReblogContainer}>
@@ -143,7 +144,7 @@ class DashboardItem extends Component {
         {/* Footer containing notes information and tags */}
         <View style={styles.footer}>
           <Text style={styles.notesText}>
-            {data.note_count.toLocaleString()} notes
+            {format.insertCommas(data.note_count)} notes
           </Text>
           <ScrollView {...tagsProps}>
             {data.tags.map((tag, i) => <Text key={`${data.id}-${i}`} style={styles.tagsText}> #{tag} </Text>)}
@@ -169,7 +170,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    backgroundColor: '#f4f4f4',
+    backgroundColor: '#eee',
     padding: 10,
     paddingTop: 5,
     paddingBottom: 5
@@ -188,11 +189,12 @@ const styles = StyleSheet.create({
     borderColor: 'gainsboro'
   },
   reblogText: {
-    fontSize: 10,
+    fontSize: 11,
     color: 'gray'
   },
   rebloggerName: {
-    fontSize: 11,
+    fontWeight: 'bold',
+    fontSize: 13,
     color: 'black'
   },
   songInfoContent: {
@@ -213,12 +215,12 @@ const styles = StyleSheet.create({
     marginRight: 10
   },
   songTitleText: {
-    fontWeight: '400',
-    fontSize: 15
+    fontWeight: 'bold',
+    fontSize: 18
   },
   artistText: {
-    fontWeight: '200',
-    fontSize: 12
+    fontWeight: '400',
+    fontSize: 14
   },
   songInfoContainer: {
     flex: 1,
@@ -248,19 +250,19 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
-    backgroundColor: '#f4f4f4'
+    backgroundColor: '#eee'
   },
   notesText: {
     fontWeight: '300',
-    fontSize: 12,
-    padding: 2,
-    paddingLeft: 5
+    fontSize: 11,
+    padding: 3,
+    paddingLeft: 11
   },
   tagsText: {
-    fontWeight: '100',
-    color: '#888',
-    fontSize: 10,
-    padding: 4,
+    fontWeight: '200',
+    color: '#111',
+    fontSize: 11,
+    padding: 3,
     paddingLeft: 5
   }
 })
