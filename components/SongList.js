@@ -7,6 +7,7 @@
 import React, {
   ListView,
   Component,
+  StyleSheet,
   RecyclerViewBackedScrollView
 } from 'react-native'
 // import Song from './Song'
@@ -43,7 +44,7 @@ class SongList extends Component {
 
   render () {
     return (
-      <ListView
+      <ListView style={styles.list}
         dataSource={this.state.dataSource}
         renderRow={this._renderSongs}
         renderScrollComponent={(props) => <RecyclerViewBackedScrollView {...props} />}
@@ -51,5 +52,11 @@ class SongList extends Component {
     )
   }
 }
+
+const styles = StyleSheet.create({
+  list: {
+    backgroundColor: '#3a3f41'
+  }
+})
 
 export default SongList
