@@ -9,6 +9,7 @@ import React, {
   Text,
   Image,
   Component,
+  ScrollView,
   StyleSheet,
   TouchableHighlight
 } from 'react-native'
@@ -20,7 +21,7 @@ class DashboardItem extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      liked: false,
+      liked: props.liked,
       reblogged: false
     }
     this.likeSong = this.likeSong.bind(this)
@@ -46,7 +47,7 @@ class DashboardItem extends Component {
     const MenuIconProps = {
       name: 'navicon-round',
       color: '#aaa',
-      size: 16
+      size: 20
     }
     const PlayCountIconProps = {
       name: 'play',
@@ -78,6 +79,10 @@ class DashboardItem extends Component {
     const ReblogTouchProps = {
       underlayColor: 'transparent',
       onPress: this.reblogSong
+    }
+    const tagsProps = {
+      horizontal: true,
+      showsHorizontalScrollIndicator: false
     }
 
     console.log(data)
@@ -133,6 +138,16 @@ class DashboardItem extends Component {
               </TouchableHighlight>
             </View>
           </View>
+        </View>
+
+        {/* Footer containing notes information and tags */}
+        <View style={styles.footer}>
+          <Text style={styles.notesText}>
+            {data.note_count.toLocaleString()} notes
+          </Text>
+          <ScrollView {...tagsProps}>
+            {data.tags.map((tag, i) => <Text key={`${data.id}-${i}`} style={styles.tagsText}> #{tag} </Text>)}
+          </ScrollView>
         </View>
 
       </View>
@@ -228,6 +243,25 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 3,
     borderColor: '#aaa'
+  },
+  footer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    backgroundColor: '#f4f4f4'
+  },
+  notesText: {
+    fontWeight: '300',
+    fontSize: 12,
+    padding: 2,
+    paddingLeft: 5
+  },
+  tagsText: {
+    fontWeight: '100',
+    color: '#888',
+    fontSize: 10,
+    padding: 4,
+    paddingLeft: 5
   }
 })
 
