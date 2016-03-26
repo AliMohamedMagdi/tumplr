@@ -6,11 +6,18 @@
 
 import React, { AppRegistry, Component } from 'react-native'
 import Response from './components/tumblr_response.js'
+import SideMenu from 'react-native-side-menu'
 import SongList from './components/SongList'
+import Menu from './components/Menu.js'
 
 class Lunatune extends Component {
   render () {
-    return <SongList {...Response}/>
+    const menu = <Menu navigator={navigator}/>
+    return (
+      <SideMenu menu={menu}>
+        <SongList {...Response}/>
+      </SideMenu>
+    )
   }
 }
 
