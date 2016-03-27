@@ -23,10 +23,12 @@ class DashboardItem extends Component {
     super(props)
     this.state = {
       liked: props.liked,
-      reblogged: false
+      reblogged: false,
+      showNotes: false
     }
     this.likeSong = this.likeSong.bind(this)
     this.reblogSong = this.reblogSong.bind(this)
+    this.showingNotes = this.showingNotes.bind(this)
   }
 
   likeSong () {
@@ -37,9 +39,15 @@ class DashboardItem extends Component {
     this.setState({reblogged: !this.state.reblogged})
   }
 
+  showingNotes () {
+    this.setState({showNotes: !this.state.showNotes})
+  }
+
   render () {
     const data = this.props
     const reblogDate = data.date.substr(0, data.date.lastIndexOf(' '))
+    // const avatarUri = `http://api.tumblr.com/v2/blog/${data.blog_name}.tumblr.com/avatar/64`
+    const avatarUri = `http://api.tumblr.com/v2/blog/${data.blog_name}.tumblr.com/avatar/64`
 
     const AlbumTouchProps = {
       underlayColor: 'transparent'
@@ -88,6 +96,16 @@ class DashboardItem extends Component {
       underlayColor: 'transparent',
       onPress: this.reblogSong
     }
+    const NoteIconProps = {
+      name: this.state.showNotes ? 'text-document-inverted' : 'text-document',
+      color: '#111',
+      style: styles.notesText
+    }
+    const NoteTouchProps = {
+      activeOpacity: 0.5,
+      underlayColor: 'transparent',
+      onPress: this.showingNotes
+    }
     const tagsProps = {
       horizontal: true,
       showsHorizontalScrollIndicator: false
@@ -103,7 +121,7 @@ class DashboardItem extends Component {
           <View style={styles.headerTextContainer}>
             <Image
               style={styles.rebloggerAvatar}
-              source={require('../assets/meep.jpg')}
+              source={{uri: avatarUri}}
             />
             <Text style={styles.headerText}>
               <Text style={styles.rebloggerName}> {data.blog_name} </Text>
@@ -152,9 +170,11 @@ class DashboardItem extends Component {
 
         {/* Footer containing notes information and tags */}
         <View style={styles.footer}>
-          <Text style={styles.notesText}>
-            {format.insertCommas(data.note_count)} notes
-          </Text>
+          <TouchableHighlight {...NoteTouchProps}>
+            <EntypoIcon {...NoteIconProps}>
+              <Text style={styles.notesText}> {format.insertCommas(data.note_count)} notes </Text>
+            </EntypoIcon>
+          </TouchableHighlight>
           <ScrollView {...tagsProps}>
             {data.tags.map((tag, i) => <Text key={`${data.id}-${i}`} style={styles.tagsText}> #{tag} </Text>)}
           </ScrollView>
@@ -193,9 +213,10 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     marginRight: 3,
-    borderWidth: 0.1,
+    borderWidth: 0.8,
     borderRadius: 15,
-    borderColor: 'gainsboro'
+    borderColor: 'white',
+    backgroundColor: '#c6c6c6'
   },
   headerText: {
     fontSize: 11,
@@ -265,14 +286,14 @@ const styles = StyleSheet.create({
   },
   notesText: {
     fontWeight: '400',
-    fontSize: 11,
+    fontSize: 12,
     padding: 3,
     paddingLeft: 11
   },
   tagsText: {
-    fontWeight: '200',
-    color: '#111',
-    fontSize: 11,
+    fontWeight: '300',
+    color: '#666',
+    fontSize: 12,
     padding: 3,
     paddingLeft: 5
   }
