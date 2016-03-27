@@ -55,6 +55,7 @@ class SongList extends Component {
 
 const styles = StyleSheet.create({
   list: {
+    paddingTop: 5,
     backgroundColor: '#3a3f41'
   }
 })

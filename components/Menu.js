@@ -12,28 +12,26 @@ const window = Dimensions.get('window')
 class Menu extends Component {
   render () {
     return (
-      <Image source={require('../assets/stars.jpg')} style={styles.background}>
-        <ScrollView scrollsToTop={false} style={styles.menu}>
-          <View style={styles.avatarContainer}>
-            <Image
-              style={styles.avatar}
-              source={require('../assets/lol.jpg')}/>
-            <Text style={styles.name}>Your name</Text>
-          </View>
+      <ScrollView scrollsToTop={false} style={styles.menu}>
+        <View style={styles.avatarContainer}>
+          <Image
+            style={styles.avatar}
+            source={require('../assets/lol.jpg')}/>
+          <Text style={styles.name}>Your name</Text>
+        </View>
 
-          <Text
-            onPress={() => this.props.onItemSelected('About')}
-            style={styles.item}>
-            About
-          </Text>
+        <Text
+          onPress={() => this.props.onItemSelected('About')}
+          style={styles.item}>
+          About
+        </Text>
 
-          <Text
-            onPress={() => this.props.onItemSelected('Contacts')}
-            style={styles.item}>
-            Contacts
-          </Text>
-        </ScrollView>
-      </Image>
+        <Text
+          onPress={() => this.props.onItemSelected('Contacts')}
+          style={styles.item}>
+          Contacts
+        </Text>
+      </ScrollView>
     )
   }
 }

@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    backgroundColor: '#eee',
+    backgroundColor: '#f5f6f8',
     padding: 10,
     paddingTop: 5,
     paddingBottom: 5,
@@ -280,7 +280,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
-    backgroundColor: '#eee',
+    backgroundColor: '#f5f6f8',
     borderTopWidth: 0.5,
     borderColor: '#ccc'
   },
