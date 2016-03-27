@@ -48,7 +48,7 @@ class DashboardItem extends Component {
     const MenuIconProps = {
       name: 'navicon-round',
       color: '#aaa',
-      size: 20
+      size: 18
     }
     const PlayCountIconProps = {
       name: 'play',
@@ -92,22 +92,24 @@ class DashboardItem extends Component {
       <View style={styles.container}>
 
         {/* Reblogger information & menu icon */}
-        <View style={styles.reblogInfoContainer}>
-          <View style={styles.reblogTextContent}>
+        <View style={styles.header}>
+          <View style={styles.headerTextContainer}>
             <Image
               style={styles.rebloggerAvatar}
-              source={require('../assets/crie.png')}
+              source={require('../assets/meep.jpg')}
             />
-            <Text style={styles.reblogText}>
+            <Text style={styles.headerText}>
               <Text style={styles.rebloggerName}> {data.blog_name} </Text>
               {'\n '}
               reblogged {moment(reblogDate, 'YYYY-MM-DD HH:mm:ss').fromNow()}
             </Text>
           </View>
-          <IonIcon {...MenuIconProps}/>
+          <View style={styles.menuIconContainer}>
+            <IonIcon {...MenuIconProps}/>
+          </View>
         </View>
 
-        {/* Touchable album art cover */}
+        {/* Album art cover */}
         <View style={styles.albumContent}>
           <TouchableHighlight {...AlbumTouchProps}>
             <Image
@@ -161,44 +163,47 @@ const styles = StyleSheet.create({
     margin: 10,
     marginTop: 10,
     marginBottom: 5,
-    borderWidth: 1,
-    borderColor: '#eee',
     borderRadius: 2,
     backgroundColor: 'white'
   },
-  reblogInfoContainer: {
+  header: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     backgroundColor: '#eee',
     padding: 10,
     paddingTop: 5,
-    paddingBottom: 5
+    paddingBottom: 5,
+    borderBottomWidth: 0.5,
+    borderColor: '#ccc'
   },
-  reblogTextContent: {
+  headerTextContainer: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-start'
   },
   rebloggerAvatar: {
-    width: 26,
-    height: 26,
+    width: 30,
+    height: 30,
     marginRight: 3,
     borderWidth: 0.1,
-    borderRadius: 13,
+    borderRadius: 15,
     borderColor: 'gainsboro'
   },
-  reblogText: {
+  headerText: {
     fontSize: 11,
     color: 'gray'
   },
   rebloggerName: {
-    fontWeight: 'bold',
+    fontWeight: '400',
     fontSize: 13,
     color: 'black'
   },
+  menuIconContainer: {
+    marginTop: 5
+  },
   songInfoContent: {
-    flex: 1,
+    flex: 2,
     flexDirection: 'column',
     justifyContent: 'space-around',
     paddingTop: 5,
@@ -206,21 +211,18 @@ const styles = StyleSheet.create({
   },
   albumContent: {
     flex: 1,
-    flexDirection: 'column',
-    marginTop: 10
+    flexDirection: 'column'
   },
   albumArt: {
-    height: 100,
-    marginLeft: 10,
-    marginRight: 10
+    height: 100
   },
   songTitleText: {
-    fontWeight: 'bold',
-    fontSize: 18
+    fontWeight: '500',
+    fontSize: 15
   },
   artistText: {
     fontWeight: '400',
-    fontSize: 14
+    fontSize: 12
   },
   songInfoContainer: {
     flex: 1,
@@ -250,10 +252,12 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
-    backgroundColor: '#eee'
+    backgroundColor: '#eee',
+    borderTopWidth: 0.5,
+    borderColor: '#ccc'
   },
   notesText: {
-    fontWeight: '300',
+    fontWeight: '400',
     fontSize: 11,
     padding: 3,
     paddingLeft: 11
