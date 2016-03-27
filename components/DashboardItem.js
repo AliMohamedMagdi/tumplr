@@ -50,6 +50,11 @@ class DashboardItem extends Component {
       color: '#aaa',
       size: 18
     }
+    const MenuIconTouchProps = {
+      activeOpacity: 0.5,
+      underlayColor: 'transparent',
+      onPress: () => console.log('hi')
+    }
     const PlayCountIconProps = {
       name: 'play',
       color: '#616566',
@@ -74,10 +79,12 @@ class DashboardItem extends Component {
       }
     }
     const LikeTouchProps = {
+      activeOpacity: 0.5,
       underlayColor: 'transparent',
       onPress: this.likeSong
     }
     const ReblogTouchProps = {
+      activeOpacity: 0.5,
       underlayColor: 'transparent',
       onPress: this.reblogSong
     }
@@ -104,9 +111,9 @@ class DashboardItem extends Component {
               reblogged {moment(reblogDate, 'YYYY-MM-DD HH:mm:ss').fromNow()}
             </Text>
           </View>
-          <View style={styles.menuIconContainer}>
+          <TouchableHighlight style={styles.menuIconContainer} {...MenuIconTouchProps}>
             <IonIcon {...MenuIconProps}/>
-          </View>
+          </TouchableHighlight>
         </View>
 
         {/* Album art cover */}
