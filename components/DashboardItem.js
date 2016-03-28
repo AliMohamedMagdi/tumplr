@@ -185,6 +185,10 @@ class DashboardItem extends Component {
   }
 }
 
+DashboardItem.propTypes = {
+  data: React.PropTypes.object
+}
+
 const styles = StyleSheet.create({
   container: {
     margin: 10,
