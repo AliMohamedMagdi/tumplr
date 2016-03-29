@@ -11,15 +11,12 @@ import React, {
   RecyclerViewBackedScrollView
 } from 'react-native'
 // import Song from './Song'
-import DashboardItem from './DashboardItem'
+import DashboardItem from './Dashboard/DashboardItem'
 
 class SongList extends Component {
 
   constructor (props) {
     super(props)
-    console.log('response: ')
-    // console.dir(props.response)
-
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
     this.state = {
       dataSource: ds.cloneWithRows(this._generateRows(this.props.response))
@@ -38,7 +35,6 @@ class SongList extends Component {
         dataBlob.push(posts[i])
       }
     }
-    // console.dir(dataBlob)
     return dataBlob
   }
 
