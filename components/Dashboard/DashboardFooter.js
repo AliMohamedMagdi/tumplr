@@ -13,6 +13,11 @@ class DashboardFooter extends Component {
   constructor (props) {
     super(props)
     this.state = { showNotes: false }
+    this.showingNotes = this.showingNotes.bind(this)
+  }
+
+  showingNotes () {
+    this.setState({ showNotes: !this.state.showNotes })
   }
 
   render () {
@@ -39,7 +44,9 @@ class DashboardFooter extends Component {
           </EntypoIcon>
         </TouchableHighlight>
         <ScrollView {...tagsProps}>
-          {this.props.tags.map((tag, i) => <Text key={`${this.props.id}-${i}`} style={styles.tagsText}> #{tag} </Text>)}
+          {this.props.tags.map((tag, i) => {
+            <Text key={`${this.props.id}-${i}`} style={styles.tagsText}> #{tag} </Text>
+          })}
         </ScrollView>
       </View>
     )

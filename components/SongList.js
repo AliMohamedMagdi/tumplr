@@ -10,7 +10,6 @@ import React, {
   StyleSheet,
   RecyclerViewBackedScrollView
 } from 'react-native'
-// import Song from './Song'
 import DashboardItem from './Dashboard/DashboardItem'
 
 class SongList extends Component {

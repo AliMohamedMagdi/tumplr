@@ -3,19 +3,9 @@
  */
 
 import React, {
-  View,
-  Text,
-  Image,
-  Component,
-  ScrollView,
-  StyleSheet,
-  TouchableHighlight
+  Component
 } from 'react-native'
-import moment from 'moment'
-import * as format from '../scripts/format.js'
-import IonIcon from 'react-native-vector-icons/Ionicons'
-import EntypoIcon from 'react-native-vector-icons/Entypo'
-import DashboardItem from '../components/DashboardItem.js'
+import DashboardItem from '../../components/DashboardItem.js'
 
 class DashboardItemContainer extends Component {
   constructor (props) {

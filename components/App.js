@@ -5,8 +5,8 @@
 'use strict'
 import React, { Component } from 'react-native'
 import ScrollableTabView from 'react-native-scrollable-tab-view'
-import Response from '../components/tumblr_response.js'
-import SongList from '../components/SongList'
+import Response from '../scripts/tumblr_response.js'
+import SongList from './SongList.js'
 
 class Lunatune extends Component {
   render () {
