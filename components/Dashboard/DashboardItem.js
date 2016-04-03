@@ -9,7 +9,7 @@ import React, {
   Image,
   Component,
   StyleSheet,
-  TouchableHighlight
+  TouchableOpacity
 } from 'react-native'
 import DashboardHeader from './DashboardHeader.js'
 import DashboardSongInfo from './DashboardSongInfo.js'
@@ -27,7 +27,8 @@ class DashboardItem extends Component {
     }
 
     const AlbumTouchProps = {
-      underlayColor: 'transparent'
+      onPress: () => console.log('SLKJD'),
+      activeOpacity: 0.6
     }
 
     const DashboardSongInfoProps = {
@@ -42,8 +43,6 @@ class DashboardItem extends Component {
       noteCount: data.note_count
     }
 
-    console.log(data)
-
     return (
       <View style={styles.container}>
 
@@ -51,14 +50,12 @@ class DashboardItem extends Component {
         <DashboardHeader {...DashboardHeaderProps}/>
 
         {/* Album art cover */}
-        <View style={styles.albumContent}>
-          <TouchableHighlight {...AlbumTouchProps}>
-            <Image
-              style={styles.albumArt}
-              source={{uri: data.album_art}}
-            />
-          </TouchableHighlight>
-        </View>
+        <TouchableOpacity {...AlbumTouchProps}>
+          <Image
+            style={styles.albumArt}
+            source={{uri: data.album_art}}
+          />
+        </TouchableOpacity>
 
         {/* Song Information */}
         <DashboardSongInfo {...DashboardSongInfoProps}/>
