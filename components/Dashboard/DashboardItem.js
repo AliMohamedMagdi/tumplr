@@ -14,13 +14,17 @@ import React, {
 import DashboardHeader from './DashboardHeader.js'
 import DashboardSongInfo from './DashboardSongInfo.js'
 import DashboardFooter from './DashboardFooter.js'
-// const AudioPlayer = React.NativeModules.AudioPlayer
+const AudioPlayer = React.NativeModules.AudioPlayer
 
 class DashboardItem extends Component {
 
   parseAudioURI (playerElement) {
-    console.log('in parseAudioURI')
-    // return playerElement.match(/src=\"([^"]*)\"/)[1]
+    let src = playerElement.match(/src=\"([^"]*)\"/)[1]
+    let audioKey = decodeURIComponent(src)
+    let uri = 'http://a.tumblr.com/'
+    audioKey = audioKey.substring(audioKey.lastIndexOf('/') + 1, audioKey.lastIndexOf('&'))
+    uri += (audioKey.search('o1.mp3') > 0) ? audioKey : audioKey + 'o1.mp3'
+    return uri
   }
 
   render () {
@@ -34,8 +38,7 @@ class DashboardItem extends Component {
 
     const AlbumTouchProps = {
       activeOpacity: 0.6,
-      onPress: () => this.parseAudioURI(data.player)
-      // onPress: () => AudioPlayer.play(data.track_name)
+      onPress: () => AudioPlayer.play(this.parseAudioURI(data.player))
     }
 
     const DashboardSongInfoProps = {
