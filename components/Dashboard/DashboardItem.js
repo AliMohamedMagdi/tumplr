@@ -14,8 +14,14 @@ import React, {
 import DashboardHeader from './DashboardHeader.js'
 import DashboardSongInfo from './DashboardSongInfo.js'
 import DashboardFooter from './DashboardFooter.js'
+// const AudioPlayer = React.NativeModules.AudioPlayer
 
 class DashboardItem extends Component {
+
+  parseAudioURI (playerElement) {
+    console.log('in parseAudioURI')
+    // return playerElement.match(/src=\"([^"]*)\"/)[1]
+  }
 
   render () {
     const data = this.props
@@ -27,8 +33,9 @@ class DashboardItem extends Component {
     }
 
     const AlbumTouchProps = {
-      onPress: () => console.log('SLKJD'),
-      activeOpacity: 0.6
+      activeOpacity: 0.6,
+      onPress: () => this.parseAudioURI(data.player)
+      // onPress: () => AudioPlayer.play(data.track_name)
     }
 
     const DashboardSongInfoProps = {
