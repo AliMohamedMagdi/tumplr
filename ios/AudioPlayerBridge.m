@@ -17,5 +17,7 @@
 @interface RCT_EXTERN_MODULE(AudioPlayer, NSObject)
 
 RCT_EXTERN_METHOD(play:(NSString *)uri)
+RCT_EXTERN_METHOD(pause)
+RCT_EXTERN_METHOD(seek:(int *)seconds)
 
 @end
