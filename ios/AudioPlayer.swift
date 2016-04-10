@@ -20,11 +20,13 @@ class AudioPlayer: NSObject {
   var player: AVPlayer!
 
   @objc func play(uri: String) -> Void {
-    // Got URI here?
-    print("Received uri: \(uri)")
-
     let audioURL = NSURL(string: uri)!
     player = AVPlayer(URL: audioURL)
-    player.play();
+    player.play()
   }
+
+  @objc func pause() -> Void {
+    player.pause()
+  }
+
 }

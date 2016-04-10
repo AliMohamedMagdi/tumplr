@@ -85,46 +85,51 @@ class DashboardSongInfo extends Component {
     const LikeIconProps = {
       name: this.state.liked ? 'ios-heart' : 'ios-heart',
       color: this.state.liked ? '#e17d74' : '#aaa',
-      size: 18,
-      style: {
-        marginLeft: 10,
-        marginRight: 5
-      }
+      size: 18
     }
 
     const ReblogIconProps = {
       name: 'retweet',
       color: this.state.reblogged ? '#4c95ad' : '#aaa',
-      size: 18,
-      style: {
-        marginLeft: 5,
-        marginRight: 10
-      }
+      size: 18
     }
 
     return (
       <View style={styles.songInfoContainer}>
+
+        {/* Track title and artist name */}
         <View style={styles.songInfoContent}>
           <Text style={styles.songTitleText}> {this.props.trackName} </Text>
           <Text style={styles.artistText}> {this.props.artist} </Text>
         </View>
+
         <View style={styles.songStatsContent}>
+
+          <View style={styles.buttonsContainer}>
+            {/* Like button */}
+            <View style={styles.likeContainer}>
+              <TouchableHighlight {...LikeTouchProps}>
+                <IonIcon {...LikeIconProps}/>
+              </TouchableHighlight>
+            </View>
+
+            {/* Reblog button */}
+            <View style={styles.reblogContainer}>
+              <TouchableHighlight {...ReblogTouchProps}>
+                <Animated.View>
+                  <EntypoIcon {...ReblogIconProps}/>
+                </Animated.View>
+              </TouchableHighlight>
+            </View>
+          </View>
+
+          {/* Play count */}
           <View style={styles.playCountContent}>
             <IonIcon {...PlayCountIconProps}>
               <Text style={styles.plays}> {format.insertCommas(this.props.plays)} plays </Text>
             </IonIcon>
           </View>
-          <View style={styles.likeReblogContainer}>
-            <TouchableHighlight {...LikeTouchProps}>
-              <IonIcon {...LikeIconProps}/>
-            </TouchableHighlight>
-            <Text style={{color: '#999', fontSize: 14}}> {'|'} </Text>
-            <TouchableHighlight {...ReblogTouchProps}>
-              <Animated.View>
-                <EntypoIcon {...ReblogIconProps}/>
-              </Animated.View>
-            </TouchableHighlight>
-          </View>
+
         </View>
       </View>
     )
@@ -159,9 +164,10 @@ const styles = StyleSheet.create({
   },
   songTitleText: {
     fontWeight: '500',
-    fontSize: 15
+    fontSize: 14
   },
   artistText: {
+    paddingTop: 5,
     fontWeight: '400',
     fontSize: 12
   },
@@ -171,16 +177,40 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end'
   },
   playCountContent: {
-    padding: 5,
+    paddingTop: 5,
     paddingRight: 0
   },
-  likeReblogContainer: {
+  buttonsContainer: {
     flex: 1,
     flexDirection: 'row',
+    paddingTop: 5
+  },
+  likeContainer: {
+    width: 30,
+    height: 30,
     borderWidth: 1,
-    borderRadius: 3,
-    borderColor: '#aaa'
+    borderRadius: 15,
+    borderColor: '#aaa',
+    marginRight: 10,
+    padding: 6
+  },
+  reblogContainer: {
+    width: 30,
+    height: 30,
+    borderWidth: 1,
+    borderRadius: 15,
+    borderColor: '#aaa',
+    marginRight: 2,
+    padding: 5
   }
 })
+
+  // likeReblogContainer: {
+  //   flex: 1,
+  //   flexDirection: 'row',
+  //   borderWidth: 1,
+  //   borderRadius: 3,
+  //   borderColor: '#aaa'
+  // }
 
 export default DashboardSongInfo
