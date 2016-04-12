@@ -3,18 +3,23 @@
  */
 
 'use strict'
-import React, { Component } from 'react-native'
+import React, { View, Component } from 'react-native'
 // import ScrollableTabView from 'react-native-scrollable-tab-view'
-import Response from '../scripts/tumblr_response.js'
-import SongList from './SongList.js'
+
+// import Response from '../scripts/tumblr_response.js'
+// import SongList from './SongList.js'
+import AnimatedAudioFooter from './AudioFooter/AnimatedAudioFooter'
 
 class Lunatune extends Component {
   render () {
     return (
-      <SongList {...Response} tabLabel={'Settings'}/>
+      <View>
+        <AnimatedAudioFooter/>
+      </View>
     )
   }
 }
+        // <SongList {...Response} tabLabel={'Settings'}/>
 
 // <ScrollableTabView {...ScrollableTabProps}>
 //   <SongList {...Response} tabLabel={'Dashboard'}/>
