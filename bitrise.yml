@@ -20,7 +20,7 @@ workflows:
         title: Activate App SSH key
         inputs:
         - ssh_key_save_path: "$HOME/.ssh/steplib_ssh_step_id_rsa"
-    - git-clone@3.1.0: {}
+    - git-clone: {}
     - script@1.1.0:
         title: npm install
         inputs:
@@ -33,5 +33,5 @@ workflows:
         - content: |-
             #!/bin/bash
             react-native bundle --entry-file ./index.ios.js --platform ios --bundle-output ios/main.jsbundle
-    - certificate-and-profile-installer@1.4.0: {}
-    - deploy-to-bitrise-io@1.2.0: {}
+    - certificate-and-profile-installer: {}
+    - deploy-to-bitrise-io: {}
