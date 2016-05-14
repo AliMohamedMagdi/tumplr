@@ -1,5 +1,5 @@
-# Lunatune
-An audio player for Tumblr
+# :last_quarter_moon_with_face: Lune :first_quarter_moon_with_face:
+A simple Tumblr-powered music application. Yay? Yay. :sparkles:
 
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 [![Build Status](https://www.bitrise.io/app/8d551c31c1052e0c.svg?token=qz_uh5gTPISGmsblUB2vqw&branch=master)](https://www.bitrise.io/app/8d551c31c1052e0c)
