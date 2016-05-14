@@ -33,7 +33,7 @@ class DashboardHeader extends Component {
 
         {/* Menu Icon */}
         <TouchableHighlight style={styles.menuIconContainer} {...MenuIconTouchProps}>
-          <IonIcon {...MenuIconProps}/>
+          <IonIcon {...MenuIconProps} />
         </TouchableHighlight>
 
       </View>

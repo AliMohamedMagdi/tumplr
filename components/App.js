@@ -3,18 +3,55 @@
  */
 
 'use strict'
-import React, { Component } from 'react-native'
+import React, {
+  Component,
+  StyleSheet
+} from 'react-native'
+import Drawer from 'react-native-drawer'
 // import ScrollableTabView from 'react-native-scrollable-tab-view'
+
 import Response from '../scripts/tumblr_response.js'
 import SongList from './SongList.js'
+import SideMenu from './SideMenu.js'
+// import AnimatedAudioFooter from './AudioFooter/AnimatedAudioFooter'
 
 class Lune extends Component {
+  constructor (props) {
+    super(props)
+    this.openSideMenu = this.openSideMenu.bind(this)
+    this.closeSideMenu = this.closeSideMenu.bind(this)
+  }
+
+  closeSideMenu () {
+    console.log('close')
+    this._drawer.close()
+  }
+
+  openSideMenu () {
+    console.log('open')
+    this._drawer.open()
+  }
+
   render () {
     return (
-      <SongList {...Response} tabLabel={'Settings'}/>
+      <Drawer
+        ref={ref => { this._drawer = ref }}
+        content={<SideMenu closeDrawer={this.closeSideMenu} />}
+        styles={styles.drawer}
+        tweenEasing={"easeInCubic"}
+        openDrawerOffset={100}
+        tweenHandler={ratio => ({
+          main: { opacity: (2 - ratio) / 2 }
+        })}
+        >
+        <SongList {...Response} tabLabel={'Settings'} />
+      </Drawer>
     )
   }
 }
+      // <View>
+      //   <AnimatedAudioFooter/>
+      // </View>
 
 // <ScrollableTabView {...ScrollableTabProps}>
 //   <SongList {...Response} tabLabel={'Dashboard'}/>
@@ -31,5 +68,13 @@ class Lune extends Component {
 //     backgroundColor: 'white'
 //   }
 // }
+
+const styles = StyleSheet.create({
+  drawer: {
+    shadowColor: '#000000',
+    shadowOpacity: 0.8,
+    shadowRadius: 3
+  }
+})
 
 export default Lune

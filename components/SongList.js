@@ -23,7 +23,7 @@ class SongList extends Component {
   }
 
   _renderSongs (data) {
-    return <DashboardItem {...data}/>
+    return <DashboardItem {...data} />
   }
 
   _generateRows () {

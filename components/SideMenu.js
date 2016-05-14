@@ -16,7 +16,7 @@ class Menu extends Component {
         <View style={styles.avatarContainer}>
           <Image
             style={styles.avatar}
-            source={require('../assets/lol.jpg')}/>
+            source={require('../assets/lol.jpg')} />
           <Text style={styles.name}>Your name</Text>
         </View>
 
