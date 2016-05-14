@@ -9,7 +9,7 @@ import SideMenu from 'react-native-side-menu'
 import SongList from './components/SongList'
 import Menu from './components/Menu.js'
 
-class Lunatune extends Component {
+class Lune extends Component {
   render () {
     const menu = <Menu navigator={navigator}/>
     return (
@@ -20,4 +20,4 @@ class Lunatune extends Component {
   }
 }
 
-AppRegistry.registerComponent('lunatune', () => Lunatune)
+AppRegistry.registerComponent('Lune', () => Lune)

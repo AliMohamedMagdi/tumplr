@@ -1,5 +1,5 @@
 /**
- * Lunatune main application component
+ * Lune main application component
  */
 
 'use strict'
@@ -8,7 +8,7 @@ import React, { Component } from 'react-native'
 import Response from '../scripts/tumblr_response.js'
 import SongList from './SongList.js'
 
-class Lunatune extends Component {
+class Lune extends Component {
   render () {
     return (
       <SongList {...Response} tabLabel={'Settings'}/>
@@ -32,4 +32,4 @@ class Lunatune extends Component {
 //   }
 // }
 
-export default Lunatune
+export default Lune
