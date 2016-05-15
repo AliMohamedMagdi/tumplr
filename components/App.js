@@ -10,7 +10,7 @@ import React, {
 import Drawer from 'react-native-drawer'
 // import ScrollableTabView from 'react-native-scrollable-tab-view'
 
-import Response from '../scripts/tumblr_response.js'
+import Response from '../scripts/tumblr_response.json'
 import SongList from './SongList.js'
 import SideMenu from './SideMenu.js'
 // import AnimatedAudioFooter from './AudioFooter/AnimatedAudioFooter'
