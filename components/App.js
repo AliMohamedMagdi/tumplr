@@ -3,10 +3,13 @@
  */
 
 'use strict'
+
 import React, {
+  Linking,
   Component,
   StyleSheet
 } from 'react-native'
+import qs from 'qs'
 import Drawer from 'react-native-drawer'
 // import ScrollableTabView from 'react-native-scrollable-tab-view'
 
@@ -18,8 +21,38 @@ import SideMenu from './SideMenu.js'
 class Lune extends Component {
   constructor (props) {
     super(props)
+
+    this._processURL = this._processURL.bind(this)
+    this._processOAuthCallback = this._processOAuthCallback.bind(this)
+
     this.openSideMenu = this.openSideMenu.bind(this)
     this.closeSideMenu = this.closeSideMenu.bind(this)
+  }
+
+  componentDidMount () {
+    Linking.addEventListener('url', this._processURL)
+  }
+
+  _processURL (event) {
+    console.log('Processing url!')
+    console.dir(event)
+    const url = event.url.replace('lune://', '').split('?')
+    const path = url[0]
+    const parameters = url[1] ? qs.parse(url[1]) : null
+
+    switch (path) {
+      case 'oauth-callback':
+        this._processOAuthCallback(parameters)
+        break
+      default:
+        console.log('???')
+        console.log(path)
+        break
+    }
+  }
+
+  _processOAuthCallback (parameters) {
+    console.log(parameters.oauth_token)
   }
 
   closeSideMenu () {
@@ -49,6 +82,7 @@ class Lune extends Component {
     )
   }
 }
+
       // <View>
       //   <AnimatedAudioFooter/>
       // </View>

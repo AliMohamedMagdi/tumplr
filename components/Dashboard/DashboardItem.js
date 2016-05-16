@@ -57,7 +57,7 @@ class DashboardItem extends Component {
       <View style={styles.container}>
 
         {/* Reblogger information & menu icon */}
-        <DashboardHeader {...DashboardHeaderProps}/>
+        <DashboardHeader {...DashboardHeaderProps} />
 
         {/* Album art cover */}
         <TouchableOpacity {...AlbumTouchProps}>
@@ -68,10 +68,10 @@ class DashboardItem extends Component {
         </TouchableOpacity>
 
         {/* Song Information */}
-        <DashboardSongInfo {...DashboardSongInfoProps}/>
+        <DashboardSongInfo {...DashboardSongInfoProps} />
 
         {/* Footer containing notes information and tags */}
-        <DashboardFooter {...DashboardFooterProps}/>
+        <DashboardFooter {...DashboardFooterProps} />
 
       </View>
     )
