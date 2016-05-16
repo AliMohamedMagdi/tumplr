@@ -12,7 +12,7 @@ import EntypoIcon from 'react-native-vector-icons/Entypo'
 
 const ACTION_TIMER = 600
 
-class DashboardSongInfo extends Component {
+class SongInfo extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -109,7 +109,7 @@ class DashboardSongInfo extends Component {
             {/* Like button */}
             <View style={styles.likeContainer}>
               <TouchableHighlight {...LikeTouchProps}>
-                <IonIcon {...LikeIconProps}/>
+                <IonIcon {...LikeIconProps} />
               </TouchableHighlight>
             </View>
 
@@ -117,7 +117,7 @@ class DashboardSongInfo extends Component {
             <View style={styles.reblogContainer}>
               <TouchableHighlight {...ReblogTouchProps}>
                 <Animated.View>
-                  <EntypoIcon {...ReblogIconProps}/>
+                  <EntypoIcon {...ReblogIconProps} />
                 </Animated.View>
               </TouchableHighlight>
             </View>
@@ -136,7 +136,7 @@ class DashboardSongInfo extends Component {
   }
 }
 
-DashboardSongInfo.propTypes = {
+SongInfo.propTypes = {
   trackName: React.PropTypes.string,
   artist: React.PropTypes.string,
   plays: React.PropTypes.number
@@ -205,12 +205,4 @@ const styles = StyleSheet.create({
   }
 })
 
-  // likeReblogContainer: {
-  //   flex: 1,
-  //   flexDirection: 'row',
-  //   borderWidth: 1,
-  //   borderRadius: 3,
-  //   borderColor: '#aaa'
-  // }
-
-export default DashboardSongInfo
+export default SongInfo

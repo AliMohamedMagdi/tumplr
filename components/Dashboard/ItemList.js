@@ -1,5 +1,5 @@
 /**
- *  Song List Component
+ *  Dashboard Item List Component
  */
 
 'use strict'
@@ -10,20 +10,20 @@ import React, {
   StyleSheet,
   RecyclerViewBackedScrollView
 } from 'react-native'
-import DashboardItem from './Dashboard/DashboardItem'
+import Item from './Item'
 
-class SongList extends Component {
+class ItemList extends Component {
 
   constructor (props) {
     super(props)
-    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
+    const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
     this.state = {
       dataSource: ds.cloneWithRows(this._generateRows(this.props.response))
     }
   }
 
   _renderSongs (data) {
-    return <DashboardItem {...data} />
+    return <Item {...data} />
   }
 
   _generateRows () {
@@ -55,4 +55,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default SongList
+export default ItemList

@@ -30,7 +30,6 @@ class Tumblr: NSObject {
     )
     oauthswift.authorizeWithCallbackURL( NSURL(string: "lune://oauth-callback")!, success: {
       credential, response, parameters in
-      print("authorizeWithCallbackURL???????????????????")
       print(credential)
       }, failure: { error in
         print(error.localizedDescription)

@@ -13,7 +13,7 @@ import React, {
 import moment from 'moment'
 import IonIcon from 'react-native-vector-icons/Ionicons'
 
-class DashboardHeader extends Component {
+class Header extends Component {
   render () {
     return (
       <View style={styles.header}>
@@ -41,7 +41,7 @@ class DashboardHeader extends Component {
   }
 }
 
-DashboardHeader.propTypes = {
+Header.propTypes = {
   reblogDate: React.PropTypes.string,
   avatarUri: React.PropTypes.string,
   blogName: React.PropTypes.string
@@ -99,4 +99,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default DashboardHeader
+export default Header

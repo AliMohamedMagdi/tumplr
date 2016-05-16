@@ -9,7 +9,7 @@ import React, {
 import EntypoIcon from 'react-native-vector-icons/Entypo'
 import * as format from '../../scripts/format.js'
 
-class DashboardFooter extends Component {
+class Footer extends Component {
   constructor (props) {
     super(props)
     this.state = { showNotes: false }
@@ -54,7 +54,7 @@ class DashboardFooter extends Component {
 
 }
 
-DashboardFooter.propTypes = {
+Footer.propTypes = {
   id: React.PropTypes.number,
   tags: React.PropTypes.array,
   noteCount: React.PropTypes.number
@@ -84,4 +84,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default DashboardFooter
+export default Footer

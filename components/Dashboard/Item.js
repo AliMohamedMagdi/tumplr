@@ -11,12 +11,12 @@ import React, {
   StyleSheet,
   TouchableOpacity
 } from 'react-native'
-import DashboardHeader from './DashboardHeader.js'
-import DashboardSongInfo from './DashboardSongInfo.js'
-import DashboardFooter from './DashboardFooter.js'
+import Header from './Header.js'
+import SongInfo from './SongInfo.js'
+import Footer from './Footer.js'
 const AudioPlayer = React.NativeModules.AudioPlayer
 
-class DashboardItem extends Component {
+class Item extends Component {
 
   parseAudioURI (playerElement) {
     let src = playerElement.match(/src=\"([^"]*)\"/)[1]
@@ -30,7 +30,7 @@ class DashboardItem extends Component {
   render () {
     const data = this.props
 
-    const DashboardHeaderProps = {
+    const HeaderProps = {
       blogName: data.blog_name,
       reblogDate: data.date.substr(0, data.date.lastIndexOf(' ')),
       avatarUri: `http://api.tumblr.com/v2/blog/${data.blog_name}.tumblr.com/avatar/64`
@@ -41,13 +41,13 @@ class DashboardItem extends Component {
       onPress: () => AudioPlayer.play(this.parseAudioURI(data.player))
     }
 
-    const DashboardSongInfoProps = {
+    const SongInfoProps = {
       trackName: data.track_name,
       artist: data.artist,
       plays: data.plays
     }
 
-    const DashboardFooterProps = {
+    const FooterProps = {
       id: data.id,
       tags: data.tags,
       noteCount: data.note_count
@@ -57,7 +57,7 @@ class DashboardItem extends Component {
       <View style={styles.container}>
 
         {/* Reblogger information & menu icon */}
-        <DashboardHeader {...DashboardHeaderProps} />
+        <Header {...HeaderProps} />
 
         {/* Album art cover */}
         <TouchableOpacity {...AlbumTouchProps}>
@@ -68,10 +68,10 @@ class DashboardItem extends Component {
         </TouchableOpacity>
 
         {/* Song Information */}
-        <DashboardSongInfo {...DashboardSongInfoProps} />
+        <SongInfo {...SongInfoProps} />
 
         {/* Footer containing notes information and tags */}
-        <DashboardFooter {...DashboardFooterProps} />
+        <Footer {...FooterProps} />
 
       </View>
     )
@@ -91,4 +91,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default DashboardItem
+export default Item
