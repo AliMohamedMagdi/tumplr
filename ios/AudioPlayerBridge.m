@@ -25,6 +25,6 @@ RCT_EXTERN_METHOD(seek:(int *)seconds)
 
 @interface RCT_EXTERN_MODULE(Tumblr, NSObject)
 
-RCT_EXTERN_METHOD(authenticate)
+RCT_EXTERN_METHOD(authenticate:(RCTResponseSenderBlock)callback)
 
 @end

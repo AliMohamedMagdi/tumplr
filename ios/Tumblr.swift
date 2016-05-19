@@ -19,7 +19,8 @@ class Tumblr: NSObject {
     return keys!
   }
 
-  func authenticate() {
+  func authenticate(callback: RCTResponseSenderBlock) {
+    print("Authenticating...")
     let credentials = creds()
     let oauthswift = OAuth1Swift(
       consumerKey:    credentials["key"]! as! String,
@@ -30,7 +31,15 @@ class Tumblr: NSObject {
     )
     oauthswift.authorizeWithCallbackURL( NSURL(string: "lune://oauth-callback")!, success: {
       credential, response, parameters in
-      print(credential)
+      var result = [AnyObject]()
+      let values = [
+        "oauth_token": credential.oauth_token,
+        "oauth_token_secret": credential.oauth_token_secret,
+        "oauth_verifier": credential.oauth_verifier,
+        "oauth_refresh_token": credential.oauth_refresh_token
+      ]
+      result.append(values)
+      callback(result)
       }, failure: { error in
         print(error.localizedDescription)
     })

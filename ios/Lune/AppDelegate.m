@@ -10,13 +10,17 @@
 #import "AppDelegate.h"
 #import "RCTLinkingManager.h"
 #import "RCTRootView.h"
+#import "Lune-Swift.h"
+@import OAuthSwift;
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   NSURL *jsCodeLocation;
-
+  Tumblr *tumblr = [[Tumblr alloc]init];
+  NSDictionary *creds = [tumblr creds];
+  
   /**
    * Loading JavaScript code - uncomment the one you want.
    *
@@ -45,7 +49,7 @@
 
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"Lune"
-                                               initialProperties:nil
+                                               initialProperties:@{@"creds": creds}
                                                    launchOptions:launchOptions];
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
@@ -57,7 +61,11 @@
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-  return [RCTLinkingManager application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
+  //  return [RCTLinkingManager application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
+  if ([url.host isEqual: @"oauth-callback"]) {
+    [OAuthSwift handleOpenURL:url];
+  }
+  return true;
 }
 
 @end
