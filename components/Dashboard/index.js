@@ -16,8 +16,11 @@ class Dashboard extends Component {
 
   constructor (props) {
     super(props)
+    this.state = { loading: false }
     this.openSideMenu = this.openSideMenu.bind(this)
     this.closeSideMenu = this.closeSideMenu.bind(this)
+    this.renderLoading = this.renderLoading.bind(this)
+    this.renderDashboard = this.renderDashboard.bind(this)
   }
 
   closeSideMenu () {
@@ -30,18 +33,49 @@ class Dashboard extends Component {
     this._drawer.open()
   }
 
-  render () {
+  componentWillMount () {
+    // const { creds, token } = this.props
+    // const uri = `http://api.tumblr.com/v2/user/info/?api_key=${creds.key}&oauth_consumer_key=${creds.key}&oauth_token=${token}`
+    // fetch(uri, { method: 'GET' })
+    //   .then((response) => response.text())
+    //   .then((responseText) => console.dir(responseText))
+    //   .catch((error) => console.dir(error))
+
+    // const another = `http://api.tumblr.com/v2/blog/mi-xiu/likes?api_key=${creds.key}&oauth_consumer_key=${creds.key}&oauth_token=${token}`
+    // fetch(another, { method: 'GET' })
+    //   .then((response) => response.text())
+    //   .then((responseText) => console.dir(responseText))
+    //   .catch((error) => console.dir(error))
+    // const { creds, token } = this.props
+    // const uri = `http://api.tumblr.com/v2/user/info/?api_key=${creds.key}&oauth_consumer_key=${creds.key}&oauth_token=${token}`
+    // fetch(uri, { method: 'GET' })
+    //   .then((response) => response.text())
+    //   .then((responseText) => console.dir(responseText))
+    //   .catch((error) => console.dir(error))
+  }
+
+  renderLoading () {
+
+  }
+
+  renderDashboard () {
+    const DrawerProps = {
+      ref: ref => { this._drawer = ref },
+      content: <SideMenu closeDrawer={this.closeSideMenu} />,
+      styles: styles.drawer,
+      tweenEasing: 'easeInCubic',
+      openDrawerOffset: 100
+    }
+
     return (
-      <Drawer
-        ref={ref => { this._drawer = ref }}
-        content={<SideMenu closeDrawer={this.closeSideMenu} />}
-        styles={styles.drawer}
-        tweenEasing={"easeInCubic"}
-        openDrawerOffset={100}
-        >
+      <Drawer {...DrawerProps}>
         <ItemList {...Response} tabLabel={'Settings'} />
       </Drawer>
     )
+  }
+
+  render () {
+    return this.state.loading ? this.renderLoading() : this.renderDashboard()
   }
 };
 
@@ -72,5 +106,15 @@ const styles = StyleSheet.create({
     shadowRadius: 3
   }
 })
+
+Dashboard.propTypes = {
+  token: React.PropTypes.string.isRequired,
+  token_secret: React.PropTypes.string.isRequired,
+  navigator: React.PropTypes.object.isRequired,
+  creds: React.PropTypes.shape({
+    key: React.PropTypes.string.isRequired,
+    sec: React.PropTypes.string.isRequired
+  })
+}
 
 export default Dashboard

@@ -5,51 +5,99 @@
 'use strict'
 
 import React, {
-  Linking,
-  Component
+  Navigator,
+  AsyncStorage
 } from 'react-native'
-import qs from 'qs'
 
+import Login from './Login'
+import Loading from './Loading'
 import Dashboard from './Dashboard'
 
-class Lune extends Component {
+class Lune extends React.Component {
 
   constructor (props) {
     super(props)
+    this.state = { currentRoute: 'loading-view' }
 
-    this._processURL = this._processURL.bind(this)
-    this._processOAuthCallback = this._processOAuthCallback.bind(this)
+    this.renderScene = this.renderScene.bind(this)
+    this._viewDashboard = this._viewDashboard.bind(this)
   }
 
-  componentDidMount () {
-    Linking.addEventListener('url', this._processURL)
+  _viewDashboard (token) {
+    this._navigator.push({
+      token: token,
+      name: 'dashboard-view',
+      creds: this.props.creds,
+      style: Navigator.SceneConfigs.FadeAndroid
+    })
   }
 
-  _processURL (event) {
-    console.log('Processing url!')
-    console.dir(event)
-    const url = event.url.replace('lune://', '').split('?')
-    const path = url[0]
-    const parameters = url[1] ? qs.parse(url[1]) : null
-
-    switch (path) {
-      case 'oauth-callback':
-        this._processOAuthCallback(parameters)
-        break
-      default:
-        console.log('???')
-        console.log(path)
-        break
+  _loadData () {
+    try {
+      AsyncStorage.getItem('token')
+        .then((token) => {
+          if (token === null) {
+            this._navigator.push({
+              name: 'login-view',
+              style: Navigator.SceneConfigs.FadeAndroid
+            })
+          } else {
+            this._viewDashboard(token)
+          }
+        })
+    } catch (error) {
+      console.log(`AsyncStorage error: ${error.message}`)
     }
   }
 
-  _processOAuthCallback (parameters) {
-    console.log(parameters.oauth_token)
+  componentWillMount () {
+    this._loadData()
+  }
+
+  renderScene (route, nav) {
+    switch (route.name) {
+      case 'loading-view':
+        return <Loading navigator={nav} />
+
+      case 'login-view':
+        const LoginProps = {
+          navigator: nav,
+          creds: {
+            key: this.props.creds.key,
+            sec: this.props.creds.sec
+          }
+        }
+        return <Login {...LoginProps} />
+
+      case 'dashboard-view':
+        const DashboardProps = {
+          navigator: nav,
+          creds: route.creds,
+          token: route.token,
+          token_secret: route.token_secret
+        }
+        return <Dashboard {...DashboardProps} />
+
+      default:
+        return <Loading navigator={nav} />
+    }
   }
 
   render () {
-    return <Dashboard />
+    return <Navigator
+      ref={ref => { this._navigator = ref }}
+      initialRoute={{name: this.state.currentRoute}}
+      renderScene={this.renderScene}
+      configureScene={route => route.style || Navigator.SceneConfigs.FloatFromRight}
+    />
   }
+}
+
+Lune.propTypes = {
+  creds: React.PropTypes.shape({
+    key: React.PropTypes.string.isRequired,
+    sec: React.PropTypes.string.isRequired
+  })
 }
 
 export default Lune
