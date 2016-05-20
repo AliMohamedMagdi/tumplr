@@ -39,17 +39,17 @@ class LoginButton extends Component {
     })
 
     // Retrieve user info and switch to the dashboard view
-    fetch(request.signed_url)
-      .then((res) => res.text())
-      .then((resText) => {
+    fetch(request.signed_url).then((response) => response.text())
+      .then((userInfo) => {
         console.dir('User info received!')
-        console.dir(resText)
+        console.dir(JSON.parse(userInfo))
         this.props.navigator.push({
           name: 'dashboard-view',
           creds: this.props.creds,
           token: response.oauth_token,
           token_secret: response.oauth_token_secret,
-          style: Navigator.SceneConfigs.FadeAndroid
+          style: Navigator.SceneConfigs.FadeAndroid,
+          userInfo: userInfo
         })
       })
       .catch((error) => console.log(error))

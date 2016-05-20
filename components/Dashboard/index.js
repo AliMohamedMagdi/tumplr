@@ -4,10 +4,13 @@ import React, {
   Component,
   StyleSheet
 } from 'react-native'
+import OAuthSimple from 'oauthsimple'
 import Drawer from 'react-native-drawer'
+import GiftedSpinner from 'react-native-gifted-spinner'
+
 import SideMenu from './SideMenu'
 import ItemList from './ItemList'
-import Response from '../../scripts/tumblr_response.json'
+// import Response from '../../scripts/tumblr_response.json'
 
 // import ScrollableTabView from 'react-native-scrollable-tab-view'
 // import AnimatedAudioFooter from './AudioFooter/AnimatedAudioFooter'
@@ -16,7 +19,10 @@ class Dashboard extends Component {
 
   constructor (props) {
     super(props)
-    this.state = { loading: false }
+    this.state = {
+      loading: true,
+      dashboardData: null
+    }
     this.openSideMenu = this.openSideMenu.bind(this)
     this.closeSideMenu = this.closeSideMenu.bind(this)
     this.renderLoading = this.renderLoading.bind(this)
@@ -34,31 +40,43 @@ class Dashboard extends Component {
   }
 
   componentWillMount () {
-    // const { creds, token } = this.props
-    // const uri = `http://api.tumblr.com/v2/user/info/?api_key=${creds.key}&oauth_consumer_key=${creds.key}&oauth_token=${token}`
-    // fetch(uri, { method: 'GET' })
-    //   .then((response) => response.text())
-    //   .then((responseText) => console.dir(responseText))
-    //   .catch((error) => console.dir(error))
+    // Construct oauth signed url
+    const oauth = new OAuthSimple(this.props.token, this.props.token_secret)
+    const request = oauth.sign({
+      action: 'GET',
+      path: 'http://api.tumblr.com/v2/user/dashboard',
+      parameters: {
+        limit: 20,
+        type: 'audio',
+        notes_info: true,
+        reblog_info: true
+      },
+      signatures: {
+        consumer_key: this.props.creds.key,
+        shared_secret: this.props.creds.sec,
+        oauth_token: this.props.token,
+        oauth_secret: this.props.token_secret
+      }
+    })
 
-    // const another = `http://api.tumblr.com/v2/blog/mi-xiu/likes?api_key=${creds.key}&oauth_consumer_key=${creds.key}&oauth_token=${token}`
-    // fetch(another, { method: 'GET' })
-    //   .then((response) => response.text())
-    //   .then((responseText) => console.dir(responseText))
-    //   .catch((error) => console.dir(error))
-    // const { creds, token } = this.props
-    // const uri = `http://api.tumblr.com/v2/user/info/?api_key=${creds.key}&oauth_consumer_key=${creds.key}&oauth_token=${token}`
-    // fetch(uri, { method: 'GET' })
-    //   .then((response) => response.text())
-    //   .then((responseText) => console.dir(responseText))
-    //   .catch((error) => console.dir(error))
+    // Retrieve user info and switch to the dashboard view
+    fetch(request.signed_url).then((response) => response.json())
+      .then((data) => {
+        console.dir('Dashboard data received!')
+        console.dir(data)
+        this.setState({
+          loading: false,
+          dashboardData: data
+        })
+      })
+      .catch((error) => console.log(error))
   }
 
   renderLoading () {
-
+    return <GiftedSpinner style={styles.spinner} />
   }
 
-  renderDashboard () {
+  renderDashboard (data) {
     const DrawerProps = {
       ref: ref => { this._drawer = ref },
       content: <SideMenu closeDrawer={this.closeSideMenu} />,
@@ -69,13 +87,14 @@ class Dashboard extends Component {
 
     return (
       <Drawer {...DrawerProps}>
-        <ItemList {...Response} tabLabel={'Settings'} />
+        <ItemList {...data} tabLabel={'Settings'} />
       </Drawer>
     )
   }
 
   render () {
-    return this.state.loading ? this.renderLoading() : this.renderDashboard()
+    const data = this.state.dashboardData
+    return this.state.loading ? this.renderLoading() : this.renderDashboard(data)
   }
 };
 
@@ -104,6 +123,8 @@ const styles = StyleSheet.create({
     shadowColor: '#000000',
     shadowOpacity: 0.8,
     shadowRadius: 3
+  },
+  spinner: {
   }
 })
 

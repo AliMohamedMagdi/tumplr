@@ -1,4 +1,4 @@
-import React, { Component } from 'react-native'
+import React, { Component, View } from 'react-native'
 import LoginButton from './LoginButton'
 
 class Login extends Component {
@@ -7,7 +7,11 @@ class Login extends Component {
       navigator: this.props.navigator,
       creds: this.props.creds
     }
-    return <LoginButton {...LoginButtonProps} />
+    return (
+      <View>
+        <LoginButton {...LoginButtonProps} />
+      </View>
+    )
   }
 };
 

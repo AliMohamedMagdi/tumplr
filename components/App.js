@@ -74,7 +74,8 @@ class Lune extends React.Component {
           navigator: nav,
           creds: route.creds,
           token: route.token,
-          token_secret: route.token_secret
+          token_secret: route.token_secret,
+          userInfo: route.userInfo
         }
         return <Dashboard {...DashboardProps} />
 
