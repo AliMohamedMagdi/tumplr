@@ -1,4 +1,8 @@
-import React, { Component, View } from 'react-native'
+import React, {
+  View,
+  Component,
+  StyleSheet
+} from 'react-native'
 import LoginButton from './LoginButton'
 
 class Login extends Component {
@@ -9,11 +13,22 @@ class Login extends Component {
     }
     return (
       <View>
-        <LoginButton {...LoginButtonProps} />
+        <View style={styles.loginButtonContainer}>
+          <LoginButton {...LoginButtonProps} />
+        </View>
       </View>
     )
   }
 };
+
+const styles = StyleSheet.create({
+  title: {
+    backgroundColor: 'transparent'
+  },
+  loginButtonContainer: {
+
+  }
+})
 
 Login.propTypes = {
   navigator: React.PropTypes.object,

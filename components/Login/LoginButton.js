@@ -1,15 +1,18 @@
 import React, {
   Text,
   View,
+  Image,
   Navigator,
   Component,
   StyleSheet,
   AsyncStorage,
   TouchableOpacity
 } from 'react-native'
+import Dimensions from 'Dimensions'
 import OAuthSimple from 'oauthsimple'
 import EntypoIcon from 'react-native-vector-icons/Entypo'
 const Tumblr = React.NativeModules.Tumblr
+const window = Dimensions.get('window')
 
 class LoginButton extends Component {
   constructor (props) {
@@ -73,23 +76,33 @@ class LoginButton extends Component {
 
     return (
       <View>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={this._login}>
+        <Image source={require('../../assets/night.png')} style={styles.backgroundImage} />
+        <TouchableOpacity onPress={this._login}>
+          <View style={styles.buttonContainer}>
             <EntypoIcon {...TumblrIconProps}>
-              <Text> Sign in with Tumblr </Text>
+              <Text> Login with Tumblr </Text>
             </EntypoIcon>
-          </TouchableOpacity>
-        </View>
+          </View>
+        </TouchableOpacity>
       </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
+  backgroundImage: {
+    flex: 1,
+    position: 'absolute',
+    height: window.height,
+    width: window.width,
+    resizeMode: 'cover'
+  },
   buttonContainer: {
-    margin: 40,
-    borderRadius: 4,
-    backgroundColor: '#36465D'
+    margin: 70,
+    borderBottomWidth: 5,
+    borderRadius: 2,
+    borderColor: '#5e6a7d',
+    backgroundColor: '#727d8d'
   },
   button: {
     margin: 10,
