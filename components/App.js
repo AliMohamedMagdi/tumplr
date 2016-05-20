@@ -23,26 +23,34 @@ class Lune extends React.Component {
     this._viewDashboard = this._viewDashboard.bind(this)
   }
 
-  _viewDashboard (token) {
+  _viewDashboard (token, tokenSecret, userInfo) {
     this._navigator.push({
       token: token,
       name: 'dashboard-view',
       creds: this.props.creds,
+      token_secret: tokenSecret,
+      userInfo: JSON.parse(userInfo),
       style: Navigator.SceneConfigs.FadeAndroid
     })
   }
 
   _loadData () {
     try {
-      AsyncStorage.getItem('token')
-        .then((token) => {
-          if (token === null) {
+      AsyncStorage.multiGet(['token', 'token_secret', 'user_info'])
+        .then((stores) => {
+          const store = [
+            stores.find((e) => e[0] === 'token'),
+            stores.find((e) => e[0] === 'token_secret'),
+            stores.find((e) => e[0] === 'user_info')
+          ]
+
+          if (!store[0][1] || !store[1][1] || !store[2][1]) {
             this._navigator.push({
               name: 'login-view',
               style: Navigator.SceneConfigs.FadeAndroid
             })
           } else {
-            this._viewDashboard(token)
+            this._viewDashboard(store[0][1], store[1][1], store[2][1])
           }
         })
     } catch (error) {

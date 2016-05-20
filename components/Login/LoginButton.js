@@ -4,6 +4,7 @@ import React, {
   Navigator,
   Component,
   StyleSheet,
+  AsyncStorage,
   TouchableOpacity
 } from 'react-native'
 import OAuthSimple from 'oauthsimple'
@@ -43,13 +44,21 @@ class LoginButton extends Component {
       .then((userInfo) => {
         console.dir('User info received!')
         console.dir(JSON.parse(userInfo))
-        this.props.navigator.push({
-          name: 'dashboard-view',
-          creds: this.props.creds,
-          token: response.oauth_token,
-          token_secret: response.oauth_token_secret,
-          style: Navigator.SceneConfigs.FadeAndroid,
-          userInfo: userInfo
+
+        AsyncStorage.multiSet([
+          [ 'token', response.oauth_token ],
+          [ 'token_secret', response.oauth_token_secret ],
+          [ 'user_info', JSON.stringify(userInfo) ]
+        ]).then(() => {
+          // Redirect the view to the dashboard
+          this.props.navigator.push({
+            name: 'dashboard-view',
+            creds: this.props.creds,
+            token: response.oauth_token,
+            token_secret: response.oauth_token_secret,
+            style: Navigator.SceneConfigs.FadeAndroid,
+            userInfo: userInfo
+          })
         })
       })
       .catch((error) => console.log(error))
