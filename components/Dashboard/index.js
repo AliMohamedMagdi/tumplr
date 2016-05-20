@@ -48,7 +48,6 @@ class Dashboard extends Component {
       parameters: {
         limit: 20,
         type: 'audio',
-        notes_info: true,
         reblog_info: true
       },
       signatures: {
@@ -84,10 +83,14 @@ class Dashboard extends Component {
       tweenEasing: 'easeInCubic',
       openDrawerOffset: 100
     }
+    const ItemListProps = {
+      response: data.response,
+      navigator: this.props.navigator
+    }
 
     return (
       <Drawer {...DrawerProps}>
-        <ItemList {...data} tabLabel={'Settings'} />
+        <ItemList {...ItemListProps} />
       </Drawer>
     )
   }

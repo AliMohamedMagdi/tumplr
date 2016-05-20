@@ -55,4 +55,9 @@ const styles = StyleSheet.create({
   }
 })
 
+ItemList.propTypes = {
+  response: React.PropTypes.object.isRequired,
+  navigator: React.PropTypes.object.isRequired
+}
+
 export default ItemList

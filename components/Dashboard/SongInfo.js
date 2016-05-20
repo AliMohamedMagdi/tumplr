@@ -4,9 +4,9 @@ import React, {
   Animated,
   Component,
   StyleSheet,
+  ScrollView,
   TouchableHighlight
 } from 'react-native'
-import * as format from '../../scripts/format.js'
 import IonIcon from 'react-native-vector-icons/Ionicons'
 import EntypoIcon from 'react-native-vector-icons/Entypo'
 
@@ -62,12 +62,6 @@ class SongInfo extends Component {
   }
 
   render () {
-    const PlayCountIconProps = {
-      name: 'play',
-      color: '#616566',
-      size: 12
-    }
-
     const ReblogTouchProps = {
       activeOpacity: 0.5,
       underlayColor: 'transparent',
@@ -83,15 +77,17 @@ class SongInfo extends Component {
     }
 
     const LikeIconProps = {
+      size: 24,
+      style: { textAlign: 'center' },
       name: this.state.liked ? 'ios-heart' : 'ios-heart',
-      color: this.state.liked ? '#e17d74' : '#aaa',
-      size: 18
+      color: this.state.liked ? '#e17d74' : '#F6FCFF'
     }
 
     const ReblogIconProps = {
+      size: 24,
       name: 'retweet',
-      color: this.state.reblogged ? '#4c95ad' : '#aaa',
-      size: 18
+      style: { textAlign: 'center' },
+      color: this.state.reblogged ? '#4c95ad' : '#F6FCFF'
     }
 
     return (
@@ -99,38 +95,32 @@ class SongInfo extends Component {
 
         {/* Track title and artist name */}
         <View style={styles.songInfoContent}>
-          <Text style={styles.songTitleText}> {this.props.trackName} </Text>
-          <Text style={styles.artistText}> {this.props.artist} </Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} >
+            <Text style={styles.songTitleText}> {this.props.trackName} </Text>
+          </ScrollView>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} >
+            <Text style={styles.artistText}> {this.props.artist} </Text>
+          </ScrollView>
         </View>
 
-        <View style={styles.songStatsContent}>
-
-          <View style={styles.buttonsContainer}>
-            {/* Like button */}
-            <View style={styles.likeContainer}>
-              <TouchableHighlight {...LikeTouchProps}>
-                <IonIcon {...LikeIconProps} />
-              </TouchableHighlight>
-            </View>
-
-            {/* Reblog button */}
-            <View style={styles.reblogContainer}>
-              <TouchableHighlight {...ReblogTouchProps}>
-                <Animated.View>
-                  <EntypoIcon {...ReblogIconProps} />
-                </Animated.View>
-              </TouchableHighlight>
-            </View>
+        <View style={styles.buttonsContainer}>
+          {/* Like button */}
+          <View style={styles.likeContainer}>
+            <TouchableHighlight {...LikeTouchProps}>
+              <IonIcon {...LikeIconProps} />
+            </TouchableHighlight>
           </View>
 
-          {/* Play count */}
-          <View style={styles.playCountContent}>
-            <IonIcon {...PlayCountIconProps}>
-              <Text style={styles.plays}> {format.insertCommas(this.props.plays)} plays </Text>
-            </IonIcon>
+          {/* Reblog button */}
+          <View style={styles.reblogContainer}>
+            <TouchableHighlight {...ReblogTouchProps}>
+              <Animated.View>
+                <EntypoIcon {...ReblogIconProps} />
+              </Animated.View>
+            </TouchableHighlight>
           </View>
-
         </View>
+
       </View>
     )
   }
@@ -146,16 +136,14 @@ const styles = StyleSheet.create({
   songInfoContainer: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 10,
-    paddingTop: 5
+    justifyContent: 'space-between'
   },
   songInfoContent: {
     flex: 2,
+    padding: 10,
     flexDirection: 'column',
     justifyContent: 'space-around',
-    paddingTop: 5,
     backgroundColor: 'transparent'
   },
   albumContent: {
@@ -171,11 +159,6 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontSize: 12
   },
-  songStatsContent: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'flex-end'
-  },
   playCountContent: {
     paddingTop: 5,
     paddingRight: 0
@@ -183,25 +166,27 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     flex: 1,
     flexDirection: 'row',
-    paddingTop: 5
+    justifyContent: 'flex-end'
   },
   likeContainer: {
-    width: 30,
-    height: 30,
-    borderWidth: 1,
-    borderRadius: 15,
-    borderColor: '#aaa',
-    marginRight: 10,
-    padding: 6
+    flex: 1,
+    paddingTop: 3,
+    marginRight: 5,
+    alignSelf: 'center',
+    borderBottomWidth: 4,
+    borderRadius: 2,
+    borderColor: '#eeb1aa',
+    backgroundColor: '#f4cbc6'
   },
   reblogContainer: {
-    width: 30,
-    height: 30,
-    borderWidth: 1,
-    borderRadius: 15,
-    borderColor: '#aaa',
-    marginRight: 2,
-    padding: 5
+    flex: 1,
+    paddingTop: 3,
+    marginRight: 5,
+    alignSelf: 'center',
+    borderBottomWidth: 4,
+    borderRadius: 2,
+    borderColor: '#89bccd',
+    backgroundColor: '#bddae3'
   }
 })
 

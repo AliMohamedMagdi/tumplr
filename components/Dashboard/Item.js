@@ -24,33 +24,45 @@ class Item extends Component {
     let uri = 'http://a.tumblr.com/'
     audioKey = audioKey.substring(audioKey.lastIndexOf('/') + 1, audioKey.lastIndexOf('&'))
     uri += (audioKey.search('o1.mp3') > 0) ? audioKey : audioKey + 'o1.mp3'
+    console.log(`Playing song @ ${uri}`)
     return uri
   }
 
   render () {
-    const data = this.props
+    const {
+      id,
+      tags,
+      date,
+      plays,
+      player,
+      artist,
+      album_art: albumArt,
+      blog_name: blogName,
+      track_name: trackName,
+      note_count: noteCount
+    } = this.props
 
     const HeaderProps = {
-      blogName: data.blog_name,
-      reblogDate: data.date.substr(0, data.date.lastIndexOf(' ')),
-      avatarUri: `http://api.tumblr.com/v2/blog/${data.blog_name}.tumblr.com/avatar/64`
+      blogName: blogName,
+      reblogDate: date.substr(0, date.lastIndexOf(' ')),
+      avatarUri: `http://api.tumblr.com/v2/blog/${blogName}.tumblr.com/avatar/64`
     }
 
     const AlbumTouchProps = {
       activeOpacity: 0.6,
-      onPress: () => AudioPlayer.play(this.parseAudioURI(data.player))
+      onPress: () => AudioPlayer.play(this.parseAudioURI(player))
     }
 
     const SongInfoProps = {
-      trackName: data.track_name,
-      artist: data.artist,
-      plays: data.plays
+      trackName: trackName,
+      artist: artist,
+      plays: plays
     }
 
     const FooterProps = {
-      id: data.id,
-      tags: data.tags,
-      noteCount: data.note_count
+      id: id,
+      tags: tags,
+      noteCount: noteCount
     }
 
     return (
@@ -63,7 +75,7 @@ class Item extends Component {
         <TouchableOpacity {...AlbumTouchProps}>
           <Image
             style={styles.albumArt}
-            source={{uri: data.album_art}}
+            source={{uri: albumArt}}
           />
         </TouchableOpacity>
 
@@ -90,5 +102,17 @@ const styles = StyleSheet.create({
     height: 100
   }
 })
+
+Item.propTypes = {
+  id: React.PropTypes.number.isRequired,
+  tags: React.PropTypes.array.isRequired,
+  date: React.PropTypes.string.isRequired,
+  plays: React.PropTypes.number.isRequired,
+  player: React.PropTypes.string.isRequired,
+  artist: React.PropTypes.string.isRequired,
+  blog_name: React.PropTypes.string.isRequired,
+  track_name: React.PropTypes.string.isRequired,
+  note_count: React.PropTypes.number.isRequired
+}
 
 export default Item
