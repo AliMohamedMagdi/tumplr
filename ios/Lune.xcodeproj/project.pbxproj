@@ -31,6 +31,7 @@
 		9B02903D1CE7B4A000CCDE44 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B02903C1CE7B4A000CCDE44 /* AudioPlayer.swift */; };
 		9B0290491CE7B4D100CCDE44 /* AudioPlayerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B0290481CE7B4D100CCDE44 /* AudioPlayerBridge.m */; };
 		9B6734251CE9323900DAA73B /* OAuthSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B6734241CE9323900DAA73B /* OAuthSwift.framework */; };
+		9B85897C1CF0623E00021A7D /* Notera.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B85897B1CF0623B00021A7D /* Notera.ttf */; };
 		9B8CEA801CE935F300E4B108 /* Tumblr.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8CEA7F1CE935F300E4B108 /* Tumblr.swift */; };
 		9B8CEA8D1CE93E9E00E4B108 /* keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9B8CEA8C1CE93E9E00E4B108 /* keys.plist */; };
 		A65ED92ECCA44B5D91BE56CB /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A57D659190AF445EA5F14922 /* Entypo.ttf */; };
@@ -159,6 +160,7 @@
 		9B02903C1CE7B4A000CCDE44 /* AudioPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		9B0290481CE7B4D100CCDE44 /* AudioPlayerBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioPlayerBridge.m; sourceTree = "<group>"; };
 		9B6734241CE9323900DAA73B /* OAuthSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OAuthSwift.framework; path = Carthage/Build/iOS/OAuthSwift.framework; sourceTree = "<group>"; };
+		9B85897B1CF0623B00021A7D /* Notera.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Notera.ttf; path = ../assets/Notera.ttf; sourceTree = "<group>"; };
 		9B8CEA7F1CE935F300E4B108 /* Tumblr.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tumblr.swift; sourceTree = "<group>"; };
 		9B8CEA8C1CE93E9E00E4B108 /* keys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = keys.plist; sourceTree = "<group>"; };
 		A57D659190AF445EA5F14922 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
@@ -347,6 +349,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				9B85897B1CF0623B00021A7D /* Notera.ttf */,
 				9B6734241CE9323900DAA73B /* OAuthSwift.framework */,
 				13B07FAE1A68108700A75B9A /* Lune */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -599,6 +602,7 @@
 				D2CD822A4C9F480D8B8BF8B8 /* MaterialIcons.ttf in Resources */,
 				4C1E53F4CFA0477FAF654244 /* Octicons.ttf in Resources */,
 				5E413A9DB18F4550A4A4B1BE /* Zocial.ttf in Resources */,
+				9B85897C1CF0623E00021A7D /* Notera.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

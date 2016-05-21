@@ -1,6 +1,7 @@
 'use strict'
 
 import React, {
+  View,
   Component,
   StyleSheet
 } from 'react-native'
@@ -72,7 +73,11 @@ class Dashboard extends Component {
   }
 
   renderLoading () {
-    return <GiftedSpinner style={styles.spinner} />
+    return (
+      <View style={styles.spinnerContainer}>
+        <GiftedSpinner />
+      </View>
+    )
   }
 
   renderDashboard (data) {
@@ -128,6 +133,12 @@ const styles = StyleSheet.create({
     shadowRadius: 3
   },
   spinner: {
+  },
+  spinnerContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#3a3f41'
   }
 })
 

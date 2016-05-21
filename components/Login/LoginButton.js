@@ -1,18 +1,15 @@
 import React, {
   Text,
   View,
-  Image,
   Navigator,
   Component,
   StyleSheet,
   AsyncStorage,
   TouchableHighlight
 } from 'react-native'
-import Dimensions from 'Dimensions'
 import OAuthSimple from 'oauthsimple'
 import EntypoIcon from 'react-native-vector-icons/Entypo'
 const Tumblr = React.NativeModules.Tumblr
-const window = Dimensions.get('window')
 
 class LoginButton extends Component {
   constructor (props) {
@@ -84,30 +81,21 @@ class LoginButton extends Component {
     }
 
     return (
-      <View>
-        <Image source={require('../../assets/night.png')} style={styles.backgroundImage} />
-        <View style={[ styles.buttonContainer, this.state.heldDown && styles.buttonDown ]}>
-          <TouchableHighlight {...TumblrButtonProps} >
-            <EntypoIcon {...TumblrIconProps}>
-              <Text> Login with Tumblr </Text>
-            </EntypoIcon>
-          </TouchableHighlight>
-        </View>
+      <View style={[ styles.buttonContainer, this.state.heldDown && styles.buttonDown ]}>
+        <TouchableHighlight {...TumblrButtonProps} >
+          <EntypoIcon {...TumblrIconProps}>
+            <Text> Login with Tumblr </Text>
+          </EntypoIcon>
+        </TouchableHighlight>
       </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
-  backgroundImage: {
-    flex: 1,
-    position: 'absolute',
-    height: window.height,
-    width: window.width,
-    resizeMode: 'cover'
-  },
   buttonContainer: {
-    margin: 70,
+    marginLeft: 70,
+    marginRight: 70,
     borderBottomWidth: 5,
     borderRadius: 2,
     borderColor: '#545f72',
@@ -120,7 +108,7 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   buttonDown: {
-    marginTop: 74,
+    marginTop: 4,
     borderBottomWidth: 3
   }
 })
