@@ -18,13 +18,15 @@ class SongInfo extends Component {
     this.state = {
       liked: false,
       reblogged: false,
+      likeBtnDown: false,
+      reblogBtnDown: false,
       pressAction: new Animated.Value(0)
     }
 
     this.likeSong = this.likeSong.bind(this)
     this.reblogSong = this.reblogSong.bind(this)
-    this.handleIconPressIn = this.handleIconPressIn.bind(this)
-    this.handleIconPressOut = this.handleIconPressOut.bind(this)
+    this.handleReblogPressIn = this.handleReblogPressIn.bind(this)
+    this.handleReblogPressOut = this.handleReblogPressOut.bind(this)
     this.animationActionComplete = this.animationActionComplete.bind(this)
   }
 
@@ -39,14 +41,15 @@ class SongInfo extends Component {
     }
   }
 
-  handleIconPressIn () {
+  handleReblogPressIn () {
     Animated.timing(this.state.pressAction, {
       duration: ACTION_TIMER,
       toValue: 1
     }).start(this.animationActionComplete)
   }
 
-  handleIconPressOut () {
+  handleReblogPressOut () {
+    this.setState({ reblogBtnDown: false })
     Animated.timing(this.state.pressAction, {
       duration: this._value * ACTION_TIMER,
       toValue: 0
@@ -62,32 +65,43 @@ class SongInfo extends Component {
   }
 
   render () {
+    const {
+      liked,
+      reblogged,
+      likeBtnDown,
+      reblogBtnDown
+    } = this.state
+
     const ReblogTouchProps = {
       activeOpacity: 0.5,
       underlayColor: 'transparent',
       onPress: this.reblogSong,
-      onPressIn: this.handleIconPressIn,
-      onPressOut: this.handleIconPressOut
+      onPressIn: () => this.handleReblogPressIn(),
+      onPressOut: () => this.handleReblogPressOut(),
+      onShowUnderlay: () => this.setState({ reblogBtnDown: true }),
+      onHideUnderlay: () => this.setState({ reblogBtnDown: false })
     }
 
     const LikeTouchProps = {
       activeOpacity: 0.5,
       underlayColor: 'transparent',
-      onPress: this.likeSong
+      onPress: this.likeSong,
+      onShowUnderlay: () => this.setState({ likeBtnDown: true }),
+      onHideUnderlay: () => this.setState({ likeBtnDown: false })
     }
 
     const LikeIconProps = {
       size: 24,
       style: { textAlign: 'center' },
-      name: this.state.liked ? 'ios-heart' : 'ios-heart',
-      color: this.state.liked ? '#e17d74' : '#F6FCFF'
+      name: liked ? 'ios-heart' : 'ios-heart',
+      color: liked ? '#e17d74' : '#F6FCFF'
     }
 
     const ReblogIconProps = {
       size: 24,
       name: 'retweet',
       style: { textAlign: 'center' },
-      color: this.state.reblogged ? '#4c95ad' : '#F6FCFF'
+      color: reblogged ? '#4c95ad' : '#F6FCFF'
     }
 
     return (
@@ -105,14 +119,14 @@ class SongInfo extends Component {
 
         <View style={styles.buttonsContainer}>
           {/* Like button */}
-          <View style={styles.likeContainer}>
+          <View style={[styles.likeContainer, likeBtnDown && styles.buttonDown]}>
             <TouchableHighlight {...LikeTouchProps}>
               <IonIcon {...LikeIconProps} />
             </TouchableHighlight>
           </View>
 
           {/* Reblog button */}
-          <View style={styles.reblogContainer}>
+          <View style={[styles.reblogContainer, reblogBtnDown && styles.buttonDown]}>
             <TouchableHighlight {...ReblogTouchProps}>
               <Animated.View>
                 <EntypoIcon {...ReblogIconProps} />
@@ -187,6 +201,10 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     borderColor: '#89bccd',
     backgroundColor: '#bddae3'
+  },
+  buttonDown: {
+    marginTop: 4,
+    borderBottomWidth: 2
   }
 })
 

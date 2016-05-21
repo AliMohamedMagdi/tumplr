@@ -6,7 +6,7 @@ import React, {
   Component,
   StyleSheet,
   AsyncStorage,
-  TouchableOpacity
+  TouchableHighlight
 } from 'react-native'
 import Dimensions from 'Dimensions'
 import OAuthSimple from 'oauthsimple'
@@ -17,6 +17,7 @@ const window = Dimensions.get('window')
 class LoginButton extends Component {
   constructor (props) {
     super(props)
+    this.state = { heldDown: false }
 
     this._login = this._login.bind(this)
     this._authCallback = this._authCallback.bind(this)
@@ -74,16 +75,24 @@ class LoginButton extends Component {
       style: styles.button
     }
 
+    const TumblrButtonProps = {
+      activeOpacity: 0.5,
+      onPress: () => this._login(),
+      underlayColor: 'transparent',
+      onShowUnderlay: () => this.setState({ heldDown: true }),
+      onHideUnderlay: () => this.setState({ heldDown: false })
+    }
+
     return (
       <View>
         <Image source={require('../../assets/night.png')} style={styles.backgroundImage} />
-        <TouchableOpacity onPress={this._login}>
-          <View style={styles.buttonContainer}>
+        <View style={[ styles.buttonContainer, this.state.heldDown && styles.buttonDown ]}>
+          <TouchableHighlight {...TumblrButtonProps} >
             <EntypoIcon {...TumblrIconProps}>
               <Text> Login with Tumblr </Text>
             </EntypoIcon>
-          </View>
-        </TouchableOpacity>
+          </TouchableHighlight>
+        </View>
       </View>
     )
   }
@@ -101,7 +110,7 @@ const styles = StyleSheet.create({
     margin: 70,
     borderBottomWidth: 5,
     borderRadius: 2,
-    borderColor: '#5e6a7d',
+    borderColor: '#545f72',
     backgroundColor: '#727d8d'
   },
   button: {
@@ -109,6 +118,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: 'white',
     textAlign: 'center'
+  },
+  buttonDown: {
+    marginTop: 74,
+    borderBottomWidth: 3
   }
 })
 
