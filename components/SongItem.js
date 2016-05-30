@@ -50,7 +50,7 @@ class SongItem extends Component {
     }
     const AlbumTouchProps = {
       underlayColor: 'transparent'
-      // onPress: () => console.dir(data)
+      // onPress: () => console.log(JSON.stringify(data, null, 2))
     }
     const LikeTouchProps = {
       underlayColor: 'transparent',

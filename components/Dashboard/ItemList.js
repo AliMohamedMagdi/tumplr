@@ -18,12 +18,20 @@ class ItemList extends Component {
     super(props)
     const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
     this.state = {
+      retrievingData: false,
       dataSource: ds.cloneWithRows(this._generateRows(this.props.response))
     }
+    this._generateRows = this._generateRows.bind(this)
+    this._retrieveMoreSongs = this._retrieveMoreSongs.bind(this)
   }
 
   _renderSongs (data) {
     return <Item {...data} />
+  }
+
+  _retrieveMoreSongs () {
+    if (this.state.retrievingData) return
+    // this.props.actions.fetchDashboardItems(offset)
   }
 
   _generateRows () {
@@ -41,6 +49,7 @@ class ItemList extends Component {
     return (
       <ListView style={styles.list}
         dataSource={this.state.dataSource}
+        onEndReached={this._retrieveMoreSongs}
         renderRow={this._renderSongs}
         renderScrollComponent={(props) => <RecyclerViewBackedScrollView {...props} />}
       />

@@ -6,7 +6,7 @@ import React, {
   StyleSheet
 } from 'react-native'
 import Dimensions from 'Dimensions'
-import LoginButton from './LoginButton'
+import LoginButtonContainer from '../../containers/LoginButton'
 const window = Dimensions.get('window')
 
 class Login extends Component {
@@ -25,7 +25,7 @@ class Login extends Component {
           </View>
 
           <View style={styles.loginButtonContainer}>
-            <LoginButton {...LoginButtonProps} />
+            <LoginButtonContainer {...LoginButtonProps} />
           </View>
         </View>
       </View>

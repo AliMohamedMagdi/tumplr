@@ -18,8 +18,8 @@ const AudioPlayer = React.NativeModules.AudioPlayer
 
 class Item extends Component {
 
-  parseAudioURI (playerElement) {
-    let src = playerElement.match(/src=\"([^"]*)\"/)[1]
+  parseAudioURI (playerHTML) {
+    let src = playerHTML.match(/src=\"([^"]*)\"/)[1]
     let audioKey = decodeURIComponent(src)
     let uri = 'http://a.tumblr.com/'
     audioKey = audioKey.substring(audioKey.lastIndexOf('/') + 1, audioKey.lastIndexOf('&'))

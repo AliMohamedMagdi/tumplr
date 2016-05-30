@@ -11,7 +11,7 @@ import React, {
 
 import Login from './Login'
 import Loading from './Loading'
-import Dashboard from './Dashboard'
+import DashboardContainer from '../containers/Dashboard'
 
 class Lune extends React.Component {
 
@@ -85,7 +85,7 @@ class Lune extends React.Component {
           token_secret: route.token_secret,
           userInfo: route.userInfo
         }
-        return <Dashboard {...DashboardProps} />
+        return <DashboardContainer {...DashboardProps} />
 
       default:
         return <Loading navigator={nav} />

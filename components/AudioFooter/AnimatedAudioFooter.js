@@ -119,7 +119,7 @@ class AnimatedAudioView extends Component {
 
     return (
       <View style={styles.container}>
-        <AnimatedView {...this._panResponder.panHandlers} style={[styles.albumSize, this.getScalePosition()]}/>
+        <AnimatedView {...this._panResponder.panHandlers} style={[styles.albumSize, this.getScalePosition()]} />
         <AnimatedScrollView style={[styles.container, this.getScrollOffset()]}>
           <View style={styles.stuff}>
             <Text>TESTTTTTTT</Text>
