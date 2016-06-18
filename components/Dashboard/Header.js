@@ -15,20 +15,57 @@ import IonIcon from 'react-native-vector-icons/Ionicons'
 
 class Header extends Component {
   render () {
+    const {
+      auth,
+      blog,
+      avatarUri,
+      navigator
+    } = this.props
+
+    const MenuIconProps = {
+      name: 'navicon-round',
+      color: '#aaa',
+      size: 18
+    }
+
+    const UserTouchProps = {
+      activeOpacity: 0.5,
+      underlayColor: 'transparent',
+      onPress: () => {
+        navigator.push({
+          auth,
+          blog,
+          name: 'profile-view',
+          image: { uri: avatarUri }
+        })
+      }
+    }
+
+    const MenuIconTouchProps = {
+      activeOpacity: 0.5,
+      underlayColor: 'transparent',
+      onPress: () => console.log('hi')
+    }
+
     return (
       <View style={styles.header}>
 
         {/* Avatar and Reblog Information */}
         <View style={styles.headerTextContainer}>
-          <Image
-            style={styles.rebloggerAvatar}
-            source={{uri: this.props.avatarUri}}
-          />
-          <Text style={styles.headerText}>
-            <Text style={styles.rebloggerName}> {this.props.blogName} </Text>
-            {'\n '}
-            reblogged {moment(this.props.reblogDate, 'YYYY-MM-DD HH:mm:ss').fromNow()}
-          </Text>
+          <TouchableHighlight {...UserTouchProps}>
+            <Image
+              style={styles.rebloggerAvatar}
+              source={{uri: this.props.avatarUri}}
+            />
+          </TouchableHighlight>
+          <View>
+            <TouchableHighlight {...UserTouchProps}>
+              <Text style={styles.rebloggerName}> {this.props.blogName} </Text>
+            </TouchableHighlight>
+            <Text style={styles.headerText}>
+              {''} reblogged {moment(this.props.reblogDate, 'YYYY-MM-DD HH:mm:ss').fromNow()}
+            </Text>
+          </View>
         </View>
 
         {/* Menu Icon */}
@@ -42,21 +79,18 @@ class Header extends Component {
 }
 
 Header.propTypes = {
-  reblogDate: React.PropTypes.string,
-  avatarUri: React.PropTypes.string,
-  blogName: React.PropTypes.string
-}
+  navigator: React.PropTypes.object.isRequired,
+  reblogDate: React.PropTypes.string.isRequired,
+  avatarUri: React.PropTypes.string.isRequired,
+  blogName: React.PropTypes.string.isRequired,
+  blog: React.PropTypes.object.isRequired,
 
-const MenuIconProps = {
-  name: 'navicon-round',
-  color: '#aaa',
-  size: 18
-}
-
-const MenuIconTouchProps = {
-  activeOpacity: 0.5,
-  underlayColor: 'transparent',
-  onPress: () => console.log('hi')
+  auth: React.PropTypes.shape({
+    key: React.PropTypes.string.isRequired,
+    sec: React.PropTypes.string.isRequired,
+    token: React.PropTypes.string.isRequired,
+    token_secret: React.PropTypes.string.isRequired
+  })
 }
 
 const styles = StyleSheet.create({

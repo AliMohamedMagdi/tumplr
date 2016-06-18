@@ -8,8 +8,8 @@ class DashboardContainer extends Component {
   constructor (props) {
     super(props)
     this.state = {
-        loading: true,
-        dashboardData: {}
+      loading: true,
+      dashboardData: {}
     }
     this._fetchData = this._fetchData.bind(this)
     this._signOauth = this._signOauth.bind(this)
@@ -20,7 +20,7 @@ class DashboardContainer extends Component {
     fetch(request.signed_url).then((response) => response.json())
       .then((data) => {
         console.log('Dashboard data received!')
-        console.log(JSON.stringify(data, null, 2))
+        // console.log(JSON.stringify(data, null, 2))
         this.setState({
           loading: false,
           dashboardData: data

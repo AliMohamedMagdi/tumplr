@@ -54,9 +54,16 @@ class Dashboard extends Component {
       tweenEasing: 'easeInCubic',
       openDrawerOffset: 100
     }
+
     const ItemListProps = {
       response: data.response,
-      navigator: this.props.navigator
+      navigator: this.props.navigator,
+      auth: {
+        key: this.props.creds.key,
+        sec: this.props.creds.sec,
+        token: this.props.token,
+        token_secret: this.props.token_secret
+      }
     }
 
     return (
@@ -101,8 +108,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.8,
     shadowRadius: 3
   },
-  spinner: {
-  },
   spinnerContainer: {
     flex: 1,
     alignItems: 'center',
@@ -127,7 +132,7 @@ Dashboard.propTypes = {
   actions: React.PropTypes.shape({
     fetchData: React.PropTypes.func.isRequired,
     signOauth: React.PropTypes.func.isRequired
-  })
+  }),
 }
 
 export default Dashboard

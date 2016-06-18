@@ -21,12 +21,13 @@ class ItemList extends Component {
       retrievingData: false,
       dataSource: ds.cloneWithRows(this._generateRows(this.props.response))
     }
+    this._renderSongs = this._renderSongs.bind(this)
     this._generateRows = this._generateRows.bind(this)
     this._retrieveMoreSongs = this._retrieveMoreSongs.bind(this)
   }
 
-  _renderSongs (data) {
-    return <Item {...data} />
+  _renderSongs (props) {
+    return <Item {...props} />
   }
 
   _retrieveMoreSongs () {
@@ -36,10 +37,19 @@ class ItemList extends Component {
 
   _generateRows () {
     const posts = this.props.response.posts
+
     let dataBlob = []
     for (let i = 0; i < posts.length; i++) {
+      const data = this.props.blog ? {
+        blog: this.props.blog,
+        ...posts[i]
+      } : posts[i]
       if (posts[i].artist) {
-        dataBlob.push(posts[i])
+        dataBlob.push({
+          auth: this.props.auth,
+          navigator: this.props.navigator,
+          ...data
+        })
       }
     }
     return dataBlob
@@ -66,7 +76,13 @@ const styles = StyleSheet.create({
 
 ItemList.propTypes = {
   response: React.PropTypes.object.isRequired,
-  navigator: React.PropTypes.object.isRequired
+  navigator: React.PropTypes.object.isRequired,
+  auth: React.PropTypes.shape({
+    key: React.PropTypes.string.isRequired,
+    sec: React.PropTypes.string.isRequired,
+    token: React.PropTypes.string.isRequired,
+    token_secret: React.PropTypes.string.isRequired
+  })
 }
 
 export default ItemList
