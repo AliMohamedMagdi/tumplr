@@ -5,7 +5,6 @@
 'use strict'
 
 import React, {
-  Text,
   View,
   ListView,
   Component,
@@ -67,21 +66,9 @@ class ProfileContent extends Component {
         contentBackgroundColor={headerColor}
         parallaxHeaderHeight={screen.height / 4}
         backgroundColor={Util.hex2rgba(headerColor)}
+        renderStickyHeader={() => <View style={styles.stickyHeader} />}
         renderBackground={() => <ProfileBackground {...ProfileBackgroundProps} />}
         renderForeground={() => <ProfileForeground avatar={avatar} color={headerColor} />}
-        renderStickyHeader={() => (
-          <View key='sticky-header' style={styles.stickyHeader}>
-            <Text style={styles.stickySectionText}>Waddup</Text>
-          </View>
-        )}
-        renderFixedHeader={() => (
-          <View key='fixed-header' style={styles.fixedHeader}>
-            <Text style={styles.fixedSectionText}
-              onPress={() => this.refs.ListView.scrollTo({ x: 0, y: 0 })}>
-              waddup yo
-            </Text>
-          </View>
-        )}
       />
     )
   }

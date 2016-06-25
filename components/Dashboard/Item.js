@@ -37,11 +37,14 @@ class Item extends Component {
       let uri = 'http://a.tumblr.com/'
       audioKey = audioKey.substring(audioKey.lastIndexOf('/') + 1, audioKey.lastIndexOf('&'))
       uri += (audioKey.search('o1.mp3') > 0) ? audioKey : audioKey + 'o1.mp3'
+      uri = encodeURI(uri)
       console.log(`Playing song @ ${uri}`)
       return uri
     } else {
-      console.log(`Playing song @ ${query.audio_file}`)
-      return query.audio_file
+      let uri = query.audio_file
+      uri = encodeURI(uri)
+      console.log(`Playing song @ ${uri}`)
+      return uri
     }
   }
 
@@ -123,6 +126,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 5,
     borderRadius: 2,
+    borderWidth: 1,
+    borderColor: '#ccc',
     backgroundColor: 'white'
   },
   albumArt: {
