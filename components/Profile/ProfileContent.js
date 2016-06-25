@@ -12,6 +12,7 @@ import React, {
   StyleSheet
 } from 'react-native'
 import Dimensions from 'Dimensions'
+import ProfileHeader from './ProfileHeader'
 import ProfileBackground from './ProfileBackground'
 import ProfileForeground from './ProfileForeground'
 import ParallaxScrollView from 'react-native-parallax-scroll-view'
@@ -28,8 +29,7 @@ class ProfileContent extends Component {
     this.state = {
       dataSource: ds.cloneWithRows(this._generateRows())
     }
-    this._renderSongList = this._renderSongList.bind(this)
-    this._renderListHeader = this._renderListHeader.bind(this)
+    this._renderTrackList = this._renderTrackList.bind(this)
   }
 
   _generateRows () {
@@ -49,33 +49,9 @@ class ProfileContent extends Component {
     return dataBlob
   }
 
-  _renderListHeader (event) {
+  _renderTrackList (event) {
     const { blog } = this.props
-    const isHTML = /<[a-z][\s\S]*>/i
-    const titleProps = {
-      style: [
-        styles.title,
-        { color: blog.theme.title_color }
-      ]
-    }
-    const descriptionProps = {
-      style: [
-        styles.desc,
-        { color: blog.theme.title_color }
-      ]
-    }
-
-    return (
-      <View>
-        <Text> {blog.name} </Text>
-        <Text {...titleProps}> {blog.title} </Text>
-        {!isHTML.test(blog.description) && <Text {...descriptionProps}> {blog.description} </Text>}
-      </View>
-    )
-  }
-
-  _renderSongList (event) {
-    const { blog } = this.props
+    const avatar = blog.avatar
     const background = blog.theme.header_image || ''
     const headerColor = blog.theme.background_color || '#3a3f41'
     const ProfileBackgroundProps = {
@@ -92,7 +68,7 @@ class ProfileContent extends Component {
         parallaxHeaderHeight={screen.height / 4}
         backgroundColor={Util.hex2rgba(headerColor)}
         renderBackground={() => <ProfileBackground {...ProfileBackgroundProps} />}
-        renderForeground={() => <ProfileForeground />}
+        renderForeground={() => <ProfileForeground avatar={avatar} color={headerColor} />}
         renderStickyHeader={() => (
           <View key='sticky-header' style={styles.stickyHeader}>
             <Text style={styles.stickySectionText}>Waddup</Text>
@@ -114,8 +90,8 @@ class ProfileContent extends Component {
     return <ListView
       ref='ListView'
       renderRow={(props) => <Item {...props} />}
-      renderHeader={this._renderListHeader}
-      renderScrollComponent={this._renderSongList}
+      renderHeader={() => <ProfileHeader {...this.props.blog} />}
+      renderScrollComponent={this._renderTrackList}
       dataSource={this.state.dataSource}
     />
   }
@@ -134,16 +110,6 @@ ProfileContent.propTypes = {
 }
 
 const styles = StyleSheet.create({
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    textAlign: 'center'
-  },
-  desc: {
-    fontSize: 14,
-    fontWeight: '100',
-    textAlign: 'center'
-  },
   fixedHeader: {
     backgroundColor: 'white'
   }

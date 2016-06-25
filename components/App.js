@@ -13,6 +13,7 @@ import React, {
 
 import Login from './Login'
 import Loading from './Loading'
+import ErrorModal from './ErrorModal'
 import ProfileContainer from '../containers/Profile'
 import DashboardContainer from '../containers/Dashboard'
 import ProfileNavBarIcon from './Profile/ProfileNavBarIcon.js'
@@ -81,6 +82,13 @@ class Lune extends React.Component {
     switch (route.name) {
       case 'loading-view':
         return <Loading navigator={nav} />
+
+      case 'error-modal-view':
+        const ErrorModalProps = {
+          navigator: nav,
+          message: route.message
+        }
+        return <ErrorModal {...ErrorModalProps} />
 
       case 'login-view':
         const LoginProps = {

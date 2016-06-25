@@ -1,5 +1,6 @@
 import React, {
-  Component
+  Component,
+  Navigator
 } from 'react-native'
 import OAuthSimple from 'oauthsimple'
 import Dashboard from '../../components/Dashboard'
@@ -13,6 +14,15 @@ class DashboardContainer extends Component {
     }
     this._fetchData = this._fetchData.bind(this)
     this._signOauth = this._signOauth.bind(this)
+    this._displayError = this._displayError.bind(this)
+  }
+
+  _displayError (error) {
+    this.props.navigator.push({
+      name: 'error-modal-view',
+      message: error.message,
+      style: Navigator.SceneConfigs.FloatFromBottom
+    })
   }
 
   _fetchData (request) {
@@ -20,13 +30,13 @@ class DashboardContainer extends Component {
     fetch(request.signed_url).then((response) => response.json())
       .then((data) => {
         console.log('Dashboard data received!')
-        // console.log(JSON.stringify(data, null, 2))
+        console.dir(JSON.stringify(data, null, 2))
         this.setState({
           loading: false,
           dashboardData: data
         })
       })
-      .catch((error) => console.log(error))
+      .catch(this._displayError)
   }
 
   _signOauth () {

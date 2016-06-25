@@ -54,12 +54,12 @@ class Item extends Component {
       auth,
       plays,
       player,
+      navigator,
       album_art: albumArt,
       blog_name: blogName,
-      artist = 'Unknown Artist',
-      track_name: trackName = 'Unknown',
       note_count: noteCount,
-      navigator
+      artist = 'Unknown Artist',
+      track_name: trackName = 'Unknown'
     } = this.props
 
     const HeaderProps = {

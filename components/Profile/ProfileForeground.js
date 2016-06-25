@@ -1,43 +1,56 @@
 import React, {
   View,
-  Text,
   Image,
   Component,
   StyleSheet
 } from 'react-native'
+import { hex2rgba } from '../../scripts/util'
 
-const AVATAR_SIZE = 30
+const AVATAR_SIZE = 85
 
 class ProfileForeground extends Component {
   render () {
-    const {
-      avatar
-    } = this.props
-
+    const { color, avatar } = this.props
+    const uri = avatar[avatar.length - 1].url
+    const avatarBackgroundColor = hex2rgba(color || '#3a3f41', 0.5)
     const AvatarProps = {
-      uri: avatar,
-      width: AVATAR_SIZE,
-      height: AVATAR_SIZE
+        style: [
+            styles.avatar,
+            { backgroundColor: avatarBackgroundColor }
+        ],
+        source: {
+          uri,
+          width: AVATAR_SIZE,
+          height: AVATAR_SIZE
+        }
     }
 
     return (
-      <View key='parallax-header' style={styles.parallaxHeader}>
-        <Image style={styles.avatar} source={AvatarProps} />
-        <Text style={styles.sectionSpeakerText}>
-          parallax-header
-        </Text>
-        <Text style={styles.sectionTitleText}>
-          ??????????????????
-        </Text>
+      <View style={styles.container}>
+        <Image {...AvatarProps} />
       </View>
     )
   }
 }
 
+ProfileForeground.propTypes = {
+  color: React.PropTypes.string.isRequired,
+  avatar: React.PropTypes.array.isRequired
+}
+
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    backgroundColor: 'transparent'
+  },
   avatar: {
-    marginBottom: 10,
-    borderRadius: AVATAR_SIZE / 2
+    opacity: 0.95,
+    borderWidth: 1,
+    borderColor: '#eee',
+    borderRadius: AVATAR_SIZE / 2,
+    marginBottom: 10
   }
 })
 
