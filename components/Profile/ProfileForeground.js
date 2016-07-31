@@ -14,15 +14,15 @@ class ProfileForeground extends Component {
     const uri = avatar[avatar.length - 1].url
     const avatarBackgroundColor = hex2rgba(color || '#3a3f41', 0.5)
     const AvatarProps = {
-        style: [
-            styles.avatar,
-            { backgroundColor: avatarBackgroundColor }
-        ],
-        source: {
-          uri,
-          width: AVATAR_SIZE,
-          height: AVATAR_SIZE
-        }
+      style: [
+        styles.avatar,
+        { backgroundColor: avatarBackgroundColor }
+      ],
+      source: {
+        uri,
+        width: AVATAR_SIZE,
+        height: AVATAR_SIZE
+      }
     }
 
     return (
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
   avatar: {
     opacity: 0.95,
     borderWidth: 1,
-    borderColor: '#eee',
+    borderColor: '#ccc',
     borderRadius: AVATAR_SIZE / 2,
     marginBottom: 10
   }

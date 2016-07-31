@@ -50,7 +50,7 @@ class Dashboard extends Component {
     const DrawerProps = {
       ref: ref => { this._drawer = ref },
       content: <SideMenu closeDrawer={this.closeSideMenu} />,
-      styles: styles.drawer,
+      style: styles.drawer,
       tweenEasing: 'easeInCubic',
       openDrawerOffset: 100
     }
@@ -104,6 +104,7 @@ class Dashboard extends Component {
 
 const styles = StyleSheet.create({
   drawer: {
+    flex: 1,
     shadowColor: '#000000',
     shadowOpacity: 0.8,
     shadowRadius: 3
@@ -132,7 +133,7 @@ Dashboard.propTypes = {
   actions: React.PropTypes.shape({
     fetchData: React.PropTypes.func.isRequired,
     signOauth: React.PropTypes.func.isRequired
-  }),
+  })
 }
 
 export default Dashboard

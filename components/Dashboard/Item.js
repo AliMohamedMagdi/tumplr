@@ -61,6 +61,7 @@ class Item extends Component {
       album_art: albumArt,
       blog_name: blogName,
       note_count: noteCount,
+      source_title: sourceTitle,
       artist = 'Unknown Artist',
       track_name: trackName = 'Unknown'
     } = this.props
@@ -70,6 +71,7 @@ class Item extends Component {
       blog,
       blogName,
       navigator,
+      sourceTitle,
       reblogDate: date.substr(0, date.lastIndexOf(' ')),
       avatarUri: `http://api.tumblr.com/v2/blog/${blogName}.tumblr.com/avatar/64`
     }
@@ -127,6 +129,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     borderRadius: 2,
     borderWidth: 1,
+    overflow: 'hidden',
     borderColor: '#ccc',
     backgroundColor: 'white'
   },

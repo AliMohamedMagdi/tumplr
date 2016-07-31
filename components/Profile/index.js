@@ -1,3 +1,7 @@
+/*
+ * Profile main index component
+ */
+
 import React, {
   View,
   Component,
@@ -20,15 +24,17 @@ class Profile extends Component {
 
   renderLoading () {
     const { blog } = this.props
-    const backgroundColor = blog.theme.background_color || '#3a3f41'
+    const backgroundColor = blog ? blog.theme.background_color : '#3a3f41'
     return (
-      <View style={[styles.spinner, {backgroundColor}]}>
+      <View style={[styles.spinner, { backgroundColor }]}>
         <GiftedSpinner />
       </View>
     )
   }
 
   renderProfile (data) {
+    console.log('Rendering profile with data: ')
+    console.dir(data)
     const { blog } = this.props
     const backgroundColor = blog.theme.background_color || '#3a3f41'
 
@@ -53,10 +59,10 @@ class Profile extends Component {
 }
 
 Profile.propTypes = {
+  blog: React.PropTypes.object,
   navigator: React.PropTypes.object.isRequired,
   actions: React.PropTypes.object.isRequired,
   loading: React.PropTypes.bool.isRequired,
-  blog: React.PropTypes.object.isRequired,
   data: React.PropTypes.object.isRequired,
   auth: React.PropTypes.shape({
     key: React.PropTypes.string.isRequired,

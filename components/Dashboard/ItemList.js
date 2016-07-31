@@ -37,6 +37,8 @@ class ItemList extends Component {
 
   _generateRows () {
     const posts = this.props.response.posts
+    console.log('Posts:')
+    console.dir(posts)
 
     let dataBlob = []
     for (let i = 0; i < posts.length; i++) {
@@ -52,15 +54,19 @@ class ItemList extends Component {
         })
       }
     }
+
+    console.log('Data blob:')
+    console.dir(dataBlob)
     return dataBlob
   }
 
   render () {
+    console.log(this.state.dataSource)
     return (
       <ListView style={styles.list}
+        renderRow={this._renderSongs}
         dataSource={this.state.dataSource}
         onEndReached={this._retrieveMoreSongs}
-        renderRow={this._renderSongs}
         renderScrollComponent={(props) => <RecyclerViewBackedScrollView {...props} />}
       />
     )

@@ -33,6 +33,8 @@ class ProfileContent extends Component {
 
   _generateRows () {
     const { posts } = this.props.response
+    console.log('Posts:')
+    console.dir(posts)
 
     let dataBlob = []
     for (let i = 0; i < posts.length; i++) {
@@ -45,6 +47,8 @@ class ProfileContent extends Component {
       })
     }
 
+    console.log('Data blob:')
+    console.dir(dataBlob)
     return dataBlob
   }
 
@@ -76,6 +80,7 @@ class ProfileContent extends Component {
   render () {
     return <ListView
       ref='ListView'
+      style={{ overflow: 'hidden' }}
       renderRow={(props) => <Item {...props} />}
       renderHeader={() => <ProfileHeader {...this.props.blog} />}
       renderScrollComponent={this._renderTrackList}
@@ -85,7 +90,8 @@ class ProfileContent extends Component {
 }
 
 ProfileContent.propTypes = {
-  blog: React.PropTypes.object.isRequired,
+  blog: React.PropTypes.object,
+  reblog: React.PropTypes.object,
   response: React.PropTypes.object.isRequired,
   navigator: React.PropTypes.object.isRequired,
   auth: React.PropTypes.shape({

@@ -113,7 +113,8 @@ class Lune extends React.Component {
       case 'profile-view':
         const ProfileProps = {
           auth: route.auth,
-          blog: route.blog,
+          blog: route.blog || null,
+          blogName: route.blogName,
           image: route.image,
           creds: route.creds,
           navigator: nav

@@ -44,9 +44,9 @@ class Footer extends Component {
           </EntypoIcon>
         </TouchableHighlight>
         <ScrollView {...tagsProps}>
-          {this.props.tags.map((tag, i) => {
+          {this.props.tags.map((tag, i) =>
             <Text key={`${this.props.id}-${i}`} style={styles.tagsText}> #{tag} </Text>
-          })}
+          )}
         </ScrollView>
       </View>
     )

@@ -14,19 +14,23 @@ import moment from 'moment'
 import IonIcon from 'react-native-vector-icons/Ionicons'
 
 class Header extends Component {
-  render () {
+  constructor (props) {
+    super(props)
+    this.headerContent = this.headerContent.bind(this)
+  }
+
+  headerContent () {
     const {
       auth,
       blog,
+      blogName,
+      reblogDate,
       avatarUri,
-      navigator
+      navigator,
+      sourceTitle = null
     } = this.props
-
-    const MenuIconProps = {
-      name: 'navicon-round',
-      color: '#aaa',
-      size: 18
-    }
+    const routes = this.props.navigator.getCurrentRoutes()
+    const currentView = routes[routes.length - 1].name
 
     const UserTouchProps = {
       activeOpacity: 0.5,
@@ -35,10 +39,63 @@ class Header extends Component {
         navigator.push({
           auth,
           blog,
+          blogName,
           name: 'profile-view',
           image: { uri: avatarUri }
         })
       }
+    }
+
+    const DefaultHeader = (
+      <View style={styles.headerTextContainer}>
+        <TouchableHighlight {...UserTouchProps}>
+          <Image
+            style={styles.rebloggerAvatar}
+            source={{uri: avatarUri}}
+          />
+        </TouchableHighlight>
+        <View>
+          <TouchableHighlight {...UserTouchProps}>
+            <Text style={styles.rebloggerName}> {blogName} </Text>
+          </TouchableHighlight>
+          <Text style={styles.headerText}>
+            {''} reblogged {moment(reblogDate, 'YYYY-MM-DD HH:mm:ss').fromNow()}
+          </Text>
+        </View>
+      </View>
+    )
+
+    const ProfileHeader = (
+      <View style={styles.headerTextContainer}>
+        <TouchableHighlight {...UserTouchProps}>
+          <Image style={styles.rebloggerAvatar}
+            source={{uri: `http://api.tumblr.com/v2/blog/${sourceTitle}.tumblr.com/avatar/64`}}
+          />
+        </TouchableHighlight>
+        <View>
+          <TouchableHighlight {...UserTouchProps}>
+            <Text style={styles.rebloggerName}> {sourceTitle} </Text>
+          </TouchableHighlight>
+          <Text style={styles.headerText}>
+            {''} reblogged {moment(reblogDate, 'YYYY-MM-DD HH:mm:ss').fromNow()}
+          </Text>
+        </View>
+      </View>
+    )
+
+    switch (currentView) {
+      case 'dashboard-view':
+        return DefaultHeader
+      case 'profile-view':
+        return sourceTitle ? ProfileHeader : DefaultHeader
+    }
+  }
+
+  render () {
+    const MenuIconProps = {
+      name: 'navicon-round',
+      color: '#aaa',
+      size: 18
     }
 
     const MenuIconTouchProps = {
@@ -49,30 +106,12 @@ class Header extends Component {
 
     return (
       <View style={styles.header}>
-
-        {/* Avatar and Reblog Information */}
-        <View style={styles.headerTextContainer}>
-          <TouchableHighlight {...UserTouchProps}>
-            <Image
-              style={styles.rebloggerAvatar}
-              source={{uri: this.props.avatarUri}}
-            />
-          </TouchableHighlight>
-          <View>
-            <TouchableHighlight {...UserTouchProps}>
-              <Text style={styles.rebloggerName}> {this.props.blogName} </Text>
-            </TouchableHighlight>
-            <Text style={styles.headerText}>
-              {''} reblogged {moment(this.props.reblogDate, 'YYYY-MM-DD HH:mm:ss').fromNow()}
-            </Text>
-          </View>
-        </View>
+        {this.headerContent()}
 
         {/* Menu Icon */}
         <TouchableHighlight style={styles.menuIconContainer} {...MenuIconTouchProps}>
           <IonIcon {...MenuIconProps} />
         </TouchableHighlight>
-
       </View>
     )
   }
@@ -84,7 +123,6 @@ Header.propTypes = {
   avatarUri: React.PropTypes.string.isRequired,
   blogName: React.PropTypes.string.isRequired,
   blog: React.PropTypes.object.isRequired,
-
   auth: React.PropTypes.shape({
     key: React.PropTypes.string.isRequired,
     sec: React.PropTypes.string.isRequired,

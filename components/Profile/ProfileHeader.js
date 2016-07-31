@@ -39,7 +39,11 @@ class ProfileHeader extends Component {
     const descriptionProps = {
       style: [
         styles.desc,
-        { color: theme.title_color }
+        {
+          margin: 7,
+          marginTop: 0,
+          color: theme.title_color
+        }
       ]
     }
     const blogNameTouchProps = {
