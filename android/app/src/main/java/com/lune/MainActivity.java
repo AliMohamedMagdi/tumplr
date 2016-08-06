@@ -1,5 +1,8 @@
 package com.lune;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+
 import com.facebook.react.ReactActivity;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactPackage;
@@ -38,5 +41,13 @@ public class MainActivity extends ReactActivity {
         new MainReactPackage(),
         new VectorIconsPackage()
       );
+    }
+
+    @Nullable
+    @Override
+    protected Bundle getLaunchOptions() {
+        Bundle opt = new Bundle();
+        opt.putString("nativeValue", "You are Best!!");
+        return opt;
     }
 }
