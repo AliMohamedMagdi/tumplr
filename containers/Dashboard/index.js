@@ -21,7 +21,7 @@ class DashboardContainer extends Component {
     this.props.navigator.push({
       name: 'error-modal-view',
       message: error.message,
-      style: Navigator.SceneConfigs.FloatFromBottom
+      style: Navigator.SceneConfigs.FadeAndroid
     })
   }
 

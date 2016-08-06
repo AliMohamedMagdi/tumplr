@@ -32,18 +32,28 @@ class Header extends Component {
     const routes = this.props.navigator.getCurrentRoutes()
     const currentView = routes[routes.length - 1].name
 
+    const UserPressAction = (sourceTitle && currentView === 'profile-view') ? () => {
+      navigator.push({
+        auth,
+        blog: null,
+        blogName: sourceTitle,
+        name: 'profile-view',
+        image: { uri: `http://api.tumblr.com/v2/blog/${sourceTitle}.tumblr.com/avatar/64` }
+      })
+    } : () => {
+      navigator.push({
+        auth,
+        blog,
+        blogName,
+        name: 'profile-view',
+        image: { uri: avatarUri }
+      })
+    }
+
     const UserTouchProps = {
       activeOpacity: 0.5,
       underlayColor: 'transparent',
-      onPress: () => {
-        navigator.push({
-          auth,
-          blog,
-          blogName,
-          name: 'profile-view',
-          image: { uri: avatarUri }
-        })
-      }
+      onPress: UserPressAction
     }
 
     const DefaultHeader = (

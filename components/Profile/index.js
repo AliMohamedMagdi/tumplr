@@ -36,7 +36,7 @@ class Profile extends Component {
     console.log('Rendering profile with data: ')
     console.dir(data)
     const { blog } = this.props
-    const backgroundColor = blog.theme.background_color || '#3a3f41'
+    const backgroundColor = blog ? blog.theme.background_color : '#3a3f41'
 
     const ProfileContentProps = {
       blog,
