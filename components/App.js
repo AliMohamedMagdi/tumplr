@@ -127,6 +127,9 @@ class Lune extends React.Component {
   }
 
   render () {
+    // TODO: In Android's MainActivity, serialize initialProps to JSON and parse it here?
+    console.log('retrieved initial props?');
+    console.dir(this.props);
     const LuneNavigator = (
       <Navigator
         ref={ref => { this._navigator = ref }}

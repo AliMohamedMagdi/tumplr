@@ -69,6 +69,7 @@ fastlane/screenshots
 
 ### Keys
 ios/keys.plist
+android/app/src/main/res/values/keys.xml
 
 # Gradle
 /build/
@@ -90,4 +91,3 @@ buck-out
 */.gradle/*
 local.properties
 *.iml
-/android/
