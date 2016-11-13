@@ -3,27 +3,22 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "preinstall": "npm install -g react-native-cli rnpm standard snazzy",
-    "postinstall": "rnpm link",
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "standard --verbose | snazzy"
+    "test": "jest"
   },
   "dependencies": {
-    "moment": "^2.13.0",
-    "oauthsimple": "0.0.1",
-    "query-string": "^4.2.1",
-    "react": "^0.14.8",
-    "react-native": "^0.25.1",
-    "react-native-drawer": "^2.2.2",
-    "react-native-gifted-spinner": "0.0.4",
-    "react-native-parallax-scroll-view": "^0.18.2",
-    "react-native-scrollable-tab-view": "^0.4.2",
-    "react-native-vector-icons": "^1.3.3",
-    "snazzy": "^3.0.1",
-    "standard": "^6.0.8"
+    "react": "15.3.2",
+    "react-native": "0.37.0"
+  },
+  "jest": {
+    "preset": "jest-react-native"
   },
   "devDependencies": {
-    "snazzy": "^3.0.0",
-    "standard": "latest"
+    "babel-jest": "17.0.0",
+    "babel-preset-react-native": "1.9.0",
+    "jest": "17.0.0",
+    "jest-react-native": "17.0.0",
+    "react-test-renderer": "15.3.2",
+    "standard": "^8.5.0"
   }
 }
