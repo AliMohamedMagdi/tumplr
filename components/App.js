@@ -5,7 +5,8 @@ class Lune extends React.Component {
   render () {
     return (
       <View>
-        <Text>Wrow.jpg</Text>
+        <Text> {'\n\n\n' } </Text>
+        <Text> Wrow.jpg </Text>
       </View>
     )
   }

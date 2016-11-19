@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Set values & move to /android/app/src/main/res/values/keys.xml -->
+<resources>
+    <string name="key">[tumblr consumer key]</string>
+    <string name="sec">[tumblr consumer secret]</string>
+</resources>
