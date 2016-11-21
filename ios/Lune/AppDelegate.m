@@ -12,6 +12,10 @@
 #import "RCTBundleURLProvider.h"
 #import "RCTRootView.h"
 
+#import "RCTLinkingManager.h"
+#import "Lune-Swift.h"
+@import OAuthSwift;
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -20,9 +24,12 @@
 
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
 
+  Tumblr *tumblr = [[Tumblr alloc]init];
+  NSDictionary *creds = [tumblr creds];
+  
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"Lune"
-                                               initialProperties:nil
+                                               initialProperties:@{@"creds": creds}
                                                    launchOptions:launchOptions];
   rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
 
@@ -32,6 +39,14 @@
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
   return YES;
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+  NSLog(@"%@", url.host);
+  if ([url.host isEqual: @"oauth-callback"]) {
+    [OAuthSwift handleWithUrl:url];
+  }
+  return true;
 }
 
 @end

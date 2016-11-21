@@ -4,6 +4,6 @@
 
 'use strict'
 import { AppRegistry } from 'react-native'
-import Lune from './components/App.js'
+import Lune from './containers/App.js'
 
 AppRegistry.registerComponent('Lune', () => Lune)
