@@ -18,23 +18,31 @@ class LoginView extends Component {
 
   constructor (props) {
     super(props)
+    this.state = { loggingIn: false }
     this._login = this._login.bind(this)
     this._authCallback = this._authCallback.bind(this)
+  }
+
+  componentDidMount () {
+  }
+
+  onNavigationStateChange (navState) {
+    console.dir(navState)
   }
 
   _authCallback (response) {
     console.log('Fetching user data...')
 
     // Construct oauth signed url
-    const oauth = new OAuthSimple(response.oauth_token, response.oauth_token_secret)
+    const oauth = new OAuthSimple(response.oauthToken, response.oauthTokenSecret)
     const request = oauth.sign({
       action: 'GET',
-      path: 'http://api.tumblr.com/v2/user/info',
+      path: 'https://api.tumblr.com/v2/user/info',
       signatures: {
         consumer_key: this.props.creds.key,
         shared_secret: this.props.creds.sec,
-        oauth_token: response.oauth_token,
-        oauth_secret: response.oauth_token_secret
+        oauth_token: response.oauthToken,
+        oauth_secret: response.oauthTokenSecret
       }
     })
 
@@ -81,7 +89,7 @@ class LoginView extends Component {
           </View>
 
           <Button
-            onPress={this._login}
+            onPress={() => NativeModules.Tumblr.authenticate(this._authCallback)}
             text='Log in to Tumblr'
             icon={{
               name: 'tumblr',

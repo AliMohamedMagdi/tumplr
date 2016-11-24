@@ -25,14 +25,12 @@ class Button extends Component {
 
   render () {
     return (
-      <View style={
-        [
-          styles.container,
-          { borderColor: '#262626' },
-          { backgroundColor: '#181818' },
-          this.state.heldDown && styles.heldDown
-        ]
-      }>
+      <View style={[
+        styles.container,
+        { borderColor: '#262626' },
+        { backgroundColor: '#181818' },
+        this.state.heldDown && styles.heldDown
+      ]}>
 
         <TouchableHighlight
           activeOpacity={0.5}
