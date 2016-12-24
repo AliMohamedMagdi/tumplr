@@ -37,6 +37,7 @@
 		9B6153121DE27F7900FE96FE /* Notera.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B6153111DE27F4500FE96FE /* Notera.ttf */; };
 		9B7AE2B61DE0FEAC00D0DBE0 /* OAuthSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B7AE29F1DE0FD6300D0DBE0 /* OAuthSwift.framework */; };
 		9B7AE2B71DE0FEAC00D0DBE0 /* OAuthSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9B7AE29F1DE0FD6300D0DBE0 /* OAuthSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9BD5C7A11E0E49AF00E062BB /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BD5C78D1E0E48D100E062BB /* libRCTAnimation.a */; };
 		BE02990448DB49DA89D2B438 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9CB1BC74259F45028A73C6E0 /* Octicons.ttf */; };
 		C926A6D5536444E4AAF384F8 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BEB5BDD33038496BB253A28F /* FontAwesome.ttf */; };
 		FAFA27097C48400882174F4F /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9038D20CA2DB4AA2B39F4959 /* EvilIcons.ttf */; };
@@ -176,6 +177,20 @@
 			remoteGlobalIDString = 5DBEB1501B18CEA900B34395;
 			remoteInfo = RNVectorIcons;
 		};
+		9BD5C78C1E0E48D100E062BB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9BD5C7861E0E48D100E062BB /* RCTAnimation.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RCTAnimation;
+		};
+		9BD5C78E1E0E48D100E062BB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9BD5C7861E0E48D100E062BB /* RCTAnimation.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2D2A28201D9B03D100D4039D;
+			remoteInfo = "RCTAnimation-tvOS";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -227,6 +242,7 @@
 		9B61530F1DE2787400FE96FE /* keys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = keys.plist; sourceTree = "<group>"; };
 		9B6153111DE27F4500FE96FE /* Notera.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Notera.ttf; path = ../assets/Notera.ttf; sourceTree = "<group>"; };
 		9B7AE29F1DE0FD6300D0DBE0 /* OAuthSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OAuthSwift.framework; path = Carthage/Build/iOS/OAuthSwift.framework; sourceTree = "<group>"; };
+		9BD5C7861E0E48D100E062BB /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "/Users/askwon/Sites/lune/node_modules/react-native/React/../Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<absolute>"; };
 		9CB1BC74259F45028A73C6E0 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		B7906B5D710A41C7AF2C2D39 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		BEB5BDD33038496BB253A28F /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
@@ -247,6 +263,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9BD5C7A11E0E49AF00E062BB /* libRCTAnimation.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
@@ -399,6 +416,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				9BD5C7861E0E48D100E062BB /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
 				00C302B51ABCB90400DB3ED1 /* RCTGeolocation.xcodeproj */,
@@ -462,6 +480,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		9BD5C7871E0E48D100E062BB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9BD5C78D1E0E48D100E062BB /* libRCTAnimation.a */,
+				9BD5C78F1E0E48D100E062BB /* libRCTAnimation-tvOS.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -509,7 +536,7 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 810;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
@@ -537,6 +564,10 @@
 				{
 					ProductGroup = 00C302A81ABCB8CE00DB3ED1 /* Products */;
 					ProjectRef = 00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */;
+				},
+				{
+					ProductGroup = 9BD5C7871E0E48D100E062BB /* Products */;
+					ProjectRef = 9BD5C7861E0E48D100E062BB /* RCTAnimation.xcodeproj */;
 				},
 				{
 					ProductGroup = 00C302B61ABCB90400DB3ED1 /* Products */;
@@ -712,6 +743,20 @@
 			fileType = archive.ar;
 			path = libRNVectorIcons.a;
 			remoteRef = 9B6153311DE2809100FE96FE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9BD5C78D1E0E48D100E062BB /* libRCTAnimation.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTAnimation.a;
+			remoteRef = 9BD5C78C1E0E48D100E062BB /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9BD5C78F1E0E48D100E062BB /* libRCTAnimation-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libRCTAnimation-tvOS.a";
+			remoteRef = 9BD5C78E1E0E48D100E062BB /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1023,6 +1068,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

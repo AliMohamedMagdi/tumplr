@@ -1,5 +1,5 @@
 /**
- * Lune main application component
+ * Lune main application container component
  */
 
 'use strict'
@@ -16,7 +16,7 @@ import LoginView from './LoginView'
 import LoadingView from './LoadingView'
 // import ErrorModal from './ErrorModal'
 // import ProfileContainer from '../containers/Profile'
-// import DashboardContainer from '../containers/Dashboard'
+import DashboardView from '../containers/Dashboard'
 // import ProfileNavBarIcon from './Profile/ProfileNavBarIcon.js'
 // import ProfileNavigationBar from './Profile/ProfileNavigationBar.js'
 
@@ -24,26 +24,18 @@ class Lune extends Component {
 
   constructor (props) {
     super(props)
-
-    this.state = { currentRoute: 'loading-view' }
-
+    this.state = {
+      currentRoute: 'loading-view'
+    }
     this.renderScene = this.renderScene.bind(this)
-    this._viewDashboard = this._viewDashboard.bind(this)
-    this._initRouteMapper = this._initRouteMapper.bind(this)
   }
 
-  _viewDashboard (token, tokenSecret, userInfo) {
-    this._navigator.replacePrevious({
-      token: token,
-      name: 'dashboard-view',
-      creds: this.props.creds,
-      token_secret: tokenSecret,
-      userInfo: JSON.parse(userInfo),
-      style: Navigator.SceneConfigs.FadeAndroid
-    })
+  componentWillMount () {
+    this.initRouteMapper()
+    this.loadData()
   }
 
-  _initRouteMapper () {
+  initRouteMapper () {
     this._navBarRouteMapper = {
       separatorForRoute: (route, navigator) => {},
       rightContentForRoute: (route, navigator) => {},
@@ -52,39 +44,45 @@ class Lune extends Component {
     }
   }
 
-  _loadData () {
+  async loadData () {
     try {
-      // Attempt to retrieve token information for Tumblr authentication
-      AsyncStorage.multiGet(['token', 'token_secret', 'user_info']).then(stores => {
-        const store = [
-          stores.find(s => s[0] === 'token'),
-          stores.find(s => s[0] === 'token_secret'),
-          stores.find(s => s[0] === 'user_info')
-        ]
-        if (!store[0][1] || !store[1][1] || !store[2][1]) {
-          this._navigator.replacePrevious({
-            name: 'login-view',
-            style: Navigator.SceneConfigs.FadeAndroid
-          })
-        } else {
-          this._viewDashboard(store[0][1], store[1][1], store[2][1])
-        }
-      })
+      // Attempt to retrieve user/auth from storage
+      const [
+        [, token],
+        [, tokenSecret],
+        [, userInfo]
+      ] = await AsyncStorage.multiGet([
+        'token',
+        'token-secret',
+        'user-info'
+      ])
+
+      // Navigate to login view to retrieve user/auth or to dashboard view
+      if (!token || !tokenSecret || !userInfo) {
+        this._navigator.replacePrevious({
+          name: 'login-view',
+          style: Navigator.SceneConfigs.FadeAndroid
+        })
+      } else {
+        this._navigator.replacePrevious({
+          token,
+          tokenSecret,
+          name: 'dashboard-view',
+          creds: this.props.creds,
+          userInfo: JSON.parse(userInfo),
+          style: Navigator.SceneConfigs.FadeAndroid
+        })
+      }
     } catch (error) {
       console.log(`AsyncStorage error: ${error.message}`)
     }
   }
 
-  componentWillMount () {
-    this._initRouteMapper()
-    this._loadData()
-  }
-
   renderScene (route, nav) {
     switch (route.name) {
 
-      // case 'loading-view':
-      //   return <LoadingView navigator={nav} />
+      case 'loading-view':
+        return <LoadingView navigator={nav} />
 
       // case 'error-modal-view':
       //   const ErrorModalProps = {
@@ -94,23 +92,18 @@ class Lune extends Component {
       //   return <ErrorModal {...ErrorModalProps} />
 
       case 'login-view':
-        return (
-          <LoginView navigator={nav}
-            creds={{
-              key: this.props.creds.key,
-              sec: this.props.creds.sec
-            }} />
-        )
+        return <LoginView navigator={nav} creds={this.props.creds} />
 
-      // case 'dashboard-view':
-      //   const DashboardProps = {
-      //     navigator: nav,
-      //     creds: route.creds,
-      //     token: route.token,
-      //     token_secret: route.token_secret,
-      //     userInfo: route.userInfo
-      //   }
-      //   return <DashboardContainer {...DashboardProps} />
+      case 'dashboard-view':
+        return (
+          <DashboardView
+            navigator={nav}
+            creds={route.creds}
+            token={route.token}
+            tokenSecret={route.tokenSecret}
+            userInfo={route.userInfo}
+          />
+        )
 
       // case 'profile-view':
       //   const ProfileProps = {

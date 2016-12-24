@@ -1,36 +1,29 @@
+/**
+ * Login view container
+ */
+
+'use strict'
+
 import {
   View,
   Text,
   Image,
-  // Navigator,
+  Navigator,
   StyleSheet,
-  // AsyncStorage
+  AsyncStorage,
   NativeModules
 } from 'react-native'
 import React, { Component } from 'react'
+
 import Dimensions from 'Dimensions'
 import OAuthSimple from 'oauthsimple'
-import Button from '../components/Button'
-
 const window = Dimensions.get('window')
+
+import LoginButton from '../components/LoginButton'
 
 class LoginView extends Component {
 
-  constructor (props) {
-    super(props)
-    this.state = { loggingIn: false }
-    this._login = this._login.bind(this)
-    this._authCallback = this._authCallback.bind(this)
-  }
-
-  componentDidMount () {
-  }
-
-  onNavigationStateChange (navState) {
-    console.dir(navState)
-  }
-
-  _authCallback (response) {
+  async authCallback (response) {
     console.log('Fetching user data...')
 
     // Construct oauth signed url
@@ -46,59 +39,44 @@ class LoginView extends Component {
       }
     })
 
-    // Retrieve user info and switch to the dashboard view
-    fetch(request.signed_url).then((response) => response.text())
-      .then((userInfo) => {
-        console.log('User info received!')
-        console.log(JSON.stringify(JSON.parse(userInfo), null, 2))
+    console.log('User info received!')
+    console.log(JSON.stringify(JSON.parse(userInfo), null, 2))
 
-        // AsyncStorage.multiSet([
-        //   [ 'token', response.oauth_token ],
-        //   [ 'token_secret', response.oauth_token_secret ],
-        //   [ 'user_info', JSON.stringify(userInfo) ]
-        // ]).then(() => {
-        //   // Redirect the view to the dashboard
-        //   this.props.navigator.push({
-        //     name: 'dashboard-view',
-        //     creds: this.props.creds,
-        //     token: response.oauth_token,
-        //     token_secret: response.oauth_token_secret,
-        //     style: Navigator.SceneConfigs.FadeAndroid,
-        //     userInfo: userInfo
-        //   })
-        // })
-      })
-      .catch((error) => console.log(error))
-  }
+    // Store auth and user information
+    const userInfo = await (await fetch(request.signed_url)).text()
+    AsyncStorage.multiSet([
+      [ 'token', response.oauthToken ],
+      [ 'token-secret', response.oauthTokenSecret ],
+      [ 'user-info', JSON.stringify(userInfo) ]
+    ])
 
-  _login () {
-    console.log('login :)')
-    NativeModules.Tumblr.authenticate(this._authCallback)
+    // Redirect the view to the dashboard
+    this.props.navigator.push({
+      name: 'dashboard-view',
+      creds: this.props.creds,
+      token: response.oauthToken,
+      tokenSecret: response.oauthTokenSecret,
+      style: Navigator.SceneConfigs.FadeAndroid,
+      userInfo
+    })
   }
 
   render () {
     return (
       <View style={{ height: window.height }}>
 
+        {/* Background image */}
         <Image source={require('../assets/night.png')} style={styles.backgroundImage} />
 
+        {/* Title & login button */}
         <View style={styles.container}>
-
           <View style={styles.titleContainer}>
             <Text style={styles.title}> Lune </Text>
           </View>
-
-          <Button
-            onPress={() => NativeModules.Tumblr.authenticate(this._authCallback)}
-            text='Log in to Tumblr'
-            icon={{
-              name: 'tumblr',
-              color: 'white'
-            }}
-          />
-
+          <LoginButton onPress={() => NativeModules.Tumblr.authenticate(this.authCallback)} />
         </View>
 
+        {/* Signup / continue as guest */}
         <View style={styles.footer}>
           <Text style={styles.footerText}> Not a Tumblr user? </Text>
           <Text style={styles.footerText}>

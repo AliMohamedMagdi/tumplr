@@ -6,13 +6,10 @@
 
 import {
   View,
-  Text,
+  StyleSheet,
   TouchableHighlight
 } from 'react-native'
 import React, { Component } from 'react'
-import EntypoIcon from 'react-native-vector-icons/Entypo'
-
-import styles from '../stylesheets/components/button'
 
 class Button extends Component {
 
@@ -24,31 +21,31 @@ class Button extends Component {
   }
 
   render () {
-    return (
-      <View style={[
-        styles.container,
-        { borderColor: '#262626' },
-        { backgroundColor: '#181818' },
-        this.state.heldDown && styles.heldDown
-      ]}>
+    const customButtonStyle = {
+      height: this.props.height,
+      ...this.props.style
+    }
 
+    const style = [
+      styles.container,
+      customButtonStyle,
+      this.state.heldDown && {
+        marginTop: 2,
+        height: this.props.height - 2,
+        ...StyleSheet.flatten(styles.heldDown)
+      }
+    ]
+
+    return (
+      <View style={style}>
         <TouchableHighlight
           activeOpacity={0.5}
           underlayColor='transparent'
           onShowUnderlay={() => this.setState({ heldDown: true })}
           onHideUnderlay={() => this.setState({ heldDown: false })}
           onPress={() => this.props.onPress()} >
-
-          { this.props.icon ? (
-            <EntypoIcon style={styles.text} {...this.props.icon}>
-              <Text> {this.props.text} </Text>
-            </EntypoIcon>
-          ) : (
-            <Text> {this.props.text} </Text>
-          ) }
-
+          { this.props.children }
         </TouchableHighlight>
-
       </View>
     )
   }
@@ -56,11 +53,19 @@ class Button extends Component {
 
 Button.propTypes = {
   onPress: React.PropTypes.func.isRequired,
-  text: React.PropTypes.string,
-  icon: React.PropTypes.shape({
-    color: React.PropTypes.string,
-    name: React.PropTypes.string
-  })
+  height: React.PropTypes.number,
+  style: React.PropTypes.object,
+  label: React.PropTypes.node
 }
+
+const styles = StyleSheet.create({
+  container: {
+    borderBottomWidth: 3,
+    borderRadius: 3
+  },
+  heldDown: {
+    borderBottomWidth: 3
+  }
+})
 
 export default Button

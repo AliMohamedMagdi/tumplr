@@ -1,3 +1,9 @@
+/**
+ * Loading view container
+ */
+
+'use strict'
+
 import {
   Text,
   View,
