@@ -11,6 +11,9 @@ import {
 } from 'react-native'
 import React, { Component } from 'react'
 
+import color from '../../util/color'
+import colors from '../../styles/colors'
+
 class Button extends Component {
 
   constructor (props) {
@@ -21,19 +24,32 @@ class Button extends Component {
   }
 
   render () {
+    const defaultStyle = StyleSheet.flatten(styles.default)
+    const backgroundColor = (
+      (this.props.style && this.props.style.backgroundColor) || defaultStyle.backgroundColor
+    )
+    const borderColor = color.shade(backgroundColor, 0.06)
+
+    // Collapse height/width props into style object
     const customButtonStyle = {
+      borderColor,
+      width: this.props.width,
       height: this.props.height,
       ...this.props.style
     }
 
+    // Construct held down style
+    const heldDownStyle = {
+      height: (this.props.height || defaultStyle.height) - 2,
+      borderBottomWidth: defaultStyle.borderBottomWidth - 2,
+      ...StyleSheet.flatten(styles.heldDown)
+    }
+
+    // Cascade the default and custom styles
     const style = [
-      styles.container,
+      styles.default,
       customButtonStyle,
-      this.state.heldDown && {
-        marginTop: 2,
-        height: this.props.height - 2,
-        ...StyleSheet.flatten(styles.heldDown)
-      }
+      this.state.heldDown && heldDownStyle
     ]
 
     return (
@@ -54,17 +70,20 @@ class Button extends Component {
 Button.propTypes = {
   onPress: React.PropTypes.func.isRequired,
   height: React.PropTypes.number,
+  width: React.PropTypes.number,
   style: React.PropTypes.object,
   label: React.PropTypes.node
 }
 
 const styles = StyleSheet.create({
-  container: {
+  default: {
+    height: 40,
+    borderRadius: 3,
     borderBottomWidth: 3,
-    borderRadius: 3
+    backgroundColor: colors.night
   },
   heldDown: {
-    borderBottomWidth: 3
+    marginTop: 2
   }
 })
 

@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "test": "jest",
+    "storybook": "storybook start -p 7007"
   },
   "dependencies": {
     "mobx": "^2.7.0",
@@ -26,7 +27,8 @@
     "jest": "17.0.3",
     "jest-react-native": "17.0.3",
     "react-test-renderer": "~15.3.1",
-    "standard": "^8.5.0"
+    "standard": "^8.5.0",
+    "@kadira/react-native-storybook": "^2.0.0"
   },
   "jest": {
     "preset": "jest-react-native"

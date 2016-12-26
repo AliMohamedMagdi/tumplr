@@ -18,8 +18,9 @@ import React, { Component } from 'react'
 import Dimensions from 'Dimensions'
 import OAuthSimple from 'oauthsimple'
 const window = Dimensions.get('window')
+const login = NativeModules.Tumblr.authenticate
 
-import LoginButton from '../components/LoginButton'
+import { LoginButton } from '../components/Buttons'
 
 class LoginView extends Component {
 
@@ -39,9 +40,6 @@ class LoginView extends Component {
       }
     })
 
-    console.log('User info received!')
-    console.log(JSON.stringify(JSON.parse(userInfo), null, 2))
-
     // Store auth and user information
     const userInfo = await (await fetch(request.signed_url)).text()
     AsyncStorage.multiSet([
@@ -49,6 +47,9 @@ class LoginView extends Component {
       [ 'token-secret', response.oauthTokenSecret ],
       [ 'user-info', JSON.stringify(userInfo) ]
     ])
+
+    console.log('User info received!')
+    console.dir(userInfo)
 
     // Redirect the view to the dashboard
     this.props.navigator.push({
@@ -73,7 +74,7 @@ class LoginView extends Component {
           <View style={styles.titleContainer}>
             <Text style={styles.title}> Lune </Text>
           </View>
-          <LoginButton onPress={() => NativeModules.Tumblr.authenticate(this.authCallback)} />
+          <LoginButton onPress={() => login(this.authCallback.bind(this))} />
         </View>
 
         {/* Signup / continue as guest */}
