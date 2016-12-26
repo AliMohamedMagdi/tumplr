@@ -5,7 +5,7 @@ import { storiesOf, action } from '@kadira/react-native-storybook'
 import Welcome from './Welcome'
 import CenterView from './decorators/CenterView'
 
-import { Button } from '../../components/Buttons'
+import { Button, LikeButton, ReblogButton } from '../../components/Buttons'
 import EntypoIcon from 'react-native-vector-icons/Entypo'
 
 storiesOf('Welcome', module)
@@ -31,12 +31,9 @@ storiesOf('Button', module)
     </Button>
   ))
   .add('like button', () => (
-    <Button
-      style={StyleSheet.flatten(loginButtonStyles.withText.container)}
-      onPress={action('clicked-button-with-icon')}>
-      <EntypoIcon name='tumblr' color='white' style={loginButtonStyles.withText.text}>
-        <Text> Log in to Tumblr </Text>
-      </EntypoIcon>
-    </Button>
+    <LikeButton onPress={action('clicked-button-with-icon')} />
+  ))
+  .add('reblog button', () => (
+    <ReblogButton onPress={action('clicked-button-with-icon')} />
   ))
 

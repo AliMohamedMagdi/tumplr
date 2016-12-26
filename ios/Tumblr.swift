@@ -35,12 +35,9 @@ class Tumblr: NSObject {
   }
   
   func authenticate(_ callback: @escaping RCTResponseSenderBlock) {
-    print("Authenticating...")
-    
     self.oauthswift.authorize(
       withCallbackURL: URL(string: "lune://oauth-callback")!,
       success: { credential, response, parameters in
-        print("Authorization success!")
         var result = [AnyObject]()
         let values = [
           "oauthToken": credential.oauthToken,
