@@ -91,3 +91,6 @@ buck-out
 local.properties
 *.iml
 /android/
+
+# Mocked api data responses for local testing
+data/

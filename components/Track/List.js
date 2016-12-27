@@ -33,7 +33,9 @@ class TrackList extends Component {
 
   render () {
     return (
-      <ListView style={styles.list}
+      <ListView
+        style={styles.list}
+        enableEmptySections
         dataSource={this.state.dataSource}
         renderRow={data => <Track {...data} />}
         initialListSize={this.props.tracks.length}

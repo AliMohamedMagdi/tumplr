@@ -5,7 +5,7 @@ import React, { Component } from 'react'
 import IonIcon from 'react-native-vector-icons/Ionicons'
 
 import Button from './Button'
-import colors from '../../styles/colors'
+import colors from '../../scripts/colors'
 
 class LikeButton extends Component {
   render () {

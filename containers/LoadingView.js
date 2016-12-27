@@ -5,25 +5,38 @@
 'use strict'
 
 import {
-  Text,
   View,
   StyleSheet
 } from 'react-native'
 import React, { Component } from 'react'
+import GiftedSpinner from 'react-native-gifted-spinner'
 
 class LoadingView extends Component {
   render () {
+    const style = [
+      styles.container,
+      this.props.backgroundColor && {
+        backgroundColor: this.props.backgroundColor
+      }
+    ]
     return (
-      <View style={styles.container}>
-        <Text> Loading... </Text>
+      <View style={style}>
+        <GiftedSpinner />
       </View>
     )
   }
 }
 
+LoadingView.propTypes = {
+  backgroundColor: React.PropTypes.string
+}
+
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'transparent'
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#3a3f41'
   }
 })
 

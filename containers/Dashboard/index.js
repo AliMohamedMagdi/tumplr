@@ -4,25 +4,24 @@
 
 'use strict'
 
-import {
-  View,
-  StyleSheet
-} from 'react-native'
+// import {
+//   StyleSheet
+// } from 'react-native'
 import React, { Component } from 'react'
 
 import OAuthSimple from 'oauthsimple'
+import LoadingView from '../LoadingView'
 // import Drawer from 'react-native-drawer'
-import GiftedSpinner from 'react-native-gifted-spinner'
 
-import TrackList from './List'
+import TrackList from '../../components/Track/List'
 
 class DashboardView extends Component {
 
   constructor (props) {
     super(props)
     this.state = {
-      loading: true,
-      data: {}
+      posts: [],
+      loading: true
     }
   }
 
@@ -45,8 +44,8 @@ class DashboardView extends Component {
     try {
       const data = await (await fetch(signedUrl)).json()
       this.setState({
-        data,
-        loading: false
+        loading: false,
+        posts: data.response.posts
       })
     } catch (err) {
       console.log(err)
@@ -75,11 +74,7 @@ class DashboardView extends Component {
   }
 
   renderLoading () {
-    return (
-      <View style={styles.spinnerContainer}>
-        <GiftedSpinner />
-      </View>
-    )
+    return <LoadingView />
   }
 
   renderDashboardView () {
@@ -97,7 +92,7 @@ class DashboardView extends Component {
     // )
     return (
       <TrackList
-        tracks={this.state.data.response.posts}
+        tracks={this.state.posts}
         navigator={this.props.navigator}
         auth={{
           key: this.props.creds.key,
@@ -114,20 +109,14 @@ class DashboardView extends Component {
   }
 };
 
-const styles = StyleSheet.create({
-  drawer: {
-    flex: 1,
-    shadowColor: '#000000',
-    shadowOpacity: 0.8,
-    shadowRadius: 3
-  },
-  spinnerContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#3a3f41'
-  }
-})
+// const styles = StyleSheet.create({
+//   drawer: {
+//     flex: 1,
+//     shadowColor: '#000000',
+//     shadowOpacity: 0.8,
+//     shadowRadius: 3
+//   }
+// })
 
 DashboardView.propTypes = {
   token: React.PropTypes.string.isRequired,

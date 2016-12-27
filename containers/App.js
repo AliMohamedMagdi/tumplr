@@ -15,7 +15,7 @@ import React, { Component } from 'react'
 import LoginView from './LoginView'
 import LoadingView from './LoadingView'
 // import ErrorModal from './ErrorModal'
-// import ProfileContainer from '../containers/Profile'
+import ProfileView from './ProfileView.js'
 import DashboardView from '../containers/Dashboard'
 // import ProfileNavBarIcon from './Profile/ProfileNavBarIcon.js'
 // import ProfileNavigationBar from './Profile/ProfileNavigationBar.js'
@@ -105,16 +105,17 @@ class Lune extends Component {
           />
         )
 
-      // case 'profile-view':
-      //   const ProfileProps = {
-      //     auth: route.auth,
-      //     blog: route.blog || null,
-      //     blogName: route.blogName,
-      //     image: route.image,
-      //     creds: route.creds,
-      //     navigator: nav
-      //   }
-      //   return <ProfileContainer {...ProfileProps} />
+      case 'profile-view':
+        return (
+          <ProfileView
+            auth={route.auth}
+            blog={route.blog || null}
+            blogName={route.blogName}
+            image={route.image}
+            creds={route.creds}
+            navigator={nav}
+          />
+        )
 
       default:
         return <LoadingView navigator={nav} />

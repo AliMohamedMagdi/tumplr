@@ -11,8 +11,7 @@ import {
 } from 'react-native'
 import React, { Component } from 'react'
 
-import color from '../../util/color'
-import colors from '../../styles/colors'
+import colors from '../../scripts/colors'
 
 class Button extends Component {
 
@@ -50,7 +49,7 @@ class Button extends Component {
     const backgroundColor = (
       (this.props.style && this.props.style.backgroundColor) || defaultStyle.backgroundColor
     )
-    const borderColor = color.shade(backgroundColor, -0.06)
+    const borderColor = colors.shade(backgroundColor, -0.06)
 
     // Collapse height/width props into style object
     const buttonStyle = {

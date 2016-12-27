@@ -6,7 +6,7 @@ import React, { Component } from 'react'
 import EntypoIcon from 'react-native-vector-icons/Entypo'
 
 import Button from './Button'
-import colors from '../../styles/colors'
+import colors from '../../scripts/colors'
 
 class ReblogButton extends Component {
   render () {
