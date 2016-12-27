@@ -7,7 +7,7 @@
 import {
   Text,
   Navigator,
-  // StyleSheet,
+  StyleSheet,
   AsyncStorage
 } from 'react-native'
 import React, { Component } from 'react'
@@ -17,8 +17,8 @@ import LoadingView from './LoadingView'
 // import ErrorModal from './ErrorModal'
 import ProfileView from './ProfileView.js'
 import DashboardView from '../containers/Dashboard'
-// import ProfileNavBarIcon from './Profile/ProfileNavBarIcon.js'
-// import ProfileNavigationBar from './Profile/ProfileNavigationBar.js'
+import ProfileNavigationBar from '../components/Profile/Navigation/Bar'
+import ProfileNavigationBarIcon from '../components/Profile/Navigation/Icon'
 
 class Lune extends Component {
 
@@ -36,10 +36,10 @@ class Lune extends Component {
   }
 
   initRouteMapper () {
-    this._navBarRouteMapper = {
+    this.routeMapper = {
       separatorForRoute: (route, navigator) => {},
       rightContentForRoute: (route, navigator) => {},
-      // iconForRoute: (route, navigator) => <ProfileNavBarIcon {...{route, navigator}} />,
+      iconForRoute: (route, navigator) => <ProfileNavigationBarIcon {...{route, navigator}} />,
       titleContentForRoute: (route, navigator) => route.blog ? <Text> {route.blog.name} </Text> : null
     }
   }
@@ -123,25 +123,23 @@ class Lune extends Component {
   }
 
   render () {
-        // navigationBar={
-        //   <ProfileNavigationBar routeMapper={this._navBarRouteMapper} style={styles.navbar} />
-        // }
     return (
       <Navigator
-        ref={ref => { this._navigator = ref }}
         renderScene={this.renderScene}
+        ref={ref => { this._navigator = ref }}
         initialRoute={{ name: this.state.currentRoute }}
         configureScene={route => route.style || Navigator.SceneConfigs.FloatFromRight}
+        navigationBar={<ProfileNavigationBar routeMapper={this.routeMapper} style={styles.navbar} />}
       />
     )
   }
 }
 
-// const styles = StyleSheet.create({
-//   navbar: {
-//     backgroundColor: 'transparent'
-//   }
-// })
+const styles = StyleSheet.create({
+  navbar: {
+    backgroundColor: 'transparent'
+  }
+})
 
 Lune.propTypes = {
   creds: React.PropTypes.shape({
