@@ -7,9 +7,13 @@ import React, { Component } from 'react'
 
 class ProfileBackground extends Component {
   render () {
+    const source = {
+      height: this.props.height,
+      uri: this.props.background
+    }
     return (
       <View>
-        <Image source={{ height: this.props.height, uri: this.props.background }} />
+        { !!this.props.background && <Image source={source} /> }
         <View style={styles.background} />
       </View>
     )
@@ -17,7 +21,7 @@ class ProfileBackground extends Component {
 }
 
 ProfileBackground.propTypes = {
-  background: React.PropTypes.string.isRequired,
+  background: React.PropTypes.string,
   height: React.PropTypes.number.isRequired
 }
 

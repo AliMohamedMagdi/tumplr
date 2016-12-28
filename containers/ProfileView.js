@@ -26,7 +26,6 @@ class ProfileView extends Component {
     const { auth, blogName } = this.props
     const uri = `https://api.tumblr.com/v2/blog/${blogName}/posts/audio?api_key=${auth.key}`
     const data = await (await fetch(uri)).json()
-    console.log(uri)
     console.log('Received user post data!')
     console.dir(data)
     this.setState({
@@ -41,16 +40,18 @@ class ProfileView extends Component {
     const data = await (await fetch(uri)).json()
     console.log('Received user blog data!')
     console.dir(data)
-    this.setState({ blog: data })
+    this.setState({ blog: data.response.blog })
     this.fetchPosts()
   }
 
   render () {
     return (
       <Profile
+        auth={this.props.auth}
         posts={this.state.posts}
         loading={this.state.loading}
-        {...Object.assign({}, { blog: this.state.blog }, this.props)}
+        navigator={this.props.navigator}
+        blog={this.props.blog || this.state.blog}
       />
     )
   }

@@ -10,22 +10,23 @@ const AVATAR_SIZE = 85
 
 class ProfileForeground extends Component {
   render () {
-    const uri = this.props.avatar.slice(-1)[0].url
+    const imageSrc = {
+      width: AVATAR_SIZE,
+      height: AVATAR_SIZE,
+      uri: this.props.avatar || require('../../assets/stardust.png')
+    }
     const backgroundColor = colors.hex2rgba(this.props.color || colors.nightshade, 0.5)
     return (
       <View style={styles.container}>
-        <Image
-          style={[ styles.avatar, { backgroundColor } ]}
-          source={{ uri, width: AVATAR_SIZE, height: AVATAR_SIZE }}
-        />
+        <Image source={imageSrc} style={[ styles.avatar, { backgroundColor } ]} />
       </View>
     )
   }
 }
 
 ProfileForeground.propTypes = {
-  color: React.PropTypes.string.isRequired,
-  avatar: React.PropTypes.array.isRequired
+  color: React.PropTypes.string,
+  avatar: React.PropTypes.string
 }
 
 const styles = StyleSheet.create({

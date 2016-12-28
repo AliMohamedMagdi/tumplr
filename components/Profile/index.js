@@ -25,7 +25,7 @@ class Profile extends Component {
   constructor (props) {
     super(props)
 
-    this.backgroundColor = props.blog ? props.blog.theme.background_color : colors.nightshade
+    this.backgroundColor = props.blog.theme ? props.blog.theme.background_color : colors.nightshade
     this.state = {
       dataSource: null
     }
@@ -56,11 +56,14 @@ class Profile extends Component {
   }
 
   renderTrackList (event) {
-    const { blog } = this.props
-    const avatar = blog.avatar
-    const backgroundImg = blog.theme.header_image || ''
-    const headerColor = blog.theme.background_color || colors.nightshade
     const coverHeight = screen.height / 4
+    const headerColor = this.backgroundColor
+    const avatar = `https://api.tumblr.com/v2/blog/${this.props.blog.name}.tumblr.com/avatar/512`
+
+    let backgroundImage = ''
+    if (this.props.blog.theme && Object.keys(this.props.blog.theme).length) {
+      backgroundImage = this.props.blog.theme.header_image || ''
+    }
 
     return (
       <ParallaxScrollView
@@ -71,7 +74,7 @@ class Profile extends Component {
         parallaxHeaderHeight={coverHeight}
         backgroundColor={colors.hex2rgba(headerColor)}
         renderStickyHeader={() => <View style={styles.stickyHeader} />}
-        renderBackground={() => <ProfileBackground background={backgroundImg} height={coverHeight} />}
+        renderBackground={() => <ProfileBackground background={backgroundImage} height={coverHeight} />}
         renderForeground={() => <ProfileForeground avatar={avatar} color={headerColor} />}
       />
     )

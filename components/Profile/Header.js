@@ -19,7 +19,9 @@ class ProfileHeader extends Component {
 
   render () {
     const isHTML = /<[a-z][\s\S]*>/i
-    const textColor = { color: this.props.theme.title_color }
+    const textColor = {
+      color: this.props.theme ? this.props.theme.title_color : 'gray'
+    }
     return (
       <View style={styles.container}>
 
@@ -31,7 +33,7 @@ class ProfileHeader extends Component {
         {/* Blog profile url link */}
         <TouchableOpacity activeOpacity={0.6} onPress={() => this.blogRedirect()}>
           <Text style={[ styles.name, textColor ]}>
-            {this.props.uuid || `${this.props.name}.tumblr.com`}
+            {`${this.props.name}.tumblr.com`}
           </Text>
         </TouchableOpacity>
 
@@ -48,11 +50,10 @@ class ProfileHeader extends Component {
 }
 
 ProfileHeader.propTypes = {
-  uuid: React.PropTypes.string.isRequired,
   name: React.PropTypes.string.isRequired,
   title: React.PropTypes.string.isRequired,
-  theme: React.PropTypes.object.isRequired,
-  description: React.PropTypes.string
+  description: React.PropTypes.string,
+  theme: React.PropTypes.object
 }
 
 const styles = StyleSheet.create({
