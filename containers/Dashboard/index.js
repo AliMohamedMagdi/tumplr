@@ -4,14 +4,8 @@
 
 'use strict'
 
-// import {
-//   StyleSheet
-// } from 'react-native'
 import React, { Component } from 'react'
-
 import OAuthSimple from 'oauthsimple'
-import LoadingView from '../LoadingView'
-// import Drawer from 'react-native-drawer'
 
 import TrackList from '../../components/Track/List'
 
@@ -21,12 +15,14 @@ class DashboardView extends Component {
     super(props)
     this.state = {
       posts: [],
+      offset: 0,
       loading: true
     }
+    this.limit = 20
   }
 
   componentWillMount () {
-    this.fetchData(this.signDashboardUrl())
+    this.fetchData()
   }
 
   closeSideMenu () {
@@ -39,17 +35,23 @@ class DashboardView extends Component {
     this._drawer.open()
   }
 
-  async fetchData (signedUrl) {
+  async fetchData () {
     // Retrieve user info and switch to the dashboard view
     try {
-      const data = await (await fetch(signedUrl)).json()
+      const data = await (await fetch(this.signDashboardUrl())).json()
       this.setState({
         loading: false,
-        posts: data.response.posts
+        offset: this.state.offset + this.limit,
+        posts: [ ...this.state.posts, ...data.response.posts ]
       })
     } catch (err) {
       console.log(err)
     }
+  }
+
+  loadMore () {
+    this.setState({ loading: true })
+    this.fetchData()
   }
 
   signDashboardUrl () {
@@ -59,9 +61,10 @@ class DashboardView extends Component {
       action: 'GET',
       path: 'https://api.tumblr.com/v2/user/dashboard',
       parameters: {
-        limit: 20,
         type: 'audio',
-        reblog_info: true
+        limit: this.limit,
+        reblog_info: true,
+        offset: this.state.offset
       },
       signatures: {
         consumer_key: this.props.creds.key,
@@ -73,27 +76,13 @@ class DashboardView extends Component {
     return oauth.sign(options).signed_url
   }
 
-  renderLoading () {
-    return <LoadingView />
-  }
-
-  renderDashboardView () {
-    // const DrawerProps = {
-    //   ref: ref => { this._drawer = ref },
-    //   content: <SideMenu closeDrawer={this.closeSideMenu} />,
-    //   style: styles.drawer,
-    //   tweenEasing: 'easeInCubic',
-    //   openDrawerOffset: 100
-    // }
-    // return (
-    //   <Drawer {...DrawerProps}>
-    //     <ItemList {...ItemListProps} />
-    //   </Drawer>
-    // )
+  render () {
     return (
       <TrackList
         tracks={this.state.posts}
+        loading={this.state.loading}
         navigator={this.props.navigator}
+        loadMore={() => this.loadMore()}
         auth={{
           key: this.props.creds.key,
           sec: this.props.creds.sec,
@@ -103,20 +92,7 @@ class DashboardView extends Component {
       />
     )
   }
-
-  render () {
-    return this.state.loading ? this.renderLoading() : this.renderDashboardView()
-  }
 };
-
-// const styles = StyleSheet.create({
-//   drawer: {
-//     flex: 1,
-//     shadowColor: '#000000',
-//     shadowOpacity: 0.8,
-//     shadowRadius: 3
-//   }
-// })
 
 DashboardView.propTypes = {
   token: React.PropTypes.string.isRequired,
