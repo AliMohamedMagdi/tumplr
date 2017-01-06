@@ -2,13 +2,11 @@ import {
   Text,
   View,
   ScrollView,
-  StyleSheet,
-  TouchableHighlight
+  StyleSheet
 } from 'react-native'
 import React, { Component } from 'react'
 
 import EntypoIcon from 'react-native-vector-icons/Entypo'
-// import * as format from '../../scripts/format.js'
 
 const format = {
   insertCommas: function (num) {
@@ -25,44 +23,38 @@ const format = {
 }
 
 class Footer extends Component {
-  constructor (props) {
-    super(props)
-    this.state = { showNotes: false }
-    this.showingNotes = this.showingNotes.bind(this)
-  }
 
-  showingNotes () {
-    this.setState({ showNotes: !this.state.showNotes })
+  insertCommas (num) {
+    if (num < 1000) {
+      return num
+    } else {
+      let arr = String(num).split('').reverse()
+      for (let i = 3; i < arr.length; i += 4) {
+        arr.splice(i, 0, ',')
+      }
+      return arr.reverse().join('')
+    }
   }
 
   render () {
-    const NoteIconProps = {
-      name: this.state.showNotes ? 'text-document-inverted' : 'text-document',
-      color: '#111',
-      style: styles.notesText
-    }
-    const NoteTouchProps = {
-      activeOpacity: 0.5,
-      underlayColor: 'transparent',
-      onPress: this.showingNotes
-    }
-    const tagsProps = {
-      horizontal: true,
-      showsHorizontalScrollIndicator: false
-    }
-
     return (
       <View style={styles.footer}>
-        <TouchableHighlight {...NoteTouchProps}>
-          <EntypoIcon {...NoteIconProps}>
-            <Text style={styles.notesText}> {format.insertCommas(this.props.noteCount)} notes </Text>
-          </EntypoIcon>
-        </TouchableHighlight>
-        <ScrollView {...tagsProps}>
+
+        {/* Notes icon and count */}
+        <EntypoIcon
+          color='#111'
+          name='text-document'
+          style={styles.notesText}>
+          <Text style={styles.notesText}> {format.insertCommas(this.props.noteCount)} notes </Text>
+        </EntypoIcon>
+
+        {/* Tags */}
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           {this.props.tags.map((tag, i) =>
             <Text key={`${this.props.id}-${i}`} style={styles.tagsText}> #{tag} </Text>
           )}
         </ScrollView>
+
       </View>
     )
   }

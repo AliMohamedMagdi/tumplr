@@ -17,78 +17,71 @@ import IonIcon from 'react-native-vector-icons/Ionicons'
 class Header extends Component {
   constructor (props) {
     super(props)
-    this.headerContent = this.headerContent.bind(this)
+    this.renderHeader = this.renderHeader.bind(this)
   }
 
-  headerContent () {
-    const {
-      auth,
-      blog,
-      blogName,
-      reblogDate,
-      avatarUri,
-      navigator,
-      sourceTitle = null
-    } = this.props
+  renderHeader () {
+    console.log(this.props.blogName, this.props.sourceTitle)
     const routes = this.props.navigator.getCurrentRoutes()
     const currentView = routes[routes.length - 1].name
+    const sourceTitle = this.props.sourceTitle || null
 
-    const UserPressAction = (sourceTitle && currentView === 'profile-view') ? () => {
-      navigator.push({
-        auth,
+    const onPressUser = (sourceTitle && currentView === 'profile-view') ? () => {
+      this.props.navigator.push({
+        auth: this.props.auth,
         blog: null,
         blogName: sourceTitle,
         name: 'profile-view',
         image: { uri: `https://api.tumblr.com/v2/blog/${sourceTitle}.tumblr.com/avatar/64` }
       })
     } : () => {
-      navigator.push({
-        auth,
-        blog,
-        blogName,
+      this.props.navigator.push({
+        auth: this.props.auth,
+        blog: this.props.blog,
+        blogName: this.props.blogName,
         name: 'profile-view',
-        image: { uri: avatarUri }
+        image: { uri: this.props.avatarUri }
       })
     }
 
-    const UserTouchProps = {
+    const userTouchProps = {
       activeOpacity: 0.5,
       underlayColor: 'transparent',
-      onPress: UserPressAction
+      onPress: onPressUser
     }
 
-    const DefaultHeader = (
+    const defaultHeader = (
       <View style={styles.headerTextContainer}>
-        <TouchableHighlight {...UserTouchProps}>
+        <TouchableHighlight {...userTouchProps}>
           <Image
             style={styles.rebloggerAvatar}
-            source={{uri: avatarUri}}
+            source={{uri: this.props.avatarUri}}
           />
         </TouchableHighlight>
         <View>
-          <TouchableHighlight {...UserTouchProps}>
-            <Text style={styles.rebloggerName}> {blogName} </Text>
+          <TouchableHighlight {...userTouchProps}>
+            <Text style={styles.rebloggerName}> {this.props.blogName} </Text>
           </TouchableHighlight>
           <Text style={styles.headerText}>
-            {''} reblogged {moment(reblogDate, 'YYYY-MM-DD HH:mm:ss').fromNow()}
+            {''} reblogged {moment(this.props.reblogDate, 'YYYY-MM-DD HH:mm:ss').fromNow()}
           </Text>
         </View>
       </View>
     )
 
-    const ProfileHeader = (
+    const profileHeader = (
       <View style={styles.headerTextContainer}>
-        <TouchableHighlight {...UserTouchProps}>
+        <TouchableHighlight {...userTouchProps}>
           <Image style={styles.rebloggerAvatar}
             source={{uri: `https://api.tumblr.com/v2/blog/${sourceTitle}.tumblr.com/avatar/64`}}
           />
         </TouchableHighlight>
         <View>
-          <TouchableHighlight {...UserTouchProps}>
+          <TouchableHighlight {...userTouchProps}>
             <Text style={styles.rebloggerName}> {sourceTitle} </Text>
           </TouchableHighlight>
           <Text style={styles.headerText}>
-            {''} reblogged {moment(reblogDate, 'YYYY-MM-DD HH:mm:ss').fromNow()}
+            {''} reblogged {moment(this.props.reblogDate, 'YYYY-MM-DD HH:mm:ss').fromNow()}
           </Text>
         </View>
       </View>
@@ -96,33 +89,32 @@ class Header extends Component {
 
     switch (currentView) {
       case 'dashboard-view':
-        return DefaultHeader
+        return defaultHeader
       case 'profile-view':
-        return sourceTitle ? ProfileHeader : DefaultHeader
+        return sourceTitle ? profileHeader : defaultHeader
     }
   }
 
   render () {
-    const MenuIconProps = {
-      name: 'ios-menu',
-      color: '#aaa',
-      size: 18
-    }
-
-    const MenuIconTouchProps = {
-      activeOpacity: 0.5,
-      underlayColor: 'transparent',
-      onPress: () => console.log('hi')
-    }
-
     return (
       <View style={styles.header}>
-        {this.headerContent()}
 
-        {/* Menu Icon */}
-        <TouchableHighlight style={styles.menuIconContainer} {...MenuIconTouchProps}>
-          <IonIcon {...MenuIconProps} />
+        {/* Header */}
+        {this.renderHeader()}
+
+        {/* Menu icon */}
+        <TouchableHighlight
+          activeOpacity={0.5}
+          underlayColor={'transparent'}
+          style={styles.menuIconContainer}
+          onPress={() => console.log('hi')}>
+          <IonIcon
+            name='ios-menu'
+            color='#aaa'
+            size={18}
+          />
         </TouchableHighlight>
+
       </View>
     )
   }

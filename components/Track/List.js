@@ -1,7 +1,5 @@
 /**
  *  Dashboard track list component
- *
- *  TODO: Add state management (navigator/track list)
  */
 
 'use strict'

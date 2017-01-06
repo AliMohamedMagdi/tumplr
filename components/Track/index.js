@@ -48,73 +48,43 @@ class Track extends Component {
   }
 
   render () {
-    const {
-      id,
-      tags,
-      blog,
-      date,
-      auth,
-      plays,
-      player,
-      navigator,
-      album_art: albumArt,
-      blog_name: blogName,
-      note_count: noteCount,
-      source_title: sourceTitle,
-      artist = 'Unknown Artist',
-      track_name: trackName = 'Unknown'
-    } = this.props
-
-    const HeaderProps = {
-      auth,
-      blog,
-      blogName,
-      navigator,
-      sourceTitle,
-      reblogDate: date.substr(0, date.lastIndexOf(' ')),
-      avatarUri: `https://api.tumblr.com/v2/blog/${blogName}.tumblr.com/avatar/64`
-    }
-
-    const AlbumTouchProps = {
-      activeOpacity: 0.6,
-      onPress: () => NativeModules.AudioPlayer.play(this.parseAudioURI(player))
-    }
-
-    const AlbumArtProps = {
-      style: [styles.albumArt, {
-        width: albumArt ? -1 : screen.width
-      }],
-      source: albumArt ? {uri: albumArt} : require('../../assets/coverart.png')
-    }
-
-    const TrackInfoProps = {
-      trackName: trackName,
-      artist: artist,
-      plays: plays
-    }
-
-    const FooterProps = {
-      id: id,
-      tags: tags,
-      noteCount: noteCount
-    }
-
     return (
       <View style={styles.container}>
 
-        {/* Reblogger information & menu icon */}
-        <Header {...HeaderProps} />
+        {/* Reblog information & menu icon */}
+        <Header
+          auth={this.props.auth}
+          blog={this.props.blog}
+          blogName={this.props.blog_name}
+          navigator={this.props.navigator}
+          sourceTitle={this.props.source_title}
+          reblogDate={this.props.date.substr(0, this.props.date.lastIndexOf(' '))}
+          avatarUri={`https://api.tumblr.com/v2/blog/${this.props.blog_name}.tumblr.com/avatar/64`}
+        />
 
         {/* Album art cover */}
-        <TouchableOpacity {...AlbumTouchProps}>
-          <Image {...AlbumArtProps} />
+        <TouchableOpacity
+          activeOpacity={0.6}
+          onPress={() => NativeModules.AudioPlayer.play(this.parseAudioURI(this.props.player))}>
+          <Image
+            style={[styles.albumArt, {width: this.props.album_art ? -1 : screen.width}]}
+            source={this.props.album_art ? {uri: this.props.album_art} : require('../../assets/coverart.png')}
+          />
         </TouchableOpacity>
 
-        {/* Song Information */}
-        <TrackInfo {...TrackInfoProps} />
+        {/* Track information */}
+        <TrackInfo
+          trackName={this.props.track_name}
+          artist={this.props.artist}
+          plays={this.props.plays}
+        />
 
-        {/* Footer containing notes information and tags */}
-        <Footer {...FooterProps} />
+        {/* Footer containing notes count and tags */}
+        <Footer
+          id={this.props.id}
+          tags={this.props.tags}
+          noteCount={this.props.note_count}
+        />
 
       </View>
     )
@@ -138,6 +108,7 @@ const styles = StyleSheet.create({
   }
 })
 
+// `Track`s prop types take the shape of Tumblr API's post objects
 Track.propTypes = {
   track_name: React.PropTypes.string,
   artist: React.PropTypes.string,
@@ -150,6 +121,7 @@ Track.propTypes = {
   player: React.PropTypes.string.isRequired,
   blog_name: React.PropTypes.string.isRequired,
   note_count: React.PropTypes.number.isRequired,
+  source_title: React.PropTypes.string,
 
   navigator: React.PropTypes.object.isRequired,
   auth: React.PropTypes.shape({
