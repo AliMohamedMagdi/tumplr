@@ -1,8 +1,6 @@
-import {
-  Navigator
-} from 'react-native'
+import BreadcrumbNavigationBar from './BreadcrumbNavigationBar.js'
 
-class ProfileNavigationBar extends Navigator.BreadcrumbNavigationBar {
+class ProfileNavigationBar extends BreadcrumbNavigationBar {
   render () {
     const routes = this.props.navState.routeStack
 

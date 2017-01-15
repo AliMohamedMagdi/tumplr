@@ -7,7 +7,7 @@
 import React, { Component } from 'react'
 import OAuthSimple from 'oauthsimple'
 
-import TrackList from '../../components/Track/List'
+import TrackList from '../components/Track/List'
 
 class DashboardView extends Component {
 

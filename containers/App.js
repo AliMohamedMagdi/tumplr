@@ -5,7 +5,6 @@
 'use strict'
 
 import {
-  Text,
   Navigator,
   StyleSheet,
   AsyncStorage
@@ -15,8 +14,8 @@ import React, { Component } from 'react'
 import LoginView from './LoginView'
 import LoadingView from './LoadingView'
 // import ErrorModal from './ErrorModal'
-import ProfileView from './ProfileView.js'
-import DashboardView from '../containers/Dashboard'
+import ProfileView from './ProfileView'
+import DashboardView from './DashboardView'
 import ProfileNavigationBar from '../components/Profile/Navigation/Bar'
 import ProfileNavigationBarIcon from '../components/Profile/Navigation/Icon'
 
@@ -39,8 +38,8 @@ class Lune extends Component {
     this.routeMapper = {
       separatorForRoute: (route, navigator) => {},
       rightContentForRoute: (route, navigator) => {},
-      iconForRoute: (route, navigator) => <ProfileNavigationBarIcon {...{route, navigator}} />,
-      titleContentForRoute: (route, navigator) => route.blog ? <Text> {route.blog.name} </Text> : null
+      titleContentForRoute: (route, navigator) => {},
+      iconForRoute: (route, navigator) => <ProfileNavigationBarIcon {...{route, navigator}} />
     }
   }
 

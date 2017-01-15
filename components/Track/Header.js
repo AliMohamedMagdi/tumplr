@@ -21,7 +21,6 @@ class Header extends Component {
   }
 
   renderHeader () {
-    console.log(this.props.blogName, this.props.sourceTitle)
     const routes = this.props.navigator.getCurrentRoutes()
     const currentView = routes[routes.length - 1].name
     const sourceTitle = this.props.sourceTitle || null
