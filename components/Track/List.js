@@ -23,7 +23,6 @@ class TrackList extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      pagination: {},
       dataSource: null,
       ds: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
     }

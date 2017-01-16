@@ -9,11 +9,11 @@ import {
 } from 'react-native'
 import React, { Component } from 'react'
 import Dimensions from 'Dimensions'
+import GiftedSpinner from 'react-native-gifted-spinner'
 import ParallaxScrollView from 'react-native-parallax-scroll-view'
 
-const screen = Dimensions.get('window')
+const window = Dimensions.get('window')
 import colors from '../../scripts/colors'
-import LoadingView from '../../containers/LoadingView'
 import Track from '../Track'
 
 import ProfileHeader from './Header'
@@ -27,22 +27,46 @@ class Profile extends Component {
 
     this.backgroundColor = props.blog.theme ? props.blog.theme.background_color : colors.nightshade
     this.state = {
-      dataSource: null
+      dataSource: null,
+      ds: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
     }
 
+    this.onScroll = this.onScroll.bind(this)
     this.renderTrackList = this.renderTrackList.bind(this)
-    this.renderLoading = this.renderLoading.bind(this)
-    this.renderProfile = this.renderProfile.bind(this)
+  }
+
+  componentWillMount () {
+    this.loadTracks(this.props.posts, this.props.loading)
   }
 
   componentWillReceiveProps (nextProps) {
-    // Set the list view datasource upon new data
-    if (this.props.loading && !nextProps.loading) {
-      const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
-      const rows = this.generateRows(nextProps.posts)
-      this.setState({
-        dataSource: ds.cloneWithRows(rows)
-      })
+    // Update data source upon toggled loading state or added tracks
+    if (this.props.loading !== nextProps.loading || this.props.posts.length !== nextProps.posts.length) {
+      this.loadTracks(nextProps.posts, nextProps.loading)
+    }
+  }
+
+  loadTracks (posts, loading) {
+    const tracks = posts.map(track => ({
+      navigator: this.props.navigator,
+      auth: this.props.auth,
+      ...track
+    }))
+    this.setState({
+      dataSource: this.state.ds.cloneWithRows([ ...tracks, { loading, type: 'loading' } ])
+    })
+  }
+
+  onScroll (event) {
+    const {
+      contentLength,
+      visibleLength
+    } = this.refs.ListView.scrollProperties
+    const yPos = event.nativeEvent.contentOffset.y
+    const isEndReached = yPos >= contentLength - visibleLength
+
+    if (!this.props.loading && isEndReached) {
+      this.props.loadMore()
     }
   }
 
@@ -56,7 +80,7 @@ class Profile extends Component {
   }
 
   renderTrackList (event) {
-    const coverHeight = screen.height / 4
+    const coverHeight = window.height / 4
     const headerColor = this.backgroundColor
     const avatar = `https://api.tumblr.com/v2/blog/${this.props.blog.name}.tumblr.com/avatar/512`
 
@@ -67,12 +91,13 @@ class Profile extends Component {
 
     return (
       <ParallaxScrollView
-        onScroll={() => {}}
         backgroundSpeed={10}
         stickyHeaderHeight={65}
-        contentBackgroundColor={headerColor}
+        onScroll={this.onScroll}
         parallaxHeaderHeight={coverHeight}
+        contentBackgroundColor={headerColor}
         backgroundColor={colors.hex2rgba(headerColor)}
+        contentContainerStyle={styles.contentContainer}
         renderStickyHeader={() => <View style={styles.stickyHeader} />}
         renderBackground={() => <ProfileBackground background={backgroundImage} height={coverHeight} />}
         renderForeground={() => <ProfileForeground avatar={avatar} color={headerColor} />}
@@ -80,29 +105,30 @@ class Profile extends Component {
     )
   }
 
-  renderLoading () {
-    return <LoadingView backgroundColor={this.backgroundColor} />
+  renderRow (data) {
+    if (data.type === 'loading') {
+      return data.loading ? <GiftedSpinner style={styles.spinner} /> : null
+    } else {
+      return <Track {...Object.assign({}, data, { blog: this.props.blog })} />
+    }
   }
 
-  renderProfile () {
+  render () {
     const backgroundColor = { backgroundColor: this.backgroundColor }
     return (
       <View style={[styles.container, backgroundColor]}>
         <ListView
           ref='ListView'
           enableEmptySections
-          style={{ overflow: 'hidden' }}
-          renderRow={data => <Track {...data} />}
+          removeClippedSubviews={false}
+          dataSource={this.state.dataSource}
+          renderRow={data => this.renderRow(data)}
+          initialListSize={this.props.posts.length}
           renderHeader={() => <ProfileHeader {...this.props.blog} />}
           renderScrollComponent={this.renderTrackList}
-          dataSource={this.state.dataSource}
         />
       </View>
     )
-  }
-
-  render () {
-    return this.props.loading ? this.renderLoading() : this.renderProfile()
   }
 }
 
@@ -111,6 +137,7 @@ Profile.propTypes = {
   navigator: React.PropTypes.object.isRequired,
   loading: React.PropTypes.bool.isRequired,
   posts: React.PropTypes.array.isRequired,
+  loadMore: React.PropTypes.func.isRequired,
   auth: React.PropTypes.shape({
     key: React.PropTypes.string.isRequired,
     sec: React.PropTypes.string.isRequired,
@@ -121,8 +148,10 @@ Profile.propTypes = {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: 'red'
+    height: window.height
+  },
+  contentContainer: {
+    flex: 1
   },
   spinner: {
     flex: 1,
