@@ -7,15 +7,12 @@
 import {
   View,
   ListView,
-  StyleSheet,
-  RecyclerViewBackedScrollView
+  StyleSheet
 } from 'react-native'
 import React, { Component } from 'react'
-import GiftedSpinner from 'react-native-gifted-spinner'
 import Dimensions from 'Dimensions'
 
 import colors from '../../scripts/colors'
-import Track from '../../components/Track'
 const window = Dimensions.get('window')
 
 class TrackList extends Component {
@@ -27,6 +24,7 @@ class TrackList extends Component {
       ds: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
     }
     this.loadTracks = this.loadTracks.bind(this)
+    this.getListView = this.getListView.bind(this)
   }
 
   componentWillMount () {
@@ -40,10 +38,15 @@ class TrackList extends Component {
     }
   }
 
+  getListView () {
+    return this.refs['list-view']
+  }
+
   loadTracks (posts, loading) {
     const tracks = posts.map(track => ({
       navigator: this.props.navigator,
       auth: this.props.auth,
+      blog: this.props.blog,
       ...track
     }))
     this.setState({
@@ -51,26 +54,21 @@ class TrackList extends Component {
     })
   }
 
-  renderRow (data) {
-    if (data.type === 'loading') {
-      return data.loading ? <GiftedSpinner style={styles.spinner} /> : null
-    } else {
-      return <Track {...data} />
-    }
-  }
-
   render () {
+    const { backgroundColor } = this.props
     return (
-      <View style={styles.container}>
+      <View style={[ styles.container, { backgroundColor } ]}>
         <ListView
+          ref='list-view'
           style={styles.list}
           enableEmptySections
           removeClippedSubviews={false}
+          renderRow={this.props.render.row}
           dataSource={this.state.dataSource}
-          renderRow={data => this.renderRow(data)}
-          onEndReached={() => this.props.loadMore()}
+          onEndReached={this.props.loadMore}
+          renderHeader={this.props.render.header}
           initialListSize={this.props.tracks.length}
-          renderScrollComponent={data => <RecyclerViewBackedScrollView {...data} />}
+          renderScrollComponent={this.props.render.scrollComponent}
         />
       </View>
     )
@@ -84,18 +82,32 @@ const styles = StyleSheet.create({
   list: {
     paddingTop: 15,
     backgroundColor: colors.nightshade
-  },
-  spinner: {
-    paddingTop: 50,
-    paddingBottom: 50
   }
 })
+
+TrackList.defaultProps = {
+  blog: {},
+  onEndReached: () => {},
+  backgroundColor: colors.nightshade,
+  render: {
+    row: () => {},
+    header: () => {},
+    scrollComponent: () => {}
+  }
+}
 
 TrackList.propTypes = {
   tracks: React.PropTypes.array.isRequired,
   loading: React.PropTypes.bool.isRequired,
-  loadMore: React.PropTypes.func.isRequired,
   navigator: React.PropTypes.object.isRequired,
+  backgroundColor: React.PropTypes.string,
+  loadMore: React.PropTypes.func,
+  blog: React.PropTypes.object,
+  render: React.PropTypes.shape({
+    row: React.PropTypes.func,
+    header: React.PropTypes.func,
+    scrollComponent: React.PropTypes.func
+  }),
   auth: React.PropTypes.shape({
     key: React.PropTypes.string.isRequired,
     sec: React.PropTypes.string.isRequired,

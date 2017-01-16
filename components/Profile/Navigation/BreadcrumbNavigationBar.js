@@ -78,12 +78,6 @@ function navStatePresentedIndex (navState) {
  * @return {object} Style config for initial rendering of index.
  */
 function initStyle (index, presentedIndex) {
-  console.log('[ init style ]')
-  console.log(index, presentedIndex)
-  console.dir(index === presentedIndex ? NavigatorBreadcrumbNavigationBarStyles.Center[index]
-    : index < presentedIndex ? NavigatorBreadcrumbNavigationBarStyles.Left[index]
-    : NavigatorBreadcrumbNavigationBarStyles.Right[index]
-  )
   return index === presentedIndex ? NavigatorBreadcrumbNavigationBarStyles.Center[index]
     : index < presentedIndex ? NavigatorBreadcrumbNavigationBarStyles.Left[index]
     : NavigatorBreadcrumbNavigationBarStyles.Right[index]

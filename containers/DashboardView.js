@@ -5,9 +5,16 @@
 'use strict'
 
 import React, { Component } from 'react'
+import {
+  StyleSheet,
+  RecyclerViewBackedScrollView
+} from 'react-native'
 import OAuthSimple from 'oauthsimple'
+import GiftedSpinner from 'react-native-gifted-spinner'
 
+import Track from '../components/Track'
 import TrackList from '../components/Track/List'
+import colors from '../scripts/colors'
 
 class DashboardView extends Component {
 
@@ -19,20 +26,17 @@ class DashboardView extends Component {
       loading: true
     }
     this.limit = 20
+    this.auth = {
+      key: props.creds.key,
+      sec: props.creds.sec,
+      token: props.token,
+      tokenSecret: props.tokenSecret
+    }
+    this.loadMore = this.loadMore.bind(this)
   }
 
   componentWillMount () {
     this.fetchData()
-  }
-
-  closeSideMenu () {
-    console.log('close')
-    this._drawer.close()
-  }
-
-  openSideMenu () {
-    console.log('open')
-    this._drawer.open()
   }
 
   async fetchData () {
@@ -76,23 +80,42 @@ class DashboardView extends Component {
     return oauth.sign(options).signed_url
   }
 
+  renderRow (data) {
+    if (data.type === 'loading') {
+      return data.loading ? <GiftedSpinner style={styles.spinner} /> : null
+    } else {
+      return <Track {...data} />
+    }
+  }
+
+  renderScrollComponent (data) {
+    return <RecyclerViewBackedScrollView {...data} />
+  }
+
   render () {
     return (
       <TrackList
+        auth={this.auth}
+        loadMore={this.loadMore}
         tracks={this.state.posts}
         loading={this.state.loading}
         navigator={this.props.navigator}
-        loadMore={() => this.loadMore()}
-        auth={{
-          key: this.props.creds.key,
-          sec: this.props.creds.sec,
-          token: this.props.token,
-          tokenSecret: this.props.tokenSecret
+        backgroundColor={colors.nightshade}
+        render={{
+          row: this.renderRow,
+          scrollComponent: this.renderScrollComponent
         }}
       />
     )
   }
 };
+
+const styles = StyleSheet.create({
+  spinner: {
+    paddingTop: 50,
+    paddingBottom: 50
+  }
+})
 
 DashboardView.propTypes = {
   token: React.PropTypes.string.isRequired,
