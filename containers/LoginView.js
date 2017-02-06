@@ -49,7 +49,7 @@ class LoginView extends Component {
     ])
 
     console.log('User info received!')
-    console.dir(userInfo)
+    console.log(JSON.stringify(userInfo, null, 2))
 
     // Redirect the view to the dashboard
     this.props.navigator.push({

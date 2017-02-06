@@ -14,7 +14,6 @@ import {
 import React, { Component } from 'react'
 
 import Dimensions from 'Dimensions'
-import queryString from 'query-string'
 const screen = Dimensions.get('window')
 
 import Header from './Header'
@@ -22,30 +21,6 @@ import Footer from './Footer'
 import TrackInfo from './Info'
 
 class Track extends Component {
-
-  parseAudioURI (playerHTML) {
-    let src = playerHTML.match(/src="([^"]*)"/)[1]
-    let audioKey = decodeURIComponent(src)
-    console.log(`Parsing song ${audioKey}`)
-
-    const query = queryString.parse(audioKey.substring(audioKey.indexOf('?')))
-    console.log(`Audio file: ${query.audio_file}`)
-
-    // Modify the audio file uri appropriately
-    if (query.audio_file.includes('tumblr.com')) {
-      let uri = 'http://a.tumblr.com/'
-      audioKey = audioKey.substring(audioKey.lastIndexOf('/') + 1, audioKey.lastIndexOf('&'))
-      uri += (audioKey.search('o1.mp3') > 0) ? audioKey : audioKey + 'o1.mp3'
-      uri = encodeURI(uri)
-      console.log(`Playing song @ ${uri}`)
-      return uri
-    } else {
-      let uri = query.audio_file
-      uri = encodeURI(uri)
-      console.log(`Playing song @ ${uri}`)
-      return uri
-    }
-  }
 
   render () {
     return (
@@ -65,7 +40,7 @@ class Track extends Component {
         {/* Album art cover */}
         <TouchableOpacity
           activeOpacity={0.6}
-          onPress={() => NativeModules.AudioPlayer.play(this.parseAudioURI(this.props.player))}>
+          onPress={() => NativeModules.AudioPlayer.playAtIndex(this.props.index)}>
           <Image
             style={[styles.albumArt, {width: this.props.album_art ? -1 : screen.width}]}
             source={this.props.album_art ? {uri: this.props.album_art} : require('../../assets/coverart.png')}
@@ -113,6 +88,7 @@ Track.propTypes = {
   track_name: React.PropTypes.string,
   artist: React.PropTypes.string,
 
+  index: React.PropTypes.number.isRequired,
   id: React.PropTypes.number.isRequired,
   tags: React.PropTypes.array.isRequired,
   blog: React.PropTypes.object.isRequired,

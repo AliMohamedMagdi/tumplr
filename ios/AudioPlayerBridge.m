@@ -1,7 +1,7 @@
 
 //
 //  AudioPlayerBridge.m
-//  lunatune
+//  Lune
 //
 //  Created by Andrew Kwon on 4/3/16.
 //  Copyright © 2016 Facebook. All rights reserved.
@@ -17,6 +17,8 @@
 
 @interface RCT_EXTERN_MODULE(AudioPlayer, NSObject)
 
+RCT_EXTERN_METHOD(loadPlaylist:(NSArray *)playlist)
+RCT_EXTERN_METHOD(playAtIndex:(int)index)
 RCT_EXTERN_METHOD(play:(NSString *)uri)
 RCT_EXTERN_METHOD(pause)
 RCT_EXTERN_METHOD(seek:(int *)seconds)

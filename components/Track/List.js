@@ -43,10 +43,11 @@ class TrackList extends Component {
   }
 
   loadTracks (posts, loading) {
-    const tracks = posts.map(track => ({
+    const tracks = posts.map((track, i) => ({
       navigator: this.props.navigator,
       auth: this.props.auth,
       blog: this.props.blog,
+      index: i,
       ...track
     }))
     this.setState({

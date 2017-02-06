@@ -7,6 +7,7 @@
     "storybook": "storybook start -p 7007"
   },
   "dependencies": {
+    "lodash": "^4.17.4",
     "mobx": "^2.7.0",
     "mobx-react": "^4.0.3",
     "moment": "^2.17.1",

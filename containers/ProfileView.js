@@ -5,8 +5,10 @@
 import React, { Component } from 'react'
 import {
   View,
-  StyleSheet
+  StyleSheet,
+  NativeModules
 } from 'react-native'
+import _ from 'lodash'
 import Dimensions from 'Dimensions'
 import GiftedSpinner from 'react-native-gifted-spinner'
 import ParallaxScrollView from 'react-native-parallax-scroll-view'
@@ -18,6 +20,7 @@ import ProfileBackground from '../components/Profile/Background'
 import ProfileForeground from '../components/Profile/Foreground'
 import TrackList from '../components/Track/List'
 import Track from '../components/Track'
+import util from '../scripts/util'
 
 class ProfileView extends Component {
   constructor (props) {
@@ -45,25 +48,37 @@ class ProfileView extends Component {
     this.props.blog ? this.fetchPosts() : this.fetchBlog()
   }
 
+  getAudioURIs () {
+    return _.transform(this.state.posts, (urls, post) => {
+      const uri = util.parseAudioURI(post.player)
+      if (uri) {
+        urls.push(uri)
+      }
+    })
+  }
+
   async fetchPosts () {
     const { auth, blogName } = this.props
     const uri = `https://api.tumblr.com/v2/blog/${blogName}/posts/audio`
     const params = `?api_key=${auth.key}&limit=${this.limit}&offset=${this.state.offset}`
     const data = await (await fetch(uri + params)).json()
     console.log('Received user post data!')
-    console.dir(data)
-    this.setState({
-      loading: false,
-      offset: this.state.offset + this.limit,
-      posts: [ ...this.state.posts, ...data.response.posts ]
-    })
+    console.log(JSON.stringify(data, null, 2))
+    this.setState(
+      {
+        loading: false,
+        offset: this.state.offset + this.limit,
+        posts: [ ...this.state.posts, ...data.response.posts ]
+      },
+      () => NativeModules.AudioPlayer.loadPlaylist(this.getAudioURIs())
+    )
   }
 
   async fetchBlog () {
     const uri = `https://api.tumblr.com/v2/blog/${this.props.blogName}/info?api_key=${this.props.auth.key}`
     const data = await (await fetch(uri)).json()
     console.log('Received user blog data!')
-    console.dir(data)
+    console.log(JSON.stringify(data, null, 2))
     const blog = data.response.blog
     const backgroundColor = blog.theme ? blog.theme.background_color : colors.nightshade
     this.setState({ blog, backgroundColor })

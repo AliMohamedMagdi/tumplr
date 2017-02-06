@@ -7,14 +7,17 @@
 import React, { Component } from 'react'
 import {
   StyleSheet,
+  NativeModules,
   RecyclerViewBackedScrollView
 } from 'react-native'
+import _ from 'lodash'
 import OAuthSimple from 'oauthsimple'
 import GiftedSpinner from 'react-native-gifted-spinner'
 
 import Track from '../components/Track'
 import TrackList from '../components/Track/List'
 import colors from '../scripts/colors'
+import util from '../scripts/util'
 
 class DashboardView extends Component {
 
@@ -33,21 +36,34 @@ class DashboardView extends Component {
       tokenSecret: props.tokenSecret
     }
     this.loadMore = this.loadMore.bind(this)
+    this.getAudioURIs = this.getAudioURIs.bind(this)
   }
 
   componentWillMount () {
     this.fetchData()
   }
 
+  getAudioURIs () {
+    return _.transform(this.state.posts, (urls, post) => {
+      const uri = util.parseAudioURI(post.player)
+      if (uri) {
+        urls.push(uri)
+      }
+    })
+  }
+
   async fetchData () {
     // Retrieve user info and switch to the dashboard view
     try {
       const data = await (await fetch(this.signDashboardUrl())).json()
-      this.setState({
-        loading: false,
-        offset: this.state.offset + this.limit,
-        posts: [ ...this.state.posts, ...data.response.posts ]
-      })
+      this.setState(
+        {
+          loading: false,
+          offset: this.state.offset + this.limit,
+          posts: [ ...this.state.posts, ...data.response.posts ]
+        },
+        () => NativeModules.AudioPlayer.loadPlaylist(this.getAudioURIs())
+      )
     } catch (err) {
       console.log(err)
     }
