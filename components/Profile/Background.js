@@ -3,7 +3,9 @@ import {
   Image,
   StyleSheet
 } from 'react-native'
+import Dimensions from 'Dimensions'
 import React, { Component } from 'react'
+const screen = Dimensions.get('window')
 
 class ProfileBackground extends Component {
   render () {
@@ -27,7 +29,7 @@ ProfileBackground.propTypes = {
 
 const styles = StyleSheet.create({
   background: {
-    width: window.width
+    width: screen.width
   }
 })
 

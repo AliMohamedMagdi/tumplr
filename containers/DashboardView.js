@@ -7,8 +7,7 @@
 import React, { Component } from 'react'
 import {
   StyleSheet,
-  NativeModules,
-  RecyclerViewBackedScrollView
+  NativeModules
 } from 'react-native'
 import _ from 'lodash'
 import OAuthSimple from 'oauthsimple'
@@ -62,7 +61,7 @@ class DashboardView extends Component {
           offset: this.state.offset + this.limit,
           posts: [ ...this.state.posts, ...data.response.posts ]
         },
-        () => NativeModules.AudioPlayer.loadPlaylist(this.getAudioURIs())
+        () => NativeModules.AudioPlayer.loadPlaylist('dashboard', this.getAudioURIs())
       )
     } catch (err) {
       console.log(err)
@@ -104,23 +103,17 @@ class DashboardView extends Component {
     }
   }
 
-  renderScrollComponent (data) {
-    return <RecyclerViewBackedScrollView {...data} />
-  }
-
   render () {
     return (
       <TrackList
+        view='dashboard'
         auth={this.auth}
         loadMore={this.loadMore}
         tracks={this.state.posts}
         loading={this.state.loading}
         navigator={this.props.navigator}
         backgroundColor={colors.nightshade}
-        render={{
-          row: this.renderRow,
-          scrollComponent: this.renderScrollComponent
-        }}
+        render={{ row: this.renderRow }}
       />
     )
   }

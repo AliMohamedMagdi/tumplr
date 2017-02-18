@@ -13,7 +13,6 @@ import Dimensions from 'Dimensions'
 import GiftedSpinner from 'react-native-gifted-spinner'
 import ParallaxScrollView from 'react-native-parallax-scroll-view'
 
-const window = Dimensions.get('window')
 import colors from '../scripts/colors'
 import ProfileHeader from '../components/Profile/Header'
 import ProfileBackground from '../components/Profile/Background'
@@ -21,6 +20,9 @@ import ProfileForeground from '../components/Profile/Foreground'
 import TrackList from '../components/Track/List'
 import Track from '../components/Track'
 import util from '../scripts/util'
+
+const screen = Dimensions.get('window')
+const HEADER_HEIGHT = screen.height / 4
 
 class ProfileView extends Component {
   constructor (props) {
@@ -70,7 +72,7 @@ class ProfileView extends Component {
         offset: this.state.offset + this.limit,
         posts: [ ...this.state.posts, ...data.response.posts ]
       },
-      () => NativeModules.AudioPlayer.loadPlaylist(this.getAudioURIs())
+      () => NativeModules.AudioPlayer.loadPlaylist(`profile-${this.props.blogName}`, this.getAudioURIs())
     )
   }
 
@@ -113,7 +115,6 @@ class ProfileView extends Component {
   }
 
   renderTrackList (event) {
-    const coverHeight = window.height / 4
     const blog = this.props.blog || this.state.blog
     const avatar = `https://api.tumblr.com/v2/blog/${this.props.blogName}.tumblr.com/avatar/512`
 
@@ -127,13 +128,13 @@ class ProfileView extends Component {
         backgroundSpeed={10}
         stickyHeaderHeight={65}
         onScroll={this.onScroll}
-        parallaxHeaderHeight={coverHeight}
+        parallaxHeaderHeight={HEADER_HEIGHT}
         renderStickyHeader={() => <View />}
         contentContainerStyle={styles.contentContainer}
         contentBackgroundColor={this.state.backgroundColor}
         backgroundColor={colors.hex2rgba(this.state.backgroundColor)}
         renderForeground={() => <ProfileForeground avatar={avatar} color={this.state.backgroundColor} />}
-        renderBackground={() => <ProfileBackground background={backgroundImage} height={coverHeight} />}
+        renderBackground={() => <ProfileBackground background={backgroundImage} height={HEADER_HEIGHT} />}
       />
     )
   }
@@ -146,6 +147,7 @@ class ProfileView extends Component {
         tracks={this.state.posts}
         loading={this.state.loading}
         navigator={this.props.navigator}
+        view={`profile-${this.props.blogName}`}
         blog={this.props.blog || this.state.blog}
         backgroundColor={this.state.backgroundColor}
         render={{

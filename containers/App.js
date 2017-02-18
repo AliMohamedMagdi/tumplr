@@ -5,6 +5,7 @@
 'use strict'
 
 import {
+  StatusBar,
   Navigator,
   StyleSheet,
   AsyncStorage
@@ -30,6 +31,7 @@ class Lune extends Component {
   }
 
   componentWillMount () {
+    StatusBar.setHidden(true)
     this.initRouteMapper()
     this.loadData()
   }

@@ -40,7 +40,7 @@ class Track extends Component {
         {/* Album art cover */}
         <TouchableOpacity
           activeOpacity={0.6}
-          onPress={() => NativeModules.AudioPlayer.playAtIndex(this.props.index)}>
+          onPress={() => NativeModules.AudioPlayer.play(this.props.view, this.props.index)}>
           <Image
             style={[styles.albumArt, {width: this.props.album_art ? -1 : screen.width}]}
             source={this.props.album_art ? {uri: this.props.album_art} : require('../../assets/coverart.png')}
@@ -85,10 +85,12 @@ const styles = StyleSheet.create({
 
 // `Track`s prop types take the shape of Tumblr API's post objects
 Track.propTypes = {
+  view: React.PropTypes.string.isRequired,
+  index: React.PropTypes.number.isRequired,
+
   track_name: React.PropTypes.string,
   artist: React.PropTypes.string,
-
-  index: React.PropTypes.number.isRequired,
+  source_title: React.PropTypes.string,
   id: React.PropTypes.number.isRequired,
   tags: React.PropTypes.array.isRequired,
   blog: React.PropTypes.object.isRequired,
@@ -97,7 +99,6 @@ Track.propTypes = {
   player: React.PropTypes.string.isRequired,
   blog_name: React.PropTypes.string.isRequired,
   note_count: React.PropTypes.number.isRequired,
-  source_title: React.PropTypes.string,
 
   navigator: React.PropTypes.object.isRequired,
   auth: React.PropTypes.shape({

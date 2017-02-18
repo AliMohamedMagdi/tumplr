@@ -17,7 +17,7 @@ import React, { Component } from 'react'
 
 import Dimensions from 'Dimensions'
 import OAuthSimple from 'oauthsimple'
-const window = Dimensions.get('window')
+const screen = Dimensions.get('window')
 const login = NativeModules.Tumblr.authenticate
 
 import { LoginButton } from '../components/Buttons'
@@ -64,7 +64,7 @@ class LoginView extends Component {
 
   render () {
     return (
-      <View style={{ height: window.height }}>
+      <View style={{ height: screen.height }}>
 
         {/* Background image */}
         <Image source={require('../assets/night.png')} style={styles.backgroundImage} />
@@ -94,15 +94,16 @@ class LoginView extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: window.height / 5
+    marginTop: screen.height / 5
   },
   titleContainer: {
-    margin: 50
+    marginTop: 30,
+    marginRight: 30,
+    marginBottom: 60
   },
   title: {
-    fontSize: 100,
+    fontSize: 80,
     color: 'white',
-    marginRight: 40,
     textAlign: 'center',
     fontFamily: 'NoteraPersonalUseOnly'
   },
@@ -111,7 +112,7 @@ const styles = StyleSheet.create({
   },
   footer: {
     flex: 1,
-    width: window.width,
+    width: screen.width,
     position: 'absolute',
     bottom: 20
   },
@@ -125,8 +126,8 @@ const styles = StyleSheet.create({
   backgroundImage: {
     flex: 1,
     position: 'absolute',
-    height: window.height,
-    width: window.width,
+    height: screen.height,
+    width: screen.width,
     resizeMode: 'cover'
   }
 })

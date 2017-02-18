@@ -7,13 +7,14 @@
 import {
   View,
   ListView,
-  StyleSheet
+  StyleSheet,
+  RecyclerViewBackedScrollView
 } from 'react-native'
 import React, { Component } from 'react'
 import Dimensions from 'Dimensions'
 
 import colors from '../../scripts/colors'
-const window = Dimensions.get('window')
+const screen = Dimensions.get('window')
 
 class TrackList extends Component {
 
@@ -47,11 +48,15 @@ class TrackList extends Component {
       navigator: this.props.navigator,
       auth: this.props.auth,
       blog: this.props.blog,
+      view: this.props.view,
       index: i,
       ...track
     }))
     this.setState({
-      dataSource: this.state.ds.cloneWithRows([ ...tracks, { loading, type: 'loading' } ])
+      dataSource: this.state.ds.cloneWithRows([
+        ...tracks,
+        { loading, type: 'loading' }
+      ])
     })
   }
 
@@ -78,7 +83,7 @@ class TrackList extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    height: window.height
+    height: screen.height
   },
   list: {
     paddingTop: 15,
@@ -93,11 +98,14 @@ TrackList.defaultProps = {
   render: {
     row: () => {},
     header: () => {},
-    scrollComponent: () => {}
+    scrollComponent: data => (
+      <RecyclerViewBackedScrollView {...data} />
+    )
   }
 }
 
 TrackList.propTypes = {
+  view: React.PropTypes.string.isRequired,
   tracks: React.PropTypes.array.isRequired,
   loading: React.PropTypes.bool.isRequired,
   navigator: React.PropTypes.object.isRequired,
@@ -105,7 +113,7 @@ TrackList.propTypes = {
   loadMore: React.PropTypes.func,
   blog: React.PropTypes.object,
   render: React.PropTypes.shape({
-    row: React.PropTypes.func,
+    row: React.PropTypes.func.isRequired,
     header: React.PropTypes.func,
     scrollComponent: React.PropTypes.func
   }),
