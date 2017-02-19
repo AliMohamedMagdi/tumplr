@@ -21,13 +21,14 @@ class AudioPlayer: NSObject {
   var playlists = [String: (player: AVQueuePlayer, playlist: Array<AVPlayerItem>)]()
   var loadedTime: Double = 0.0
   
-  // loadPlaylist loads an AVQueuePlayer with a given set of audio URIs for a specific playlist name
-  @objc(loadPlaylist:audioURIs:)
-  func loadPlaylist(for name: String, with audioURIs: Array<String>) -> Void {
-
+  // initPlaylist loads an AVQueuePlayer with a given set of audio URIs for a specific playlist name
+  @objc(initPlaylist:audioURIs:)
+  func initPlaylist(for name: String, with audioURIs: Array<String>) -> Void {
+    
     // Dispatch an asynchronous task to load the player with playlist
     DispatchQueue.global(qos: .userInitiated).async {
-      print("Loading playlist...\(name)")
+      
+      print("Initializing playlist '\(name)'")
       
       // Construct new playlist
       var playlist: Array<AVPlayerItem> = []
@@ -38,15 +39,40 @@ class AudioPlayer: NSObject {
       // Reset currently existing player and playlist
       self.playlists[name]?.player.removeAllItems()
       self.playlists[name]?.playlist.removeAll()
-      print("Removed all from queue player and playlist...")
-      print("about to initialize avqueueplayer")
 
       self.playlists[name] = (player: AVQueuePlayer(items: playlist), playlist: playlist)
       
       DispatchQueue.main.async(execute: {
-        print("Completed loading queue player")
+        print("Completed initializing audio player for playlist '\(name)'")
       })
     }
+  }
+  
+  // addToPlaylist appends a new set of audio URIs to an existing playlist
+  @objc(addToPlaylist:audioURIs:)
+  func addToPlaylist(for name: String, with audioURIs: Array<String>) -> Void {
+    
+    print("Adding track URLs to playlist '\(name)'")
+    
+    if (playlists[name] != nil) {
+      
+      for uri in audioURIs {
+        
+        let trackItem = AVPlayerItem(asset: AVURLAsset(url: URL(string: uri)!))
+        
+        if playlists[name]!.player.canInsert(trackItem, after: nil) {
+          playlists[name]!.player.insert(trackItem, after: nil)
+          playlists[name]!.playlist.append(trackItem)
+        } else {
+          print("Failed to insert uri \(uri)")
+        }
+        
+      }
+      
+    } else {
+      print("Failed to add new track URLs to playlist '\(name)'!")
+    }
+
   }
   
   @objc(play:index:)
@@ -63,12 +89,11 @@ class AudioPlayer: NSObject {
       for i in (index..<playlist.count) {
         if (player.canInsert(playlist[i], after: nil)) {
           
-          print("- - -")
           var context = (name: String, index: Int)(name, i)
-          let ptr = UnsafeMutableRawPointer(&context)
-          let playerContext = ptr.load(as: (name: String, index: Int).self)
-          print(playerContext.name)
-          print(playerContext.index)
+//          let ptr = UnsafeMutableRawPointer(&context)
+//          let playerContext = ptr.load(as: (name: String, index: Int).self)
+//          print(playerContext.name)
+//          print(playerContext.index)
           
           playlist[i].seek(to: kCMTimeZero)
           playlist[i].addObserver(self, forKeyPath:"status", options:.new, context:&context)

@@ -47,11 +47,16 @@ class ProfileView extends Component {
   }
 
   componentWillMount () {
-    this.props.blog ? this.fetchPosts() : this.fetchBlog()
+    this.props.blog
+      ? this.fetchPosts(posts => NativeModules.AudioPlayer.initPlaylist(
+        `profile-${this.props.blogName}`,
+        this.getAudioURIs(posts)
+      ))
+      : this.fetchBlog()
   }
 
-  getAudioURIs () {
-    return _.transform(this.state.posts, (urls, post) => {
+  getAudioURIs (posts) {
+    return _.transform(posts, (urls, post) => {
       const uri = util.parseAudioURI(post.player)
       if (uri) {
         urls.push(uri)
@@ -59,32 +64,40 @@ class ProfileView extends Component {
     })
   }
 
-  async fetchPosts () {
+  async fetchPosts (callback) {
     const { auth, blogName } = this.props
     const uri = `https://api.tumblr.com/v2/blog/${blogName}/posts/audio`
     const params = `?api_key=${auth.key}&limit=${this.limit}&offset=${this.state.offset}`
     const data = await (await fetch(uri + params)).json()
+
     console.log('Received user post data!')
     console.log(JSON.stringify(data, null, 2))
+
     this.setState(
       {
         loading: false,
         offset: this.state.offset + this.limit,
         posts: [ ...this.state.posts, ...data.response.posts ]
       },
-      () => NativeModules.AudioPlayer.loadPlaylist(`profile-${this.props.blogName}`, this.getAudioURIs())
+      () => callback(this.state.posts, data.response.posts)
     )
   }
 
   async fetchBlog () {
     const uri = `https://api.tumblr.com/v2/blog/${this.props.blogName}/info?api_key=${this.props.auth.key}`
     const data = await (await fetch(uri)).json()
+
     console.log('Received user blog data!')
     console.log(JSON.stringify(data, null, 2))
+
     const blog = data.response.blog
     const backgroundColor = blog.theme ? blog.theme.background_color : colors.nightshade
+
     this.setState({ blog, backgroundColor })
-    this.fetchPosts()
+    this.fetchPosts(posts => NativeModules.AudioPlayer.initPlaylist(
+      `profile-${this.props.blogName}`,
+      this.getAudioURIs(posts)
+    ))
   }
 
   onScroll (event) {
@@ -95,7 +108,10 @@ class ProfileView extends Component {
     // Load more audio posts upon reaching the end
     if (!this.state.loading && isEndReached) {
       this.setState({ loading: true })
-      this.fetchPosts()
+      this.fetchPosts((_, newPosts) => NativeModules.AudioPlayer.addToPlaylist(
+        `profile-${this.props.blogName}`,
+        this.getAudioURIs(newPosts)
+      ))
     }
   }
 

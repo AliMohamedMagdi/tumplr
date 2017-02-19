@@ -39,11 +39,11 @@ class DashboardView extends Component {
   }
 
   componentWillMount () {
-    this.fetchData()
+    this.fetchPosts(posts => NativeModules.AudioPlayer.initPlaylist('dashboard', this.getAudioURIs(posts)))
   }
 
-  getAudioURIs () {
-    return _.transform(this.state.posts, (urls, post) => {
+  getAudioURIs (posts) {
+    return _.transform(posts, (urls, post) => {
       const uri = util.parseAudioURI(post.player)
       if (uri) {
         urls.push(uri)
@@ -51,7 +51,7 @@ class DashboardView extends Component {
     })
   }
 
-  async fetchData () {
+  async fetchPosts (callback) {
     // Retrieve user info and switch to the dashboard view
     try {
       const data = await (await fetch(this.signDashboardUrl())).json()
@@ -61,7 +61,7 @@ class DashboardView extends Component {
           offset: this.state.offset + this.limit,
           posts: [ ...this.state.posts, ...data.response.posts ]
         },
-        () => NativeModules.AudioPlayer.loadPlaylist('dashboard', this.getAudioURIs())
+        () => callback(this.state.posts, data.response.posts)
       )
     } catch (err) {
       console.log(err)
@@ -70,7 +70,10 @@ class DashboardView extends Component {
 
   loadMore () {
     this.setState({ loading: true })
-    this.fetchData()
+    this.fetchPosts((_, newPosts) => NativeModules.AudioPlayer.addToPlaylist(
+      'dashboard',
+      this.getAudioURIs(newPosts)
+    ))
   }
 
   signDashboardUrl () {

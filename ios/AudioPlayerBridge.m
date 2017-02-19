@@ -17,7 +17,8 @@
 
 @interface RCT_EXTERN_MODULE(AudioPlayer, NSObject)
 
-RCT_EXTERN_METHOD(loadPlaylist:(NSString *)name audioURIs:(NSArray *)audioURIs)
+RCT_EXTERN_METHOD(initPlaylist:(NSString *)name audioURIs:(NSArray *)audioURIs)
+RCT_EXTERN_METHOD(addToPlaylist:(NSString *)name audioURIs:(NSArray *)audioURIs)
 RCT_EXTERN_METHOD(play:(NSString *)name index:(int)index)
 RCT_EXTERN_METHOD(pause)
 RCT_EXTERN_METHOD(seek:(int *)seconds)
